@@ -1,0 +1,18 @@
+.slide {
+  position: absolute;
+  left: 375px;
+  top: 0px;
+  width: 375px;
+  height: 667px;
+  background-color: #fff;
+}
+
+.slide-in {
+  left: 0px;
+  transition: left 0.3s ease-out;
+}
+
+.slide-out {
+  left: 375px;
+  transition: left 0.3s ease-out;
+}
