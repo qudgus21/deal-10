@@ -23,14 +23,18 @@ userRouter.post('/login', (req, res) => {
   user
     .login(params)
     .then((rows) => {
-      if (rows.length) {
+      if (!rows.length) {
         res.json({ status: 'fail', message: '일치하는 유저가 없습니다.' });
       } else {
-        res.json({ status: 'ok', data: rows[0] });
+        const user = rows[0];
+        if (!req.session.user) {
+          req.session.user = user.id;
+        }
+        res.json({ status: 'ok', data: user });
       }
     })
     .catch(() => {
-      res.json({ status: 'ok' });
+      res.json({ status: 'error' });
     });
 });
 
