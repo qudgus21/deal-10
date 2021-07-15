@@ -17,4 +17,21 @@ userRouter.post('/register', (req, res) => {
     });
 });
 
+userRouter.post('/login', (req, res) => {
+  const params = req.body;
+
+  user
+    .login(params)
+    .then((rows) => {
+      if (rows.length) {
+        res.json({ status: 'fail', message: '일치하는 유저가 없습니다.' });
+      } else {
+        res.json({ status: 'ok', data: rows[0] });
+      }
+    })
+    .catch(() => {
+      res.json({ status: 'ok' });
+    });
+});
+
 export default userRouter;
