@@ -1,8 +1,10 @@
 import { selectLatestElement, setCookie } from '../../utils/helper';
-import { slideOut } from '../../utils/slide';
+import { slideIn, slideOut } from '../../utils/slide';
 import WithoutAction from '../../components/Header/WithoutAction';
 import Button from '../../components/Button/Button';
 import TextInput from '../../components/TextInput/TextInput';
+import Register from './Register';
+import api from '../../utils/api';
 
 export default function Login(props) {
   this.state = {
@@ -21,7 +23,7 @@ export default function Login(props) {
                 <div class="content">
                   <div class="id-input-box"></div>
                   <div class="btn-box"></div>
-                  <div>회원가입</div>
+                  <div class="signup-button">회원가입</div>
                 </div>
             </div>
         `;
@@ -49,9 +51,26 @@ export default function Login(props) {
       content: '로그인',
       eventHandler: (e) => {
         const $Login = document.querySelector('.login');
-        selectLatestElement($Login, '.id-input-box input');
+        const value = selectLatestElement($Login, '.id-input-box input').value;
+
+        !value
+          ? alert('아이디를 입력해 주세요')
+          : api.sendPost('/user/login', { userId: value }).then((result) => {
+              if (result.status === 'ok') {
+                setCookie('user', result.data.id);
+                slideOut('/', false);
+              } else {
+                alert(result.message);
+              }
+            });
       },
     });
+
+    document
+      .querySelector('.login .signup-button')
+      .addEventListener('click', () => {
+        slideIn('/register', false);
+      });
   };
 
   this.render();

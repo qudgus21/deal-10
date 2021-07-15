@@ -1,5 +1,9 @@
 .login {
   .content {
-    padding: 2rem 1.4rem;
+    padding: 0.8rem 1.4rem;
+
+    div:last-child {
+      margin-top: 1.5rem;
+    }
   }
 }

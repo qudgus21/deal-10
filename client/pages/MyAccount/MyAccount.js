@@ -37,7 +37,7 @@ export default function MyAccount(props) {
       parent: document.querySelector('.MyAccount .btn-box'),
       content: '로그아웃',
       eventHandler: (e) => {
-        setCookie('ssid', 'none', 0);
+        setCookie('user', 'none', 0);
         slideOut('/', false);
       },
     });
