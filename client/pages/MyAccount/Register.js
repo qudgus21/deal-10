@@ -33,7 +33,7 @@ export default function Register(props) {
       parent: document.querySelector('.register .header-box'),
       content: '회원가입',
       eventHandler: (e) => {
-        slideOut('/', false);
+        slideOut('/login', false);
       },
     });
 
@@ -76,15 +76,14 @@ export default function Register(props) {
           alert(locateResult);
           return;
         } else {
-          //   api.sendPost('/user/login', { userId: value }).then((result) => {
-          //     if (result.status === 'ok') {
-          //       alert('로그인 성공');
-          //       setCookie('user', result.data.id);
-          //       slideOut('/', false);
-          //     } else {
-          //       alert(result.message);
-          //     }
-          //   });
+          api
+            .sendPost('/user/register', { userId: id, location })
+            .then((result) => {
+              console.log(result);
+              if (result.status === 'ok') {
+              } else {
+              }
+            });
         }
       },
     });
