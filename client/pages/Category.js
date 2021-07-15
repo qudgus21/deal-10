@@ -1,32 +1,65 @@
 import WithoutAction from '../components/Header/WithoutAction';
 import api from '../utils/api';
-import { slideIn, slideOut } from '../utils/slide';
+import { slideOut } from '../utils/slide';
 
 export default function Category(props) {
   this.state = {
-    value: '',
+    list: [],
   };
 
   this.setState = (nextState) => {
+    document.querySelector('.app').lastElementChild.remove();
     this.state = nextState;
     this.render();
+    setTimeout(() => {
+      document.querySelector('.app').lastElementChild.classList.add('slide-in');
+    }, 100);
   };
 
+  api.sendPost('/category/getCategorys', {}).then((result) => {
+    this.setState({
+      list: result.data,
+    });
+  });
+
   this.render = () => {
+    let categorys = this.state.list.reduce((acc, cur) => {
+      return (
+        acc +
+        `
+        <li>
+            <div>${cur.category}</div>
+            <div>
+                <img src='../images/dev/${cur.imgUrl}.svg'>
+            </div>
+        </li>
+        `
+      );
+    }, ``);
+
+    console.log(categorys);
+
     let templateLiteral = `
             <div class="category slide">
                 <div class="header-box"></div>
-                <div class="content">
-                  <div class="signup-button">카테고리</div>
-                </div>
+                <ul class="content">
+                    ${this.state.list.reduce((acc, cur) => {
+                      return (
+                        acc +
+                        `
+                        <li>
+                            <div>${cur.category}</div>
+                            <div>
+                                <img src='../images/dev/${cur.imgUrl}.svg'>
+                            </div>
+                        </li>
+                        `
+                      );
+                    }, ``)}
+                </ul>
             </div>
         `;
-
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
-
-    api.sendPost('/category/get', {}).then((result) => {
-      console.log(result);
-    });
 
     new WithoutAction({
       parent: document.querySelector('.category .header-box'),
@@ -36,5 +69,6 @@ export default function Category(props) {
       },
     });
   };
+
   this.render();
 }
