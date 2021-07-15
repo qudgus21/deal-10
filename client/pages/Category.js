@@ -31,7 +31,7 @@ export default function Category(props) {
                       return (
                         acc +
                         `
-                        <li>
+                        <li class="category-${cur.idx}">
                             <div>
                                 <img src='../images/dev/${cur.imgUrl}.svg'>
                             </div>
@@ -44,6 +44,21 @@ export default function Category(props) {
             </div>
         `;
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
+
+    // const $lis = document.querySelectorAll('.category li');
+    // if ($lis.length) {
+    //   $lis.forEach((item) => {
+    //     item.addEventListener('click', (e) => {
+    //       new CategoryDetail({
+    //         parent: document.querySelector('.category .header-box'),
+    //         content: '카테고리',
+    //         eventHandler: (e) => {
+    //           slideOut('/', false);
+    //         },
+    //       });
+    //     });
+    //   });
+    // }
 
     new WithoutAction({
       parent: document.querySelector('.category .header-box'),
