@@ -1,3 +1,10 @@
+$headerBackground: #f6f6f6;
+$buttonInitial: #2ac0bc;
+$buttonHover: #209a96;
+$buttonFocus: #2ac0bc;
+$buttonDisable: #a0e0df;
+$bordrColor: #b4b4b46e;
+
 .slide {
   position: absolute;
   left: 375px;
@@ -15,4 +22,71 @@
 .slide-out {
   left: 375px;
   transition: left 0.3s ease-out;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  background-color: $headerBackground;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 1rem;
+    height: 1rem;
+    font-weight: bold;
+  }
+
+  h1 {
+    position: relative;
+    top: 0.1rem;
+    left: 39%;
+  }
+}
+
+.large-button {
+  margin-bottom: 1rem;
+
+  &:hover {
+    background-color: $buttonHover;
+  }
+
+  &:focus {
+    background-color: $buttonFocus;
+  }
+
+  &:disabled {
+    background-color: $buttonDisable;
+  }
+
+  background-color: $buttonInitial;
+  width: 100%;
+  font-size: 1rem;
+  padding: 1.1rem 0;
+  color: white;
+  border-radius: 10px;
+}
+
+.text-input {
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  input {
+    width: 100%;
+    font-size: 1rem;
+    padding: 1.1rem 0;
+    border-radius: 10px;
+    border: 1px solid $bordrColor;
+    padding: 1rem;
+  }
 }

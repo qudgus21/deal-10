@@ -7,6 +7,10 @@ import { notSlidePageNames } from '../utils/constant';
 export default function init() {
   router(window.location.pathname);
 
+  window.addEventListener('hashchange', () => {
+    console.log('test');
+  });
+
   window.onpopstate = () => {
     let pageName = getPageName(window.location.pathname);
 

@@ -1,6 +1,5 @@
 import { slideIn } from '../utils/slide';
-import { selectLatestElement } from '../utils/helper';
-import pagetest from './pagetest';
+import { selectLatestElement, getCookie } from '../utils/helper';
 
 export default function Home(props) {
   this.state = {};
@@ -15,17 +14,23 @@ export default function Home(props) {
             <div class='home'>
                 <div class='red'>홈 화면 메인</div>
                 <div>홈 화면 내용 메인22</div>
-                <input type='button' class='next-button' value='페이지 이동'></input>
+                <input type='button' class='my-account-button' value='내 계정'></input>
             </div>
         `;
 
     props.parent.innerHTML = templateLiteral;
 
-    const $nextButton = selectLatestElement(props.parent, 'next-button');
+    const $myAccountButton = selectLatestElement(
+      props.parent,
+      '.my-account-button'
+    );
 
-    $nextButton.addEventListener('click', () => {
-      console.log('페이지 이동?');
-      slideIn('/pagetest', false);
+    $myAccountButton.addEventListener('click', () => {
+      if (getCookie('ssid')) {
+        slideIn('/MyAccount', false);
+      } else {
+        slideIn('/login', false);
+      }
     });
   };
 
