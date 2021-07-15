@@ -10,10 +10,18 @@ export default function productListItem(props) {
     this.state = nextState;
     this.render();
   };
+
   // 부모에 div.product-list 만들기
   this.render = () => {
-    const { title, location, price, updateDate, imgUrl, chats, likes } =
-      this.state.data;
+    const {
+      title,
+      location,
+      price,
+      updateDate,
+      imgUrl,
+      chats,
+      likes,
+    } = this.state.data;
     let templateLiteral = `
     <div class='product-list-item'>
       <div class='img-box'>

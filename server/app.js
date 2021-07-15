@@ -6,6 +6,7 @@ import cors from 'cors';
 import userRouter from './routes/userRouter.js';
 import homeRouter from './routes/homeRouter.js';
 import categoryRouter from './routes/categoryRouter.js';
+import productRouter from './routes/productRouter.js';
 
 const app = express();
 dotenv.config();
@@ -29,6 +30,7 @@ app.use('/public', express.static(__dirname + '/public'));
 app.use('/', homeRouter);
 app.use('/user', userRouter);
 app.use('/category', categoryRouter);
+app.use('/product', productRouter);
 
 app.use((req, res) => {
   const rightPath = ['/test'];

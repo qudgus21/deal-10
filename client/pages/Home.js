@@ -5,7 +5,9 @@ import homeHeader from '../components/Header/Main';
 import productListItem from '../components/Etc/ProductListItem';
 
 export default function Home(props) {
-  this.state = {};
+  this.state = {
+    list: [],
+  };
 
   this.setState = (nextState) => {
     this.state = nextState;
