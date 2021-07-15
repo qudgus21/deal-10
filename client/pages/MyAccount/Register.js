@@ -67,8 +67,6 @@ export default function Register(props) {
 
         const idResult = idValidation(id);
         const locateResult = locateValidation(location);
-        console.log(idResult);
-        console.log(locateResult);
         if (idResult !== 'ok') {
           alert(idResult);
           return;
@@ -79,9 +77,12 @@ export default function Register(props) {
           api
             .sendPost('/user/register', { userId: id, location })
             .then((result) => {
-              console.log(result);
               if (result.status === 'ok') {
+                alert('회원가입 성공');
+                slideOut('/login', false);
               } else {
+                alert(result.message);
+                return;
               }
             });
         }

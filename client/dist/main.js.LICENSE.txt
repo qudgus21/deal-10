@@ -18,8 +18,11 @@
 
 /*! ../../components/TextInput/TextInput */
 
+<<<<<<< HEAD
 /*! ../../utils/api */
 
+=======
+>>>>>>> bd40388f088b8dfdc38fd7a39e78d7f1915a482c
 /*! ../../utils/helper */
 
 /*! ../../utils/slide */
@@ -36,8 +39,11 @@
 
 /*! ../pages/MyAccount/MyAccount */
 
+<<<<<<< HEAD
 /*! ../pages/MyAccount/Register */
 
+=======
+>>>>>>> bd40388f088b8dfdc38fd7a39e78d7f1915a482c
 /*! ../pages/pagetest */
 
 /*! ../utils/constant */
@@ -46,8 +52,11 @@
 
 /*! ../utils/slide */
 
+<<<<<<< HEAD
 /*! ./Register */
 
+=======
+>>>>>>> bd40388f088b8dfdc38fd7a39e78d7f1915a482c
 /*! ./helper */
 
 /*! ./pages */
@@ -114,10 +123,13 @@
   !*** ./components/Button/Button.js ***!
   \*************************************/
 
+<<<<<<< HEAD
 /*!*************************************!*\
   !*** ./pages/MyAccount/Register.js ***!
   \*************************************/
 
+=======
+>>>>>>> bd40388f088b8dfdc38fd7a39e78d7f1915a482c
 /*!**************************************!*\
   !*** ./pages/MyAccount/MyAccount.js ***!
   \**************************************/
