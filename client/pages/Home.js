@@ -26,7 +26,7 @@ export default function Home(props) {
     );
 
     $myAccountButton.addEventListener('click', () => {
-      if (getCookie('ssid')) {
+      if (getCookie('user')) {
         slideIn('/MyAccount', false);
       } else {
         slideIn('/login', false);

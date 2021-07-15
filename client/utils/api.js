@@ -1,4 +1,4 @@
-const apiHost = 'http://localhost:8080';
+const apiHost = 'http://localhost:3000';
 
 const api = {
   sendPost(url, params = {}) {
