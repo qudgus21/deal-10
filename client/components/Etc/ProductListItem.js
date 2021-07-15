@@ -13,28 +13,17 @@ export default function productListItem(props) {
 
   // 부모에 div.product-list 만들기
   this.render = () => {
-    const {
-      title,
-      location,
-      price,
-      updateDate,
-      imgUrl,
-      chats,
-      likes,
-    } = this.state.data;
     let templateLiteral = `
     <div class='product-list-item'>
       <div class='img-box'>
-        <img class='border-medium' src='${imgUrl}'>
+        <img class='border-medium' src='{imgUrl}'>
       </div>
       <div class='product-info'>
       <div class='product-top'>
         <div class='product-title-bar'>
-          <div class='product-title'>${title}</div>
-          <div class='product-location'>${location}·${updateDate}</div>
-          <div class='product-price'>${price
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</div>
+          <div class='product-title'>{title}</div>
+          <div class='product-location'>{location}·{updateDate}</div>
+          <div class='product-price'>원</div>
         </div>
         <div class='product-favorite'>
           <img src='./images/dev/favorite_border.svg'>
@@ -43,11 +32,11 @@ export default function productListItem(props) {
         <div class='product-status-bar'>
           <div class='product-chats flex'>
             <img src='./images/dev/chat_bubble_mini.svg'>
-            <span>${chats}</span>
+            <span>{chats}</span>
           </div>
           <div class='product-likes flex'>
           <img src='./images/dev/favorite_border_mini.svg'>
-            <span>${likes}</span>
+            <span>{likes}</span>
           </div>
         </div>
       </div>
