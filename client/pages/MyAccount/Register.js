@@ -57,7 +57,63 @@ export default function Register(props) {
       parent: document.querySelector('.register .btn-box'),
       eventHandler: (e) => {},
       content: '회원가입',
+      eventHandler: (e) => {
+        const $Register = document.querySelector('.register');
+        const id = document.querySelector('.register .id-input-box input')
+          .value;
+        const location = document.querySelector(
+          '.register .location-input-box input'
+        ).value;
+
+        const idResult = idValidation(id);
+        const locateResult = locateValidation(location);
+        console.log(idResult);
+        console.log(locateResult);
+        if (idResult !== 'ok') {
+          alert(idResult);
+          return;
+        } else if (locateResult !== 'ok') {
+          alert(locateResult);
+          return;
+        } else {
+          //   api.sendPost('/user/login', { userId: value }).then((result) => {
+          //     if (result.status === 'ok') {
+          //       alert('로그인 성공');
+          //       setCookie('user', result.data.id);
+          //       slideOut('/', false);
+          //     } else {
+          //       alert(result.message);
+          //     }
+          //   });
+        }
+      },
     });
+
+    const idValidation = (id) => {
+      const idReg = /^[a-zA-Z0-9]{4,12}$/;
+      if (id === '') {
+        return '아이디를 입력해 주세요';
+      } else if (!idReg.test(id)) {
+        return '올바른 형식이 아닙니다';
+      } else {
+        return 'ok';
+      }
+    };
+
+    const locateValidation = (location) => {
+      console.log();
+
+      if (location === '') {
+        return '동네를 입력해 주세요';
+      } else if (
+        location.split(' ').length > 1 ||
+        location[location.length - 1] !== '동'
+      ) {
+        return '동만 입력해 주세요';
+      } else {
+        return 'ok';
+      }
+    };
   };
 
   this.render();
