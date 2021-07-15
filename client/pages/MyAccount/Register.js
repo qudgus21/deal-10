@@ -21,8 +21,8 @@ export default function Register(props) {
                 <div class="header-box"></div>
                 <div class="content">
                   <div class="id-input-box"></div>
+                  <div class="location-input-box"></div>
                   <div class="btn-box"></div>
-                  <div class="signup-button">회원가입</div>
                 </div>
             </div>
         `;
@@ -39,30 +39,24 @@ export default function Register(props) {
 
     new TextInput({
       parent: document.querySelector('.register .id-input-box'),
-      content: '회원가입',
-      placeholder: '아이디를 입력하세요',
+      placeholder: '영문, 숫자 조합 20자 이하',
       value: this.state.value,
+      label: '아이디',
+    });
+
+    new TextInput({
+      parent: document.querySelector('.register .location-input-box'),
+      content: '회원가입',
+      placeholder: '시·구 제외, 동만 입력',
+      value: this.state.value,
+      label: '우리 동네',
     });
 
     new Button({
       cls: 'large-button',
       parent: document.querySelector('.register .btn-box'),
+      eventHandler: (e) => {},
       content: '회원가입',
-      eventHandler: (e) => {
-        const $Login = document.querySelector('.register');
-        const value = selectLatestElement($Login, '.id-input-box input').value;
-
-        !value
-          ? alert('아이디를 입력해 주세요')
-          : api.sendPost('/user/login', { userId: value }).then((result) => {
-              if (result.status === 'ok') {
-                setCookie('user', result.data.id);
-                slideOut('/', false);
-              } else {
-                alert(result.message);
-              }
-            });
-      },
     });
   };
 

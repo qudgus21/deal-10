@@ -40,7 +40,6 @@ export default function Login(props) {
 
     new TextInput({
       parent: document.querySelector('.login .id-input-box'),
-      content: '로그인',
       placeholder: '아이디를 입력하세요',
       value: this.state.value,
     });
