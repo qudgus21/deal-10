@@ -65,6 +65,5 @@ export default function homeHeader(props) {
       slideIn('/menu', false);
     });
   };
-
   this.render();
 }

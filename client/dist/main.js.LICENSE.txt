@@ -28,11 +28,15 @@
 
 /*! ../components/Header/Main */
 
+/*! ../components/Header/WithoutAction */
+
 /*! ../components/compotest.js */
 
 /*! ../node_modules/css-loader/dist/runtime/api.js */
 
 /*! ../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */
+
+/*! ../pages/Category */
 
 /*! ../pages/Home */
 
@@ -43,6 +47,8 @@
 /*! ../pages/MyAccount/Register */
 
 /*! ../pages/pagetest */
+
+/*! ../utils/api */
 
 /*! ../utils/constant */
 
@@ -101,6 +107,10 @@
 /*!**************************!*\
   !*** ./styles/main.scss ***!
   \**************************/
+
+/*!***************************!*\
+  !*** ./pages/Category.js ***!
+  \***************************/
 
 /*!***************************!*\
   !*** ./pages/pagetest.js ***!

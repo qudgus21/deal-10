@@ -3,25 +3,10 @@ import user from '../controllers/user.js';
 
 const userRouter = Router();
 
-userRouter.post('/register', (req, res) => {
-  const params = req.body;
-
-  user
-    .register(params)
-    .then((rows) => {
-      //user.rows
-      res.json({ status: 'ok', data: rows });
-    })
-    .catch(() => {
-      res.json({ status: 'error' });
-    });
-});
-
 userRouter.post('/login', (req, res) => {
   const params = req.body;
-
   user
-    .login(params)
+    .findUser(params)
     .then((rows) => {
       if (!rows.length) {
         res.json({ status: 'fail', message: '일치하는 유저가 없습니다.' });
@@ -36,6 +21,31 @@ userRouter.post('/login', (req, res) => {
     .catch(() => {
       res.json({ status: 'error' });
     });
+});
+
+userRouter.post('/register', (req, res) => {
+  const params = req.body;
+  user
+    .findUser(params)
+    .then((rows) => {
+      if (rows.length) {
+        res.json({ status: 'fail', message: '존재하는 아이디 입니다.' });
+      } else {
+        user.register(params).then((rows) => {
+          res.json({ status: 'ok' });
+        });
+      }
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
+userRouter.post('/logout', (req, res) => {
+  if (req.session.user) {
+    req.session.destroy();
+  }
+  res.json({ status: 'ok' });
 });
 
 export default userRouter;

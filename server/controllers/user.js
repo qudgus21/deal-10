@@ -1,9 +1,8 @@
 import db from '../db.js';
 
 const user = {
-  register: async (params) => {
-    let sql = `select * from users where idx=${params.userIdx}`;
-
+  findUser: (params) => {
+    let sql = `select * from users where id='${params.userId}'`;
     return new Promise((resolve, reject) => {
       db.promise()
         .query(sql)
@@ -16,8 +15,11 @@ const user = {
     });
   },
 
-  login: (params) => {
-    let sql = `select * from users where id='${params.userId}'`;
+  register: (params) => {
+    let location = [params.location];
+    let sql = `insert into users (id,location) values ('${
+      params.userId
+    }', '${JSON.stringify(location)}');`;
     return new Promise((resolve, reject) => {
       db.promise()
         .query(sql)
