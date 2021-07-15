@@ -57,6 +57,7 @@ export default function Login(props) {
           ? alert('아이디를 입력해 주세요')
           : api.sendPost('/user/login', { userId: value }).then((result) => {
               if (result.status === 'ok') {
+                alert('로그인 성공');
                 setCookie('user', result.data.id);
                 slideOut('/', false);
               } else {
