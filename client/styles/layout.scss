@@ -1,6 +1,11 @@
 .app {
   width: 375px;
   height: 667px;
-  border: 1px solid #e9e9e9;
-  overflow-y: scroll;
+
+  > * {
+    width: inherit;
+    height: inherit;
+    border: 1px solid #e9e9e9;
+    overflow-x: hidden;
+  }
 }

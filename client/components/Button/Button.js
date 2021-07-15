@@ -1,25 +1,19 @@
-export default function button(props) { 
-    
-    this.state = {
-    }
+import { selectLatestElement } from '../../utils/helper';
 
-    
-    this.setState = (nextState) => {
-        this.state = nextState;
-        this.render();
-    }
+export default function button(props) {
+  //large-button(구현), medium-button(미구현)
 
-    
-    this.render = () => {
-        const { cls, content, parent, eventHandler } = this.props;
+  this.render = () => {
+    const { cls, content, parent, eventHandler } = props;
 
-        let templateLiteral = `
-            <input type='button' class='${cls}'>${content}</input>
+    let templateLiteral = `
+            <button class=${cls}>${content}</button>
         `;
-        props.parent.innerHTML = templateLiteral;
-     
-        const $btn = Array.from(props.parent.querySelectorAll(cls)).pop();
-        $btn.addEventListener('click', eventHandler);
-    }
-    this.render();
+    parent.innerHTML = templateLiteral;
+
+    const $btn = selectLatestElement(parent, `.${cls}`);
+
+    $btn.addEventListener('click', eventHandler);
+  };
+  this.render();
 }
