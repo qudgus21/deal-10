@@ -14,6 +14,7 @@ export default function Home(props) {
             <div class='home'>
                 <div class='red'>홈 화면 메인</div>
                 <div>홈 화면 내용 메인22</div>
+                <input type='button' class='category-button' value='카테고리'></input>
                 <input type='button' class='my-account-button' value='내 계정'></input>
             </div>
         `;
@@ -25,12 +26,21 @@ export default function Home(props) {
       '.my-account-button'
     );
 
+    const $categoryButton = selectLatestElement(
+      props.parent,
+      '.category-button'
+    );
+
     $myAccountButton.addEventListener('click', () => {
       if (getCookie('user')) {
         slideIn('/MyAccount', false);
       } else {
         slideIn('/login', false);
       }
+    });
+
+    $categoryButton.addEventListener('click', () => {
+      slideIn('/category', false);
     });
   };
 
