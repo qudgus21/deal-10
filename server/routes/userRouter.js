@@ -41,4 +41,11 @@ userRouter.post('/register', (req, res) => {
     });
 });
 
+userRouter.post('/logout', (req, res) => {
+  if (req.session.user) {
+    req.session.destroy();
+  }
+  res.json({ status: 'ok' });
+});
+
 export default userRouter;

@@ -2,6 +2,7 @@ import { getCookie, selectLatestElement, setCookie } from '../../utils/helper';
 import { slideOut } from '../../utils/slide';
 import WithoutAction from '../../components/Header/WithoutAction';
 import Button from '../../components/Button/Button';
+import api from '../../utils/api';
 
 export default function MyAccount(props) {
   this.state = {};
@@ -37,8 +38,12 @@ export default function MyAccount(props) {
       parent: document.querySelector('.MyAccount .btn-box'),
       content: '로그아웃',
       eventHandler: (e) => {
-        setCookie('user', 'none', 0);
-        slideOut('/', false);
+        api.sendPost('/user/logout', {}).then((result) => {
+          if (result.status === 'ok') {
+            setCookie('user', 'none', 0);
+            slideOut('/', false);
+          }
+        });
       },
     });
   };
