@@ -1,5 +1,6 @@
 import { selectLatestElement } from '../../utils/helper';
 import { slideIn } from '../../utils/slide';
+import { getCookie } from '../../utils/helper';
 
 export default function homeHeader(props) {
   this.state = {};
@@ -12,34 +13,40 @@ export default function homeHeader(props) {
   this.render = () => {
     let templateLiteral = `
     <div class='home-header'>
-            <button class='category-button' type='button'>
-                <img src='./images/dev/category.svg'>
-            </button>
-            <div class='location-div'>
-                <img src='./images/dev/location.svg'>
-                <div>역삼동</div>
-            </div>
-            <div class=''>
-                <button class='my-account-button' type='button'>
-                    <img src='./images/dev/account.svg'>
-                </button>
-                <button class='menu-button' type='button'>
-                    <img src='./images/dev/menu.svg'>
-                </button>
-            </div>
+      <div class='flex'>
+        <button class='category-button' type='button'>
+          <img src='./images/dev/category.svg'>
+        </button>
+        <img src='./images/dev/none.svg'>
+      </div>
+      <div class='location-div flex'>
+        <img src='./images/dev/location.svg'>
+        <div>역삼동</div>
+      </div>
+      <div>
+        <button class='my-account-button' type='button'>
+          <img src='./images/dev/account.svg'>
+        </button>
+        <button class='menu-button' type='button'>
+          <img src='./images/dev/menu.svg'>
+        </button>
+      </div>
     </div>
     `;
 
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
 
     const $homeHeader = document.querySelector('.home-header');
-    const $categoryButton = selectLatestElement($homeHeader, 'category-button');
-    const $locationDiv = selectLatestElement($homeHeader, 'location-div');
+    const $categoryButton = selectLatestElement(
+      $homeHeader,
+      '.category-button'
+    );
+    const $locationDiv = selectLatestElement($homeHeader, '.location-div');
     const $myAccountButton = selectLatestElement(
       $homeHeader,
-      'my-account-button'
+      '.my-account-button'
     );
-    const $menuButton = selectLatestElement($homeHeader, 'menu-button');
+    const $menuButton = selectLatestElement($homeHeader, '.menu-button');
 
     $categoryButton.addEventListener('click', () => {
       slideIn('/category', false);
@@ -48,12 +55,15 @@ export default function homeHeader(props) {
       slideIn('/location', false);
     });
     $myAccountButton.addEventListener('click', () => {
-      slideIn('/my-account', false);
+      if (getCookie('user')) {
+        slideIn('/MyAccount', false);
+      } else {
+        slideIn('/login', false);
+      }
     });
     $menuButton.addEventListener('click', () => {
       slideIn('/menu', false);
     });
-    // 여기서 myaccountbutton 추가하는게 맞음 pages/home.js 에 버튼 나중에 지우기
   };
 
   this.render();
