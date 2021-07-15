@@ -23,22 +23,6 @@ export default function Category(props) {
   });
 
   this.render = () => {
-    let categorys = this.state.list.reduce((acc, cur) => {
-      return (
-        acc +
-        `
-        <li>
-            <div>${cur.category}</div>
-            <div>
-                <img src='../images/dev/${cur.imgUrl}.svg'>
-            </div>
-        </li>
-        `
-      );
-    }, ``);
-
-    console.log(categorys);
-
     let templateLiteral = `
             <div class="category slide">
                 <div class="header-box"></div>
@@ -48,10 +32,10 @@ export default function Category(props) {
                         acc +
                         `
                         <li>
-                            <div>${cur.category}</div>
                             <div>
                                 <img src='../images/dev/${cur.imgUrl}.svg'>
                             </div>
+                            <div class="title">${cur.category}</div>
                         </li>
                         `
                       );
