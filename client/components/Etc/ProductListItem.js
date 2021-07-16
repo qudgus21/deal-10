@@ -15,6 +15,9 @@ export default function ProductListItem(props) {
     const $favorite = document.querySelector('.product-favorite img');
     if (e.target === $favorite) return;
     const productIdx = e.currentTarget.classList[1].split('-').pop();
+
+    //window.location.pathname 후 slidein의 세번째 인자로 사용하는 방법
+
     slideIn(`product/${productIdx}`, false);
   };
 
@@ -51,9 +54,7 @@ export default function ProductListItem(props) {
     `;
 
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
-
     const $product = selectLatestElement(props.parent, '.product-list-item');
-
     $product.addEventListener('click', this.productClickHandler);
   };
 

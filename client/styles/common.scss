@@ -318,3 +318,31 @@ $Primary: #5ebebb;
     color: #fff;
   }
 }
+
+.dropdown {
+  margin-top: 0.5rem;
+  position: absolute;
+  right: 25px;
+  background-color: #f6f6f6;
+  width: 200px;
+  border-radius: 10px;
+
+  & > :first-child {
+    border-bottom: 1px solid $bordrColor;
+  }
+
+  & > * {
+    border-radius: 10px;
+    text-align: left;
+    padding: 20px;
+    width: 200px;
+
+    &:hover {
+      background-color: #7a7a7a;
+    }
+  }
+}
+
+.red {
+  color: red;
+}

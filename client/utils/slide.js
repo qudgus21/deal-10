@@ -22,3 +22,11 @@ export const slideOut = (path) => {
     $app.lastElementChild.remove();
   }, 300);
 };
+
+export const historyBack = () => {
+  const $app = document.querySelector('.app');
+  $app.lastElementChild.classList.add('slide-out');
+  setTimeout(() => {
+    window.history.back();
+  }, 300);
+};
