@@ -1,3 +1,4 @@
+import { slideIn } from '../../utils/slide';
 import { selectLatestElement } from '../../utils/helper';
 
 export default function ProductListItem(props) {
@@ -10,11 +11,18 @@ export default function ProductListItem(props) {
     this.render();
   };
 
+  this.productClickHandler = (e) => {
+    const $favorite = document.querySelector('.product-favorite img');
+    if (e.target === $favorite) return;
+    const productIdx = e.currentTarget.classList[1].split('-').pop();
+    slideIn(`product/${productIdx}`, false);
+  };
+
   this.render = () => {
     const { product } = props;
 
     let templateLiteral = `
-    <div class='product-list-item'>
+    <div class='product-list-item p-${product.idx}'>
       <div class='img-box'>
         <img class='border-medium' src='../images/dev/${product.imgUrls[0]}.svg'>
       </div>
@@ -44,6 +52,10 @@ export default function ProductListItem(props) {
     `;
 
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
+
+    const $product = selectLatestElement(props.parent, '.product-list-item');
+
+    $product.addEventListener('click', this.productClickHandler);
   };
 
   this.render();
