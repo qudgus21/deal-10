@@ -8,102 +8,15 @@
     <title>Document</title>
   </head>
   <body>
-    <div
-      class="home"
-      style="width: 100vw; height: 100vh; background-color: red"
-    >
-      <img src="account.svg" alt="" />
-      <h1>홈</h1>
-      <input
-        type="button"
-        value="메뉴"
-        onclick="window.history.pushState('menu', 'menu', '/menu');r();"
-      />
-    </div>
-    <script>
-      let tl = `<div
-          class="menu"
-          style="width: 100vw; height: 100%; background-color: blue"
-        >
-        <h1>메뉴</h1>
-          <input
-            type="button"
-            value="뒤로가기"
-            onclick="document.getElementsByClassName('menu')[0].classList.add('slide-out'); document.getElementsByClassName('menu')[0].classList.remove('slide-in');window.history.pushState('', '', '/');         setTimeout(() => {
-            this.parentElement.remove();
-          }, 300);"/>
-          <input
-            type="button"
-            value="챗리스트"
-            onclick="window.history.pushState('chatlist', 'chatlist', '/menu/chatlist'); r2();"
-          }, 300);"
-          />
-          <div style="width: 100%; height: 10000px; background-color: green"></div>
-        </div>`;
-
-      let tl2 = `<div
-          class="chatlist"
-          style="width: 100vw; height: 100%; background-color: brown"
-        >
-        <h1>챗리스트</h1>
-          <input
-            type="button"
-            value="뒤로가기"
-            onclick="document.getElementsByClassName('chatlist')[0].classList.add('slide-out'); document.getElementsByClassName('chatlist')[0].classList.remove('slide-in');window.history.pushState('menu', 'menu', '/menu');        setTimeout(() => {
-            this.parentElement.remove();
-          }, 300);"
-          />
-          <div style="width: 100%; height: 10000px; background-color: aqua"></div>
-        </div>`;
-
-      function r() {
-        document.body.innerHTML += tl;
-        // 넣고 딜레이 없이 바로 돌리면 슬라이드 인이 작동안함 왜지? 생각해보자
-        // ?? settimeout 0도 되네 머지
-        setTimeout(() => {
-          document.getElementsByClassName('menu')[0].classList.add('slide-in');
-        }, 0);
-      }
-
-      function r2() {
-        document.body.innerHTML += tl2;
-        setTimeout(() => {
-          document
-            .getElementsByClassName('chatlist')[0]
-            .classList.add('slide-in');
-        }, 0);
-      }
-
-      //   window.onpopstate = (e) => {
-      //     let paths = window.location.pathname.split('/');
-      //     let path = paths.slice().pop();
-      //     let idx = -1;
-      //     if (path == '') {
-      //       document.body.lastChild.classList.add('slide-out');
-      //       setTimeout(() => {
-      //         document.body.lastChild.remove();
-      //       }, 0);
-      //     } else {
-      //       let children = Array.from(document.body.children);
-      //       children.forEach(function (child, index) {
-      //         if (child.classList.contains(path)) {
-      //           idx = index;
-      //         }
-      //       });
-      //       if (idx != -1) {
-      //         document.body.children[idx + 1].classList.add('slide-out');
-      //         setTimeout(() => {
-      //           document.body.children[idx + 1].remove();
-      //         }, 0);
-      //       } else {
-      //         if (path == 'chatlist') {
-      //           r2();
-      //         } else if (path == 'menu') {
-      //           r();
-      //         }
-      //       }
-      //     }
-      //   };
-    </script>
+    <div class="productdetail slide">
+      <div class="header-box" style={background: url("../../images/dev/arrow_back.svg"}>
+          <img class='back-button' src='../../images/dev/arrow_back.svg'/>
+          <img class='back-button' src='../../images/dev/more_vert.svg'/>
+      </div>
+      <div class="content">
+          상품디테일
+      </div>
+  </div>
+    <script></script>
   </body>
 </html>

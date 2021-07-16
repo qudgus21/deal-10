@@ -10,7 +10,7 @@ export const slideIn = (path, onpop) => {
   }
   setTimeout(() => {
     document.querySelector(`.${pageName}`).classList.add('slide-in');
-  }, 0);
+  }, 100);
 };
 
 export const slideOut = (path) => {

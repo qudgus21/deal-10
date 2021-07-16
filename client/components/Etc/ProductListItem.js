@@ -20,7 +20,6 @@ export default function ProductListItem(props) {
 
   this.render = () => {
     const { product } = props;
-
     let templateLiteral = `
     <div class='product-list-item p-${product.idx}'>
       <div class='img-box'>
