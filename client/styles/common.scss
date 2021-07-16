@@ -5,6 +5,8 @@ $buttonFocus: #2ac0bc;
 $buttonDisable: #a0e0df;
 $bordrColor: #b4b4b46e;
 $Primary: #5ebebb;
+$grey: #bcbcbc;
+$backgroundGrey: #f6f6f6;
 
 .slide {
   position: absolute;
@@ -69,6 +71,29 @@ $Primary: #5ebebb;
   width: 100%;
   font-size: 1rem;
   padding: 1.1rem 0;
+  color: white;
+  border-radius: 10px;
+}
+
+.medium-button {
+  margin-bottom: 1rem;
+
+  &:hover {
+    background-color: $buttonHover;
+  }
+
+  &:focus {
+    background-color: $buttonFocus;
+  }
+
+  &:disabled {
+    background-color: $buttonDisable;
+  }
+
+  background-color: $buttonInitial;
+  width: 170px;
+  font-size: 1rem;
+  padding: 0.5rem 0;
   color: white;
   border-radius: 10px;
 }

@@ -3,7 +3,6 @@ import { selectLatestElement } from '../../utils/helper';
 export default function Dropdown(props) {
   this.render = () => {
     const { data, parent } = props;
-    console.log(data);
     //props.data는 다음과 같은 형태로 전달
     // [
     //     { text: '수정하기', eventHandler1: this.modify },
