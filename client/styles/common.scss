@@ -132,6 +132,14 @@ $Primary: #5ebebb;
     border: 1px solid #d7d7d7;
     background-color: #f6f6f6;
   }
+
+  .border-small {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 10%;
+    border: 1px solid #d7d7d7;
+    background-color: #f6f6f6;
+  }
 }
 
 .product-list-item {
@@ -271,5 +279,42 @@ $Primary: #5ebebb;
   .tab-select {
     border-bottom: 2px solid #2ac1bc;
     color: #2ac1bc;
+  }
+}
+
+.chat-list-item {
+  display: flex;
+  align-items: center;
+  margin: 0 1.2rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid gray;
+  .chat-div {
+    width: 100%;
+  }
+  .chat-row {
+    padding-right: 1.2rem;
+    padding-top: 0.5rem;
+  }
+  div > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .chat-agoTime {
+    color: #888888;
+  }
+  .chat-preview {
+    color: #888888;
+  }
+  .chat-badge {
+    min-width: 1.3rem;
+    height: 1.3rem;
+    background-color: #219a95;
+    border-radius: 1.3rem;
+    padding: 0.2rem;
+    text-align: center;
+    display: block;
+    line-height: 1.1rem;
+    color: #fff;
   }
 }
