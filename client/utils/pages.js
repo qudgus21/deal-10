@@ -7,6 +7,7 @@ import Category from '../pages/Category';
 import NewPost from '../pages/NewPost';
 import CategoryDetail from '../pages/CategoryDetail';
 import Menu from '../pages/Menu';
+import ChatList from '../pages/SaleProductDetail/ChatList';
 
 const pages = {
   home: Home,
@@ -18,6 +19,7 @@ const pages = {
   newpost: NewPost,
   categorydetail: CategoryDetail,
   menu: Menu,
+  chatlist: ChatList,
 };
 
 export default pages;
