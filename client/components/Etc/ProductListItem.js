@@ -1,9 +1,8 @@
 import { selectLatestElement } from '../../utils/helper';
-import imgBox from './ImgBox';
 
-export default function productListItem(props) {
+export default function ProductListItem(props) {
   this.state = {
-    data: props.data,
+    data: null,
   };
 
   this.setState = (nextState) => {
@@ -11,32 +10,33 @@ export default function productListItem(props) {
     this.render();
   };
 
-  // 부모에 div.product-list 만들기
   this.render = () => {
+    const { product } = props;
+
     let templateLiteral = `
     <div class='product-list-item'>
       <div class='img-box'>
-        <img class='border-medium' src='{imgUrl}'>
+        <img class='border-medium' src='../images/dev/${product.imgUrls[0]}.svg'>
       </div>
       <div class='product-info'>
       <div class='product-top'>
         <div class='product-title-bar'>
-          <div class='product-title'>{title}</div>
-          <div class='product-location'>{location}·{updateDate}</div>
-          <div class='product-price'>원</div>
+          <div class='product-title'>${product.title}</div>
+          <div class='product-location'>${product.location[0]}·${product.agoTime}</div>
+          <div class='product-price'>${product.price}원</div>
         </div>
         <div class='product-favorite'>
-          <img src='./images/dev/favorite_border.svg'>
+          <img src='../images/dev/favorite_border.svg'>
         </div>
         </div>
         <div class='product-status-bar'>
           <div class='product-chats flex'>
-            <img src='./images/dev/chat_bubble_mini.svg'>
-            <span>{chats}</span>
+            <img src='../images/dev/chat_bubble_mini.svg'>
+            <span>${product.chatCnt}</span>
           </div>
           <div class='product-likes flex'>
-          <img src='./images/dev/favorite_border_mini.svg'>
-            <span>{likes}</span>
+          <img src='../images/dev/favorite_border_mini.svg'>
+            <span>${product.likeCnt}</span>
           </div>
         </div>
       </div>
@@ -44,12 +44,6 @@ export default function productListItem(props) {
     `;
 
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
-
-    const $productListItem = selectLatestElement(
-      props.parent,
-      '.product-list-item'
-    );
-    //TODO: add eventlistener for favorite
   };
 
   this.render();

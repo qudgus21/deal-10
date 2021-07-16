@@ -4,10 +4,11 @@ import pagetest from './pagetest';
 import homeHeader from '../components/Header/Main';
 import productListItem from '../components/Etc/ProductListItem';
 import api from '../utils/api';
+import ProductListItem from '../components/Etc/ProductListItem';
 
 export default function Home(props) {
   this.state = {
-    list: [],
+    products: null,
   };
 
   this.setState = (nextState) => {
@@ -15,9 +16,10 @@ export default function Home(props) {
     this.render();
   };
 
-  api.sendPost('/product/getProducts', {}).then((result) => {
+  api.sendPost('/product/products', {}).then((result) => {
+    console.log(result);
     this.setState({
-      list: result.data,
+      products: result.data,
     });
   });
 
@@ -35,12 +37,14 @@ export default function Home(props) {
 
     $home.insertAdjacentHTML('beforeend', `<div class='product-list'></div>`);
 
-    this.state.list.forEach(function (product) {
-      new productListItem({
-        parent: document.querySelector('.product-list'),
-        idx: product.idx,
-      });
-    });
+    this.state.products
+      ? this.state.products.forEach((product) => {
+          new ProductListItem({
+            parent: document.querySelector('.home'),
+            product: product,
+          });
+        })
+      : null;
   };
 
   this.render();

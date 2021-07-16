@@ -5,8 +5,7 @@ import { slideIn, slideOut } from '../utils/slide';
 export default function Category(props) {
   this.state = {
     list: [],
-    currentCategory: {},
-    isCategory: false,
+    currentCategory: '',
     products: [],
   };
 
@@ -16,7 +15,7 @@ export default function Category(props) {
     this.render();
     setTimeout(() => {
       document.querySelector('.app').lastElementChild.classList.add('slide-in');
-    }, 100);
+    }, 50);
   };
 
   api.sendPost('/category/getCategorys', {}).then((result) => {
@@ -27,23 +26,10 @@ export default function Category(props) {
 
   this.categoryClickHandler = (e) => {
     const category = e.currentTarget.className.split('-')[1];
-    api
-      .sendPost('/category/categoryProducts', { categoryIdx: category })
-      .then((result) => {
-        console.log(result);
-        // this.setState({
-        //   ...this.state,
-        //   currentCategory: result.data.category,
-        //   isCategory: true,
-        //   products: result.data.products,
-        // });
-        // window.history.pushState({}, category, `category/${category}`);
-      });
+    slideIn(`category/${category}`, false);
   };
 
   this.render = () => {
-    console.log(this.state.products);
-
     let templateLiteral = `
             <div class="category slide">
                 <div class="header-box"></div>
@@ -73,9 +59,7 @@ export default function Category(props) {
 
     new WithoutAction({
       parent: document.querySelector('.category .header-box'),
-      content: this.state.isCategory
-        ? this.state.currentCategory.name
-        : '카테고리',
+      content: '카테고리',
       eventHandler: (e) => {
         slideOut('/', false);
       },

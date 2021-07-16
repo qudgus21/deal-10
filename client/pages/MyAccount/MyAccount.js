@@ -41,6 +41,7 @@ export default function MyAccount(props) {
         api.sendPost('/user/logout', {}).then((result) => {
           if (result.status === 'ok') {
             setCookie('user', 'none', 0);
+            setCookie('userIdx', 'none', 0);
             slideOut('/', false);
           }
         });

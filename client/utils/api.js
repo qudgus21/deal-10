@@ -6,6 +6,8 @@ const api = {
   sendPost(url, params = {}) {
     let headers = { 'Content-Type': 'application/json' };
     url = apiHost + url;
+    let userIdx = getCookie('userIdx');
+    if (userIdx) params.userIdx = userIdx;
 
     return new Promise((resolve, reject) =>
       fetch(url, {
