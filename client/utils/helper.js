@@ -11,7 +11,10 @@ export const getPageName = (path) => {
   } else if (isNaN(Number(page))) {
     return page;
   } else {
-    return paths.pop();
+    if (paths[0] === 'category') {
+      return 'categorydetail';
+    }
+    // return paths.pop();
   }
 };
 

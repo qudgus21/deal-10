@@ -1,10 +1,12 @@
 import WithoutAction from '../components/Header/WithoutAction';
 import api from '../utils/api';
-import { slideOut } from '../utils/slide';
+import { slideIn, slideOut } from '../utils/slide';
 
 export default function Category(props) {
   this.state = {
     list: [],
+    currentCategory: '',
+    products: [],
   };
 
   this.setState = (nextState) => {
@@ -13,7 +15,7 @@ export default function Category(props) {
     this.render();
     setTimeout(() => {
       document.querySelector('.app').lastElementChild.classList.add('slide-in');
-    }, 100);
+    }, 50);
   };
 
   api.sendPost('/category/getCategorys', {}).then((result) => {
@@ -21,6 +23,11 @@ export default function Category(props) {
       list: result.data,
     });
   });
+
+  this.categoryClickHandler = (e) => {
+    const category = e.currentTarget.className.split('-')[1];
+    slideIn(`category/${category}`, false);
+  };
 
   this.render = () => {
     let templateLiteral = `
@@ -35,7 +42,7 @@ export default function Category(props) {
                             <div>
                                 <img src='../images/dev/${cur.imgUrl}.svg'>
                             </div>
-                            <div class="title">${cur.category}</div>
+                            <div class="title">${cur.name}</div>
                         </li>
                         `
                       );
@@ -43,22 +50,12 @@ export default function Category(props) {
                 </ul>
             </div>
         `;
+
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
 
-    // const $lis = document.querySelectorAll('.category li');
-    // if ($lis.length) {
-    //   $lis.forEach((item) => {
-    //     item.addEventListener('click', (e) => {
-    //       new CategoryDetail({
-    //         parent: document.querySelector('.category .header-box'),
-    //         content: '카테고리',
-    //         eventHandler: (e) => {
-    //           slideOut('/', false);
-    //         },
-    //       });
-    //     });
-    //   });
-    // }
+    document.querySelectorAll('.category li').forEach((item) => {
+      item.addEventListener('click', this.categoryClickHandler);
+    });
 
     new WithoutAction({
       parent: document.querySelector('.category .header-box'),

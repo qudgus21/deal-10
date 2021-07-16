@@ -40,6 +40,8 @@
 
 /*! ../pages/Category */
 
+/*! ../pages/CategoryDetail */
+
 /*! ../pages/Home */
 
 /*! ../pages/MyAccount/Login */
@@ -60,7 +62,7 @@
 
 /*! ../utils/slide */
 
-/*! ./ImgBox */
+/*! ./NewPost */
 
 /*! ./Register */
 
@@ -132,9 +134,9 @@
   !*** ./components/compotest.js ***!
   \*********************************/
 
-/*!**********************************!*\
-  !*** ./components/Etc/ImgBox.js ***!
-  \**********************************/
+/*!*********************************!*\
+  !*** ./pages/CategoryDetail.js ***!
+  \*********************************/
 
 /*!**********************************!*\
   !*** ./pages/MyAccount/Login.js ***!

@@ -101,8 +101,6 @@ export default function Register(props) {
     };
 
     const locateValidation = (location) => {
-      console.log();
-
       if (location === '') {
         return '동네를 입력해 주세요';
       } else if (
