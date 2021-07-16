@@ -1,11 +1,7 @@
 import { slideIn } from '../utils/slide';
-import { selectLatestElement } from '../utils/helper';
-import pagetest from './pagetest';
 import homeHeader from '../components/Header/Main';
-import productListItem from '../components/Etc/ProductListItem';
 import api from '../utils/api';
 import ProductListItem from '../components/Etc/ProductListItem';
-import NewPost from './NewPost';
 
 export default function Home(props) {
   this.state = {
@@ -17,7 +13,7 @@ export default function Home(props) {
     this.render();
   };
 
-  api.sendPost('/product/products', {}).then((result) => {
+  api.sendPost('/product/getProducts', {}).then((result) => {
     console.log(result);
     this.setState({
       products: result.data,

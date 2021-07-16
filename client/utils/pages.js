@@ -6,6 +6,7 @@ import Register from '../pages/MyAccount/Register';
 import Category from '../pages/Category';
 import NewPost from '../pages/NewPost';
 import CategoryDetail from '../pages/CategoryDetail';
+import Menu from '../pages/Menu';
 
 const pages = {
   home: Home,
@@ -16,6 +17,7 @@ const pages = {
   category: Category,
   newpost: NewPost,
   categorydetail: CategoryDetail,
+  menu: Menu,
 };
 
 export default pages;

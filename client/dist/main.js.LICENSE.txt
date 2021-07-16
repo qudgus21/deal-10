@@ -44,6 +44,8 @@
 
 /*! ../pages/Home */
 
+/*! ../pages/Menu */
+
 /*! ../pages/MyAccount/Login */
 
 /*! ../pages/MyAccount/MyAccount */
@@ -62,15 +64,11 @@
 
 /*! ../utils/slide */
 
-/*! ./NewPost */
-
 /*! ./Register */
 
 /*! ./helper */
 
 /*! ./pages */
-
-/*! ./pagetest */
 
 /*! ./router */
 
@@ -88,6 +86,10 @@
 
 /*!***********************!*\
   !*** ./pages/Home.js ***!
+  \***********************/
+
+/*!***********************!*\
+  !*** ./pages/Menu.js ***!
   \***********************/
 
 /*!***********************!*\

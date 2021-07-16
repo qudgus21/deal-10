@@ -259,3 +259,17 @@ $Primary: #5ebebb;
     height: 1rem;
   }
 }
+
+.tab-bar {
+  background-color: #f6f6f6;
+  display: flex;
+  justify-content: space-evenly;
+  border-bottom: 1px solid #d7d7d7;
+  .tab-title {
+    padding: 0.7rem 1rem;
+  }
+  .tab-select {
+    border-bottom: 2px solid #2ac1bc;
+    color: #2ac1bc;
+  }
+}
