@@ -30,6 +30,8 @@
 
 /*! ../components/Header/WithoutAction */
 
+/*! ../components/Header/withAction */
+
 /*! ../components/compotest.js */
 
 /*! ../node_modules/css-loader/dist/runtime/api.js */
@@ -45,6 +47,8 @@
 /*! ../pages/MyAccount/MyAccount */
 
 /*! ../pages/MyAccount/Register */
+
+/*! ../pages/NewPost */
 
 /*! ../pages/pagetest */
 
@@ -105,6 +109,10 @@
   \*************************/
 
 /*!**************************!*\
+  !*** ./pages/NewPost.js ***!
+  \**************************/
+
+/*!**************************!*\
   !*** ./styles/main.scss ***!
   \**************************/
 
@@ -147,6 +155,10 @@
 /*!**************************************!*\
   !*** ./pages/MyAccount/MyAccount.js ***!
   \**************************************/
+
+/*!*****************************************!*\
+  !*** ./components/Header/withAction.js ***!
+  \*****************************************/
 
 /*!*******************************************!*\
   !*** ./components/Etc/ProductListItem.js ***!

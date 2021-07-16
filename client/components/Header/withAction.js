@@ -26,7 +26,7 @@ export default function WithAction(props) {
 
     $backBtn.addEventListener('click', eventHandler);
     $doneBtn.addEventListener('click', () => {
-      document.forms['newpost-form'].submit();
+      document.forms[0].submit();
     });
   };
 
