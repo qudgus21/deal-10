@@ -15,16 +15,15 @@ export default function CategoryDetail(props) {
   this.render = () => {
     let templateLiteral = `
             <div class="categorydetail slide">
-                <div class="header-box"></div>
-                <ul class="content">
-                </ul>
+                <div></div>
+                <div>디테일 페이지</div>
             </div>
         `;
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
 
-    new WithoutAction({
-      parent: document.querySelector('.categorydetail .header-box'),
-    });
+    // new WithoutAction({
+    //   parent: document.querySelector('.categorydetail .header-box'),
+    // });
   };
 
   this.render();

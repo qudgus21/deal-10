@@ -36,7 +36,6 @@ export default function Home(props) {
     $home.insertAdjacentHTML('beforeend', `<div class='product-list'></div>`);
 
     this.state.list.forEach(function (product) {
-      console.log(product.idx);
       new productListItem({
         parent: document.querySelector('.product-list'),
         idx: product.idx,

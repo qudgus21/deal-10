@@ -58,6 +58,7 @@ export default function Login(props) {
               if (result.status === 'ok') {
                 alert('로그인 성공');
                 setCookie('user', result.data.id);
+                setCookie('userIdx', result.data.idx);
                 slideOut('/', false);
               } else {
                 alert(result.message);

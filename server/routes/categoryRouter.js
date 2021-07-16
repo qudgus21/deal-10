@@ -14,4 +14,19 @@ categoryRouter.post('/getCategorys', (req, res) => {
     });
 });
 
+categoryRouter.post('/info', (req, res) => {
+  const params = req.body;
+
+  category
+    .info(params)
+    .then((ctr) => {
+      category.products(params).then((products) => {
+        res.json({ status: 'ok', data: { category: ctr[0], products } });
+      });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
 export default categoryRouter;

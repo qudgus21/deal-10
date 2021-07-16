@@ -1,3 +1,5 @@
+import { getCookie } from './helper';
+
 const apiHost = 'http://localhost:3000';
 
 const api = {
@@ -13,7 +15,6 @@ const api = {
         body: JSON.stringify(params),
       })
         .then(function (response) {
-          console.log(response);
           return response.json();
         })
         .then(function (json) {

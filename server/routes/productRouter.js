@@ -14,4 +14,28 @@ productRouter.post('/getProducts', (req, res) => {
     });
 });
 
+productRouter.post('/categoryProducts', (req, res) => {
+  const params = req.body;
+
+  product
+    .categoryProducts(params)
+    .then((rows) => {
+      res.json({ status: 'ok', data: rows });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
+// productRouter.post('/details', (req, res) => {
+//   product
+//     .getProducts()
+//     .then((rows) => {
+//       res.json({ status: 'ok', data: rows });
+//     })
+//     .catch(() => {
+//       res.json({ status: 'error' });
+//     });
+// });
+
 export default productRouter;

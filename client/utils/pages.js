@@ -4,6 +4,7 @@ import MyAccount from '../pages/MyAccount/MyAccount';
 import Login from '../pages/MyAccount/Login';
 import Register from '../pages/MyAccount/Register';
 import Category from '../pages/Category';
+import CategoryDetail from '../pages/CategoryDetail';
 
 const pages = {
   home: Home,
@@ -12,6 +13,7 @@ const pages = {
   login: Login,
   register: Register,
   category: Category,
+  categorydetail: CategoryDetail,
 };
 
 export default pages;
