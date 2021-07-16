@@ -180,3 +180,10 @@ $Primary: #5ebebb;
     align-items: baseline;
   }
 }
+
+.with-action {
+  justify-content: space-between;
+  h1 {
+    position: inherit;
+  }
+}
