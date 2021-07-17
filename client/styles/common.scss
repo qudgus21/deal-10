@@ -7,6 +7,8 @@ $bordrColor: #b4b4b46e;
 $Primary: #5ebebb;
 $grey: #bcbcbc;
 $backgroundGrey: #f6f6f6;
+$bordrColor2: #d7d7d7;
+$baemin: #2ac0bc;
 
 .slide {
   position: absolute;
@@ -145,7 +147,7 @@ $backgroundGrey: #f6f6f6;
     width: 8rem;
     height: 8rem;
     border-radius: 10%;
-    border: 1px solid #d7d7d7;
+    border: 1px solid $bordrColor2;
     background-color: #f6f6f6;
   }
 
@@ -154,7 +156,7 @@ $backgroundGrey: #f6f6f6;
     width: 6rem;
     height: 6rem;
     border-radius: 10%;
-    border: 1px solid #d7d7d7;
+    border: 1px solid $bordrColor2;
     background-color: #f6f6f6;
   }
 
@@ -162,7 +164,7 @@ $backgroundGrey: #f6f6f6;
     width: 3rem;
     height: 3rem;
     border-radius: 10%;
-    border: 1px solid #d7d7d7;
+    border: 1px solid $bordrColor2;
     background-color: #f6f6f6;
   }
 }
@@ -243,13 +245,15 @@ $backgroundGrey: #f6f6f6;
   }
 
   input {
-    border-top: 1px solid #d7d7d7;
+    &:first-child {
+      border-top: 1px solid $bordrColor2;
+    }
+
+    border-top: 1px solid $bordrColor2;
+
+    border-bottom: 1px solid $bordrColor2;
     padding: 2rem 0;
     margin: 0rem 1.5rem;
-
-    &:nth-child(3) {
-      border-bottom: 1px solid #d7d7d7;
-    }
   }
 }
 
@@ -275,7 +279,7 @@ $backgroundGrey: #f6f6f6;
   justify-content: flex-start;
   align-content: center;
   padding: 0.5rem 1.3rem;
-  border-top: 1px solid #d7d7d7;
+  border-top: 1px solid $bordrColor2;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -307,7 +311,7 @@ $backgroundGrey: #f6f6f6;
   background-color: #f6f6f6;
   display: flex;
   justify-content: space-evenly;
-  border-bottom: 1px solid #d7d7d7;
+  border-bottom: 1px solid $bordrColor2;
   .tab-title {
     padding: 0.7rem 1rem;
   }
@@ -378,6 +382,15 @@ $backgroundGrey: #f6f6f6;
   }
 }
 
+.complete {
+  filter: invert(56%) sepia(100%) saturate(291%) hue-rotate(130deg)
+    brightness(91%) contrast(103%);
+}
+
 .red {
   color: red;
+}
+
+.none {
+  display: none;
 }

@@ -1,15 +1,85 @@
 import { slideOut } from '../utils/slide';
+import { isLogin } from '../utils/helper';
 import WithAction from '../components/Header/withAction';
 import api from '../utils/api';
+import ImgButton from '../components/Etc/ImgButton';
 
 export default function NewPost(props) {
   this.state = {
-    location: '역삼동',
+    location: null,
+    categorys: null,
+    imgNum: 0, //늘림
+    imgCnt: 0,
+    selectedCategory: null,
   };
 
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
+  };
+
+  this.componentDidMount = () => {
+    isLogin();
+
+    api.sendPost('/user/getInfo', {}).then((result) => {
+      document.querySelector('.app').lastElementChild.remove();
+      this.setState({
+        ...this.state,
+        location: result.data.location[0],
+      });
+      setTimeout(() => {
+        document
+          .querySelector('.app')
+          .lastElementChild.classList.add('slide-in');
+      }, 50);
+    });
+
+    api.sendPost('/category/getCategorys', {}).then((result) => {
+      document.querySelector('.app').lastElementChild.remove();
+      this.setState({
+        ...this.state,
+        categorys: result.data,
+      });
+      setTimeout(() => {
+        document
+          .querySelector('.app')
+          .lastElementChild.classList.add('slide-in');
+      }, 50);
+    });
+  };
+
+  this.validationCheck = () => {
+    const nameValue = document.querySelector('.newpost input[name=title]')
+      .value;
+    const priceValue = document.querySelector('.newpost input[name=price]')
+      .value;
+    const descriptionValue = document.querySelector(
+      '.newpost textarea[name=description]'
+    ).value;
+
+    const $imageInputs = document.querySelectorAll('.newpost .imageInput');
+
+    let message = ``;
+    if ($imageInputs.length === 1) {
+      message = '한 장 이상의 이미지를 등록해주세요';
+    } else if (!nameValue) {
+      message = '제목을 입력해 주세요';
+    } else if (!this.state.selectedCategory) {
+      message = '카테고리를 선택해 주세요';
+    } else if (isNaN(Number(priceValue))) {
+      message = '가격은 숫자만 입력해 주세요';
+    } else if (!descriptionValue) {
+      message = '설명을 입력해 주세요';
+    } else {
+      message = 'ok';
+    }
+    const $completeButton = document.querySelector('.newpost .done-button');
+    if (message === 'ok') {
+      $completeButton.classList.add('complete');
+    } else {
+      $completeButton.classList.remove('complete');
+    }
+    return message;
   };
 
   this.submitHandler = () => {
@@ -20,17 +90,81 @@ export default function NewPost(props) {
     const descriptionValue = document.querySelector(
       '.newpost textarea[name=description]'
     ).value;
-    const imageFile = document.querySelector('.newpost #imageInput').files[0];
 
-    let formData = new FormData();
-    formData.append('img', imageFile);
-    formData.append('name', nameValue);
-    formData.append('price', priceValue);
-    formData.append('decription', descriptionValue);
+    const $imageInputs = document.querySelectorAll('.newpost .imageInput');
 
-    api.sendProduct('/product/newpost', formData).then((result) => {
-      console.log(result);
+    const uploadValid = this.validationCheck();
+
+    if (uploadValid === 'ok') {
+      let formData = new FormData();
+      formData.append('img', imageFile);
+      formData.append('name', nameValue);
+      formData.append('price', priceValue);
+      formData.append('decription', descriptionValue);
+
+      api.sendProduct('/product/newpost', formData).then((result) => {
+        if (result.status === 'ok') {
+          alert('상품이 등록되었습니다');
+          return;
+        }
+      });
+    } else {
+      alert(uploadValid);
+      return;
+    }
+  };
+
+  this.addNewimgBox = () => {
+    this.state.imgNum += 1;
+    this.state.imgCnt += 1;
+
+    new ImgButton({
+      parent: document.querySelector('.newpost .newpost-image-form'),
+      imgNum: this.state.imgNum,
+      imgCnt: this.state.imgCnt,
+      imageHandler: this.imageInputHandler,
+      cancleHandler: this.imageCancleHandler,
     });
+  };
+
+  this.imageInputHandler = (e) => {
+    const $form = e.target.parentNode.parentNode;
+    const $targetBox = e.target.parentNode;
+    const file = e.target.files;
+    const reader = new FileReader();
+    reader.readAsDataURL(file[0]);
+    reader.onloadend = (data) => {
+      $targetBox.querySelector('input').disabled = true;
+      $targetBox.querySelector('.image-preview').src = data.target.result;
+      $targetBox.querySelector('.image-preview').classList.add('isIn');
+      $targetBox.querySelector('.image-count').classList.add('none');
+      $targetBox.querySelector('.border-medium2').classList.add('upload');
+      $targetBox.querySelector('.cancle-btn').classList.remove('none');
+      this.addNewimgBox();
+      this.validationCheck();
+    };
+  };
+
+  this.imageCancleHandler = (e) => {
+    const targetNum = Array.from(e.target.classList).pop().split('-')[1];
+    const $target = document.querySelector(`.newpost .box-${targetNum}`);
+    this.state.imgCnt -= 1;
+
+    Array.from(
+      document.querySelectorAll('.newpost .newpost-image-form .image-count')
+    ).pop().textContent = `${this.state.imgCnt}/10`;
+
+    $target.remove();
+  };
+
+  this.categorySelectHandler = (e) => {
+    const $categorys = document.querySelectorAll('.newpost ul .category-item');
+    $categorys.forEach((node) => {
+      node.classList.remove('selected');
+    });
+    e.target.classList.add('selected');
+    this.state.selectedCategory = e.target.textContent;
+    this.validationCheck();
   };
 
   this.render = () => {
@@ -38,26 +172,32 @@ export default function NewPost(props) {
             <div class='newpost slide'>
                 <div class='header-box'></div>
                 <form action='/newpost' method='post' class='newpost-image-form' encType="multipart/form-data">
-                  <div class="image-input">
-                    <input type="file" accept="image/*" id="imageInput">
-                    <label for="imageInput" class="image-button">
-                      <div class='img-list'>
-                        <div class='img-box'>
-                            <div class='border-medium2 img-picker flex flex-column'>
-                                <img src='../../images/dev/image.svg'>
-                                <div>0/10</div>
-                            </div>
-                        </div>
-                      </div>
-                    </label>
-                    <img src="" class="image-preview">
-                    <span class="change-image">Choose different image</span>
-                  </div>
                 </form>
                 <form action='/newpost' method='post' class='newpost-form'>
                     <input type='text' class='newpost-input' name='title' placeholder='글 제목'/>
+                    <div class="category-title">(필수)카테고리를 선택해 주세요.</div>
+                    <div class="select-category">
+                        <ul>
+                          ${
+                            this.state.categorys
+                              ? `
+                          ${this.state.categorys.reduce((acc, cur) => {
+                            return (
+                              acc +
+                              `
+                              <li class="category-item category-${cur.idx}">
+                                ${cur.name}
+                              </li>
+                              `
+                            );
+                          }, ``)}
+                          `
+                              : ``
+                          }          
+                        </ul>
+                    </div>
                     <input type='text' class='newpost-input' name='price' placeholder='₩ 가격(선택사항)'/>
-                    <textarea rows="10" class='newpost-input' name='description' placeholder='게시글 내용을 작성해주세요.'></textarea>
+                    <textarea rows="4" class='newpost-input' name='description' placeholder='게시글 내용을 작성해주세요.'></textarea>
                 </form>
                 <div class='location-bar'>
                     <img src='../../images/dev/location_black.svg'>
@@ -67,33 +207,17 @@ export default function NewPost(props) {
         `;
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
 
-    //필요할지도 모르니 주석처리
-    // const $imageInput = document.querySelector('.newpost #imageInput');
-    // $imageInput.addEventListener('change', (e) => {
-    //   const file = e.target.files;
+    const $categorys = document.querySelectorAll('.newpost ul .category-item');
 
-    //   const reader = new FileReader();
-    //   reader.readAsDataURL(file[0]);
+    if ($categorys.length) {
+      $categorys.forEach((node) => {
+        node.addEventListener('click', this.categorySelectHandler);
+      });
+    }
 
-    //   reader.onloadend = () => {
-    //     // let fileData = {
-    //     //   name: file[0].name,
-    //     //   category: file[0].type,
-    //     //   multipart_form_data: file[0],
-    //     // };
-    //   };
-
-    //   // console.log(e);
-    //   // const file = e.srcElement.files[0];
-
-    //   // const reader = new FileReader();
-    //   // reader.readAsDataURL(file);
-
-    //   // reader.onload = function (data) {
-    //   //   const filename = e.target.files[0].name;
-    //   //   const fileData = reader.result;
-    //   // };
-    // });
+    document.querySelectorAll('.newpost .newpost-input').forEach((input) => {
+      input.addEventListener('keyup', this.validationCheck);
+    });
 
     new WithAction({
       parent: document.querySelector('.newpost .header-box'),
@@ -106,30 +230,15 @@ export default function NewPost(props) {
       eventHandler2: this.submitHandler,
     });
 
-    // $('#imageInput').on('change', function() {
-    //   $input = $(this);
-    //   if($input.val().length > 0) {
-    //     fileReader = new FileReader();
-    //     fileReader.onload = function (data) {
-    //     $('.image-preview').attr('src', data.target.result);
-    //     }
-    //     fileReader.readAsDataURL($input.prop('files')[0]);
-    //     $('.image-button').css('display', 'none');
-    //     $('.image-preview').css('display', 'block');
-    //     $('.change-image').css('display', 'block');
-    //   }
-    // });
-
-    // $('.change-image').on('click', function() {
-    //   $control = $(this);
-    //   $('#imageInput').val('');
-    //   $preview = $('.image-preview');
-    //   $preview.attr('src', '');
-    //   $preview.css('display', 'none');
-    //   $control.css('display', 'none');
-    //   $('.image-button').css('display', 'block');
-    // });
+    new ImgButton({
+      parent: document.querySelector('.newpost .newpost-image-form'),
+      imgNum: this.state.imgNum,
+      imgCnt: this.state.imgCnt,
+      imageHandler: this.imageInputHandler,
+      cancleHandler: this.imageCancleHandler,
+    });
   };
 
+  this.componentDidMount();
   this.render();
 }

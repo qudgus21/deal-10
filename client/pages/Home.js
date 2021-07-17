@@ -1,4 +1,5 @@
 import { slideIn } from '../utils/slide';
+import { isLogin } from '../utils/helper';
 import homeHeader from '../components/Header/Main';
 import api from '../utils/api';
 import ProductListItem from '../components/Etc/ProductListItem';
@@ -47,6 +48,10 @@ export default function Home(props) {
       : null;
 
     document.querySelector('.fab-button').addEventListener('click', () => {
+      if (!isLogin()) {
+        alert('로그인 후 이용해 주세요');
+        return;
+      }
       slideIn('/newpost', false);
     });
   };
