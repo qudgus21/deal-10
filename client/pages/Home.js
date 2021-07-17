@@ -14,7 +14,6 @@ export default function Home(props) {
   };
 
   api.sendPost('/product/products', {}).then((result) => {
-    console.log('result is...', result);
     this.setState({
       products: result.data,
     });

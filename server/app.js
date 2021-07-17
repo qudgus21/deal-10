@@ -10,8 +10,8 @@ import productRouter from './routes/productRouter.js';
 
 const app = express();
 dotenv.config();
-
 const __dirname = path.resolve();
+
 app.use(cors());
 
 app.use(

@@ -15,7 +15,6 @@ export default function ProductDetail(props) {
     //   document.querySelector('.app').lastElementChild.remove();
     // }, 100);
     this.state = nextState;
-
     this.render();
     // setTimeout(() => {
     //   document.querySelector('.app').lastElementChild.classList.add('slide-in');

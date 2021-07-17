@@ -236,10 +236,20 @@ $backgroundGrey: #f6f6f6;
   flex-direction: column;
   color: #888888;
 
+  textarea {
+    border: none;
+    margin: 1.5rem 1.5rem 0 1.5rem;
+    padding: 1rem 0;
+  }
+
   input {
     border-top: 1px solid #d7d7d7;
     padding: 2rem 0;
     margin: 0rem 1.5rem;
+
+    &:nth-child(3) {
+      border-bottom: 1px solid #d7d7d7;
+    }
   }
 }
 
