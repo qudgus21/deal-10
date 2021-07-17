@@ -10,6 +10,7 @@ import ProductDetail from '../pages/SaleProductDetail/ProductDetail';
 import Menu from '../pages/Menu';
 import ChatList from '../pages/SaleProductDetail/ChatList';
 import ChatDetail from '../pages/ChatDetail';
+import Location from '../pages/Location';
 
 const pages = {
   home: Home,
@@ -24,6 +25,7 @@ const pages = {
   menu: Menu,
   chatlist: ChatList,
   chatdetail: ChatDetail,
+  location: Location,
 };
 
 export default pages;
