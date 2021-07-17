@@ -117,7 +117,6 @@ const product = {
         order by p.updateDate desc
   `;
 
-    console.log(sql);
     return new Promise((resolve, reject) => {
       db.promise()
         .query(sql)
