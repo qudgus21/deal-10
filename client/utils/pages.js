@@ -8,6 +8,7 @@ import NewPost from '../pages/NewPost';
 import CategoryDetail from '../pages/CategoryDetail';
 import Menu from '../pages/Menu';
 import ChatList from '../pages/SaleProductDetail/ChatList';
+import ChatDetail from '../pages/ChatDetail';
 
 const pages = {
   home: Home,
@@ -20,6 +21,7 @@ const pages = {
   categorydetail: CategoryDetail,
   menu: Menu,
   chatlist: ChatList,
+  chatdetail: ChatDetail,
 };
 
 export default pages;
