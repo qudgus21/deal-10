@@ -7,7 +7,6 @@ const category = {
       db.promise()
         .query(sql)
         .then(([rows, fileds]) => {
-          styleMedia;
           return resolve(rows);
         })
         .catch((err) => {

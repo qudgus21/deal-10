@@ -48,4 +48,16 @@ userRouter.post('/logout', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+userRouter.post('/getInfo', (req, res) => {
+  const params = req.body;
+  user
+    .getInfo(params)
+    .then((rows) => {
+      res.json({ status: 'ok', data: rows[0] });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
 export default userRouter;
