@@ -1,3 +1,5 @@
+import ProductDetail from '../pages/SaleProductDetail/ProductDetail';
+
 export const selectLatestElement = (parent, cls) => {
   return Array.from(parent.querySelectorAll(cls)).pop();
 };
@@ -13,6 +15,8 @@ export const getPageName = (path) => {
   } else {
     if (paths[0] === 'category') {
       return 'categorydetail';
+    } else if (paths[0] === 'product') {
+      return 'productdetail';
     }
     // return paths.pop();
   }

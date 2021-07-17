@@ -10,7 +10,7 @@ export const slideIn = (path, onpop) => {
   }
   setTimeout(() => {
     document.querySelector(`.${pageName}`).classList.add('slide-in');
-  }, 0);
+  }, 100);
 };
 
 export const slideOut = (path) => {
@@ -20,5 +20,13 @@ export const slideOut = (path) => {
   $app.lastElementChild.classList.add('slide-out');
   setTimeout(() => {
     $app.lastElementChild.remove();
+  }, 300);
+};
+
+export const historyBack = () => {
+  const $app = document.querySelector('.app');
+  $app.lastElementChild.classList.add('slide-out');
+  setTimeout(() => {
+    window.history.back();
   }, 300);
 };

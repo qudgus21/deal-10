@@ -13,8 +13,8 @@ export default function Home(props) {
     this.render();
   };
 
-  api.sendPost('/product/getProducts', {}).then((result) => {
-    console.log(result);
+  api.sendPost('/product/products', {}).then((result) => {
+    console.log('result is...', result);
     this.setState({
       products: result.data,
     });
