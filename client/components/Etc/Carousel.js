@@ -1,4 +1,5 @@
 import { selectLatestElement } from '../../utils/helper';
+import { carouselInit, shiftTo } from '../../utils/carousel';
 
 export default function Carousel(props) {
   this.state = {
@@ -27,12 +28,12 @@ export default function Carousel(props) {
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
 
     const $container = document.querySelector('.carousel-container');
-    const $navigator = document.querySelector('carousel-navigator');
+    const $navigator = document.querySelector('.carousel-navigator');
     props.imgUrls.forEach((imgUrl, index) => {
-      let imgTemplateLiteral = `<span class='slide-img'>
+      let imgTemplateLiteral = `<span class='carousel-img'>
         <img src='${imgUrl}'>
       </span>`;
-      let navTemplateLiteral = `<span class='navigator-item nav-${index}`;
+      let navTemplateLiteral = `<span class='navigator-item nav-${index}'></span>`;
 
       $container.insertAdjacentHTML('beforeend', imgTemplateLiteral);
       $navigator.insertAdjacentHTML('beforeend', navTemplateLiteral);
@@ -42,7 +43,18 @@ export default function Carousel(props) {
           shiftTo(index);
         }
       );
+      if (index == 0) {
+        selectLatestElement($navigator, `.nav-${index}`).classList.add(
+          'selected'
+        );
+      }
     });
+    //애니메이션이 안댐 그리고 넘겨도 멈춤 체크 ㄱ
+    const $carousel = document.querySelector('.carousel');
+    const $prev = document.querySelector('.prev');
+    const $next = document.querySelector('.next');
+
+    carouselInit($carousel, $container, $prev, $next);
   };
 
   this.render();
