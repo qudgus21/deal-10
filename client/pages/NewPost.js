@@ -108,7 +108,8 @@ export default function NewPost(props) {
       api.sendProduct('/product/newpost', formData).then((result) => {
         if (result.status === 'ok') {
           alert('상품이 등록되었습니다');
-          slideOut('/', false);
+          window.location.href = '/';
+          // slideOut('/', false);
           return;
         }
       });
