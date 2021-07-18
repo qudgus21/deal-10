@@ -1,6 +1,8 @@
-import { selectLatestElement } from '../../utils/helper';
+import { isLogin, selectLatestElement } from '../../utils/helper';
 import { slideIn } from '../../utils/slide';
 import { getCookie } from '../../utils/helper';
+import Dropdown from '../Etc/Dropdown';
+import api from '../../utils/api';
 
 export default function homeHeader(props) {
   this.state = {};
@@ -11,6 +13,7 @@ export default function homeHeader(props) {
   };
 
   this.render = () => {
+    console.log(this.state.data);
     let templateLiteral = `
     <div class='home-header'>
       <div class='flex'>
@@ -51,9 +54,29 @@ export default function homeHeader(props) {
     $categoryButton.addEventListener('click', () => {
       slideIn('/category', false);
     });
+
     $locationDiv.addEventListener('click', () => {
-      slideIn('/location', false);
+      if (isLogin()) {
+        api.sendPost('/user/getInfo', {}).then((result) => {
+          new Dropdown({
+            parent: $homeHeader,
+            data: [
+              { text: result.data.location[0], eventHandler: () => {} },
+              {
+                text: '내 동네 설정',
+                eventHandler: () => {
+                  slideIn('/location', false);
+                  document.querySelector('.dropdown').remove();
+                },
+              },
+            ],
+          });
+        });
+      } else {
+        alert('로그인을 해주세요.');
+      }
     });
+
     $myAccountButton.addEventListener('click', () => {
       if (getCookie('user')) {
         slideIn('/MyAccount', false);

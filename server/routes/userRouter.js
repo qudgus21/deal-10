@@ -60,4 +60,16 @@ userRouter.post('/getInfo', (req, res) => {
     });
 });
 
+userRouter.post('/setLocation', (req, res) => {
+  const params = req.body;
+  user
+    .setLocation(params)
+    .then((rows) => {
+      res.json({ status: 'ok', data: rows });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
 export default userRouter;

@@ -1,7 +1,6 @@
 export default function LocationButton(props) {
   this.state = {
     location: null,
-    eventHandler: null,
   };
 
   this.setState = (nextState) => {
@@ -14,7 +13,7 @@ export default function LocationButton(props) {
     ${
       props.location == null
         ? `<button class='location-add-button'><img src='../images/dev/add_green.svg'></button>`
-        : `<div class='location-button'><div class='location-name'>역삼동</div><button class='location-cancel'><img src='../images/dev/cancel_green.svg'></button></div>`
+        : `<div class='location-button'><div class='location-name'>${props.location}</div><button class='location-cancel'><img src='../images/dev/cancel_green.svg'></button></div>`
     }
         `;
 

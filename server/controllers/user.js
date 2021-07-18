@@ -45,6 +45,23 @@ const user = {
         });
     });
   },
+
+  setLocation: (params) => {
+    let sql = `update users set location = '${JSON.stringify(
+      params.location
+    )}' where idx='${params.userIdx}'`;
+    console.log(sql);
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
 };
 
 export default user;
