@@ -16,12 +16,12 @@ export default function Location(props) {
   });
 
   this.setState = (nextState) => {
-    document.querySelector('.app').lastElementChild.remove();
+    // document.querySelector('.app').lastElementChild.remove();
     this.state = nextState;
     this.render();
-    setTimeout(() => {
-      document.querySelector('.app').lastElementChild.classList.add('slide-in');
-    }, 50);
+    // setTimeout(() => {
+    //   document.querySelector('.app').lastElementChild.classList.add('slide-in');
+    // }, 50);
   };
 
   this.render = () => {
