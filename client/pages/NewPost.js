@@ -97,11 +97,14 @@ export default function NewPost(props) {
 
     if (uploadValid === 'ok') {
       let formData = new FormData();
-      formData.append('img', imageFile);
+      for (let i = 0; i < $imageInputs.length; i++) {
+        if (i !== $imageInputs.length - 1)
+          formData.append('img', $imageInputs[i].files[0]);
+      }
       formData.append('name', nameValue);
       formData.append('price', priceValue);
       formData.append('decription', descriptionValue);
-
+      formData.append('category', this.state.selectedCategory);
       api.sendProduct('/product/newpost', formData).then((result) => {
         if (result.status === 'ok') {
           alert('상품이 등록되었습니다');
@@ -163,7 +166,7 @@ export default function NewPost(props) {
       node.classList.remove('selected');
     });
     e.target.classList.add('selected');
-    this.state.selectedCategory = e.target.textContent;
+    this.state.selectedCategory = e.target.textContent.trim();
     this.validationCheck();
   };
 
