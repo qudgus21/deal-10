@@ -1,0 +1,22 @@
+.category {
+  .content {
+    font-size: 0.9rem;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 2.1rem 1.4rem;
+
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    > * {
+      margin-bottom: 1.7rem;
+    }
+
+    .title {
+      margin: 1rem 0 0.8rem 0;
+    }
+  }
+}

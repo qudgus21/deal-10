@@ -54,7 +54,7 @@ export default function pagetest(props) {
 
     // this.state.productList.map(function(msg) {
 
-    const $backButton = selectLatestElement(props.parent, 'back-button');
+    const $backButton = selectLatestElement(props.parent, '.back-button');
 
     $backButton.addEventListener('click', () => {
       slideOut('/', false);

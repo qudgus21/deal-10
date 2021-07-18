@@ -1,25 +1,21 @@
-export default function textInput(props) { 
-    
-    this.state = {
-    }
+import { selectLatestElement } from '../../utils/helper';
 
-    
-    this.setState = (nextState) => {
-        this.state = nextState;
-        this.render();
-    }
+export default function TextInput(props) {
+  this.render = () => {
+    const { parent, eventHandler, label, placeholder } = props;
 
-    
-    this.render = () => {
-        const { cls, parent, eventHandler } = this.props;
+    let templateLiteral = `
+            <div class="text-input">
+                ${label ? `<label>${label}</label>` : ``}
+                <input placeholder='${placeholder}' type='text' class='text-input' />
+            </div>
+            `;
+    parent.innerHTML = templateLiteral;
 
-        let templateLiteral = `
-            <input type='text' class='${cls}'></input>
-        `;
-        props.parent.innerHTML = templateLiteral;
-     
-        const $textInput = Array.from(props.parent.querySelectorAll(cls)).pop();
-        $textInput.addEventListener('click', eventHandler);
-    }   
-    this.render();
+    const $input = selectLatestElement(parent, '.text-input');
+
+    $input.addEventListener('keyup', eventHandler);
+  };
+
+  this.render();
 }

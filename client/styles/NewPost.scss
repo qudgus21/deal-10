@@ -1,0 +1,74 @@
+.newpost {
+  .newpost-image-form {
+    display: flex;
+    overflow-x: scroll;
+
+    .img-box {
+      position: relative;
+    }
+
+    .image-input {
+      text-align: center;
+      input {
+        display: none;
+      }
+      label {
+        cursor: pointer;
+      }
+
+      img {
+      }
+
+      span {
+        display: none;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .isIn {
+        position: relative;
+        top: 0.3rem;
+        height: 100%;
+        width: 100%;
+      }
+
+      .cancle-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+  }
+
+  .upload {
+    border: none;
+    background-color: white;
+  }
+  .category-title {
+    text-align: left;
+    font-size: 0.9rem;
+    margin: 2rem 1rem 1rem 1.4rem;
+  }
+
+  .select-category {
+    font-size: 0.9rem;
+
+    overflow-x: scroll;
+    padding: 0 0 1.5rem 0;
+    ul {
+      width: 320%;
+      display: flex;
+      margin: 0 1.4rem;
+      li {
+        margin-right: 0.8rem;
+        border: 1px solid $bordrColor2;
+        border-radius: 15px;
+        padding: 0.3rem 0.5rem;
+
+        &.selected {
+          background-color: $bordrColor2;
+        }
+      }
+    }
+  }
+}

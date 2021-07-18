@@ -1,3 +1,15 @@
+$headerBackground: #f6f6f6;
+$buttonInitial: #2ac0bc;
+$buttonHover: #209a96;
+$buttonFocus: #2ac0bc;
+$buttonDisable: #a0e0df;
+$bordrColor: #b4b4b46e;
+$Primary: #5ebebb;
+$grey: #bcbcbc;
+$backgroundGrey: #f6f6f6;
+$bordrColor2: #d7d7d7;
+$baemin: #2ac0bc;
+
 .slide {
   position: absolute;
   left: 375px;
@@ -15,4 +27,370 @@
 .slide-out {
   left: 375px;
   transition: left 0.3s ease-out;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  background-color: $headerBackground;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 1rem;
+    height: 1rem;
+    font-weight: bold;
+  }
+
+  h1 {
+    position: relative;
+    top: 0.1rem;
+    left: 39%;
+  }
+}
+
+.large-button {
+  margin-bottom: 1rem;
+
+  &:hover {
+    background-color: $buttonHover;
+  }
+
+  &:focus {
+    background-color: $buttonFocus;
+  }
+
+  &:disabled {
+    background-color: $buttonDisable;
+  }
+
+  background-color: $buttonInitial;
+  width: 100%;
+  font-size: 1rem;
+  padding: 1.1rem 0;
+  color: white;
+  border-radius: 10px;
+}
+
+.medium-button {
+  margin-bottom: 1rem;
+
+  &:hover {
+    background-color: $buttonHover;
+  }
+
+  &:focus {
+    background-color: $buttonFocus;
+  }
+
+  &:disabled {
+    background-color: $buttonDisable;
+  }
+
+  background-color: $buttonInitial;
+  width: 170px;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  color: white;
+  border-radius: 10px;
+}
+
+.text-input {
+  margin-bottom: 1rem;
+  text-align: left;
+
+  label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  input {
+    width: 100%;
+    font-size: 1rem;
+    padding: 1.1rem 0;
+    border-radius: 10px;
+    border: 1px solid $bordrColor;
+    padding: 1rem;
+  }
+}
+
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  background-color: $Primary;
+  border-bottom-left-radius: 1.2rem 1.2rem;
+  border-bottom-right-radius: 1.2rem 1.2rem;
+  padding: 1.1rem;
+  color: #fff;
+
+  img {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .location-div {
+    font-size: 1.1rem;
+    div {
+      margin-left: 0.2rem;
+    }
+  }
+}
+
+.img-box {
+  .border-medium {
+    width: 8rem;
+    height: 8rem;
+    border-radius: 10%;
+    border: 1px solid $bordrColor2;
+    background-color: #f6f6f6;
+  }
+
+  .border-medium2 {
+    //TODO: 얘가 medium이고 원래꺼는 large ㅠㅠ
+    width: 6rem;
+    height: 6rem;
+    border-radius: 10%;
+    border: 1px solid $bordrColor2;
+    background-color: #f6f6f6;
+  }
+
+  .border-small {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 10%;
+    border: 1px solid $bordrColor2;
+    background-color: #f6f6f6;
+  }
+}
+
+.product-list-item {
+  display: flex;
+  padding: 1rem;
+  border-bottom: 1px solid $bordrColor;
+  .img-box {
+    margin-right: 1rem;
+  }
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  .product-top {
+    display: flex;
+    justify-content: space-between;
+  }
+  .product-title-bar {
+    margin-top: 0.3rem;
+    text-align: left;
+    width: 100%;
+    div {
+      margin-bottom: 0.7rem;
+    }
+    .product-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+    .product-location {
+      color: gray;
+    }
+  }
+  .product-favorite {
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+}
+
+.product-status-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+
+  img {
+    width: 1rem;
+    height: 1rem;
+    margin: 0 0.3rem;
+  }
+
+  .flex {
+    align-items: baseline;
+  }
+}
+
+.with-action {
+  justify-content: space-between;
+  h1 {
+    position: inherit;
+  }
+}
+
+.newpost-form {
+  display: flex;
+  flex-direction: column;
+  color: #888888;
+
+  textarea {
+    border: none;
+    margin: 1.5rem 1.5rem 0 1.5rem;
+    padding: 1rem 0;
+  }
+
+  input {
+    &:first-child {
+      border-top: 1px solid $bordrColor2;
+    }
+
+    border-top: 1px solid $bordrColor2;
+
+    border-bottom: 1px solid $bordrColor2;
+    padding: 2rem 0;
+    margin: 0rem 1.5rem;
+  }
+}
+
+.img-picker {
+  margin: 1.5rem 0;
+  img {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.img-list {
+  margin: 0 1.3rem;
+}
+
+.location-bar {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  padding: 0.5rem 1.3rem;
+  border-top: 1px solid $bordrColor2;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  img {
+    width: 1.2rem;
+    height: 1.2rem;
+    padding-right: 0.2rem;
+  }
+  div {
+    padding-top: 0.2rem;
+  }
+}
+
+.fab-button {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  border-radius: 50%;
+  background-color: #2ac1bc;
+  width: 3rem;
+  height: 3rem;
+  img {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.tab-bar {
+  background-color: #f6f6f6;
+  display: flex;
+  justify-content: space-evenly;
+  border-bottom: 1px solid $bordrColor2;
+  .tab-title {
+    padding: 0.7rem 1rem;
+  }
+  .tab-select {
+    border-bottom: 2px solid #2ac1bc;
+    color: #2ac1bc;
+  }
+}
+
+.chat-list-item {
+  display: flex;
+  align-items: center;
+  margin: 0 1.2rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid gray;
+  .chat-div {
+    width: 100%;
+  }
+  .chat-row {
+    padding-right: 1.2rem;
+    padding-top: 0.5rem;
+  }
+  div > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .chat-agoTime {
+    color: #888888;
+  }
+  .chat-preview {
+    color: #888888;
+  }
+  .chat-badge {
+    min-width: 1.3rem;
+    height: 1.3rem;
+    background-color: #219a95;
+    border-radius: 1.3rem;
+    padding: 0.2rem;
+    text-align: center;
+    display: block;
+    line-height: 1.1rem;
+    color: #fff;
+  }
+}
+
+.dropdown {
+  margin-top: 0.5rem;
+  position: absolute;
+  right: 25px;
+  background-color: #f6f6f6;
+  width: 200px;
+  border-radius: 10px;
+
+  & > :first-child {
+    border-bottom: 1px solid $bordrColor;
+  }
+
+  & > * {
+    border-radius: 10px;
+    text-align: left;
+    padding: 20px;
+    width: 200px;
+
+    &:hover {
+      background-color: #7a7a7a;
+    }
+  }
+}
+
+.complete {
+  filter: invert(56%) sepia(100%) saturate(291%) hue-rotate(130deg)
+    brightness(91%) contrast(103%);
+}
+
+.red {
+  color: red;
+}
+
+.none {
+  display: none;
 }
