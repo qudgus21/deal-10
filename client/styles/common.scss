@@ -29,6 +29,10 @@ $baemin: #2ac0bc;
   transition: left 0.3s ease-out;
 }
 
+// .slide-in-none {
+//   left: 0px !important;
+// }
+
 .flex {
   display: flex;
   justify-content: center;
@@ -139,6 +143,13 @@ $baemin: #2ac0bc;
     div {
       margin-left: 0.2rem;
     }
+  }
+
+  .btn1 {
+    color: #000;
+  }
+  .btn2 {
+    color: #000;
   }
 }
 
@@ -358,6 +369,88 @@ $baemin: #2ac0bc;
   }
 }
 
+.chatdetail-product {
+  display: flex;
+  align-items: center;
+  padding: 1.2rem;
+  border-bottom: 1px solid #d7d7d7;
+  .chatdetail-row {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    width: 100%;
+    padding-left: 0.6rem;
+    .chatdetail-price {
+      color: #888888;
+    }
+  }
+  .chatdetail-status {
+    width: 8rem;
+    height: 2.9rem;
+    border: 1px solid #d7d7d7;
+    border-radius: 0.5rem;
+  }
+}
+
+.chatdetail {
+  overflow-y: hidden;
+}
+
+.msg-container {
+  height: 455px;
+  overflow: scroll;
+  overflow-x: hidden;
+  //고쳐야함
+  //TODO: 폰트 크기 변경
+  .msg-left {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .msg-right {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .msg-receive {
+    border: 1px solid #2ac1bc;
+    border-radius: 0px 0.5rem 0.5rem 0.5rem;
+    padding: 0.5rem;
+    margin: 1rem 1rem 0 1rem;
+  }
+
+  .msg-send {
+    background: #2ac1bc;
+    border-radius: 0.5rem 0px 0.5rem 0.5rem;
+    color: #fff;
+    padding: 0.5rem;
+    margin: 1rem 1rem 0 1rem;
+  }
+  .msg-padding {
+    padding: 0.5rem;
+  }
+}
+
+.msg-input-div {
+  background-color: #f6f6f6;
+  border-top: 1px solid #d7d7d7;
+  height: 55px;
+  display: flex;
+  justify-content: space-between;
+
+  input {
+    border: 1px solid #d7d7d7;
+    border-radius: 0.5rem;
+    margin: 0.5rem;
+    width: 100%;
+    padding: 0 0.5rem;
+  }
+  .send-msg-button {
+    margin: 0.5rem 0.7rem 0.5rem 0.2rem;
+    img {
+      width: 1.5rem;
+    }
+  }
+}
+
 .dropdown {
   margin-top: 0.5rem;
   position: absolute;
@@ -477,47 +570,54 @@ $baemin: #2ac0bc;
   }
 }
 
-.location-button {
-  display: flex;
-  border-radius: 0.5rem;
-  width: 9.5rem;
-  height: 2.5rem;
-  background-color: #2ac1bc;
-  align-items: center;
-  color: #ffffff;
-  justify-content: center;
-  .location-name {
-    padding-right: 4rem;
+.location {
+  .location-button {
+    display: flex;
+    border-radius: 0.5rem;
+    width: 9.5rem;
+    height: 2.5rem;
+    background-color: #2ac1bc;
+    align-items: center;
+    color: #ffffff;
+    justify-content: center;
+    .location-name {
+      padding-right: 4rem;
+    }
+    img {
+      width: 1rem;
+    }
   }
-  img {
-    width: 1rem;
+
+  .location-add-button {
+    border-radius: 0.5rem;
+    width: 9.5rem;
+    height: 2.5rem;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 1px solid #2ac1bc;
+    img {
+      width: 1rem;
+    }
+  }
+
+  .location-div {
+    display: flex;
+    justify-content: space-evenly;
+
+    .sub {
+      color: #2ac1bc;
+      background-color: #fff;
+      border: 1px solid #2ac1bc;
+    }
+  }
+
+  .location-notice {
+    color: #828282;
+    padding: 1rem 0;
   }
 }
-
-.location-add-button {
-  border-radius: 0.5rem;
-  width: 9.5rem;
-  height: 2.5rem;
-  background-color: #fff;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  border: 1px solid #2ac1bc;
-  img {
-    width: 1rem;
-  }
-}
-
-.location-div {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.location-notice {
-  color: #828282;
-  padding: 1rem 0;
-}
-
 .location-modal {
   position: absolute;
   left: 0;
