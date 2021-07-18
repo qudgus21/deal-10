@@ -103,13 +103,27 @@ productRouter.post('/detail', (req, res) => {
         });
       });
     } else {
-      console.log(rows);
       res.json({
         status: 'ok',
         data: rows,
       });
     }
   });
+});
+
+productRouter.post('/productDetail', (req, res) => {
+  const params = req.body;
+
+  product
+    .productDetail(params)
+    .then((rows) => {
+      category.getCategorys(params).then((categorys) => {
+        res.json({ status: 'ok', data: { categorys, product: rows } });
+      });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
 });
 
 export default productRouter;

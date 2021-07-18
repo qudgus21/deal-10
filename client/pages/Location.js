@@ -159,6 +159,4 @@ export default function Location(props) {
       }
     }
   };
-
-  this.render();
 }
