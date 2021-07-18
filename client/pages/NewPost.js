@@ -11,6 +11,7 @@ export default function NewPost(props) {
     imgNum: 0, //늘림
     imgCnt: 0,
     selectedCategory: null,
+    product: null,
   };
 
   this.setState = (nextState) => {
@@ -18,9 +19,7 @@ export default function NewPost(props) {
     this.render();
   };
 
-  this.componentDidMount = () => {
-    isLogin();
-
+  this.getUser = () => {
     api.sendPost('/user/getInfo', {}).then((result) => {
       document.querySelector('.app').lastElementChild.remove();
       this.setState({
@@ -33,7 +32,9 @@ export default function NewPost(props) {
           .lastElementChild.classList.add('slide-in');
       }, 50);
     });
+  };
 
+  this.getCategory = () => {
     api.sendPost('/category/getCategorys', {}).then((result) => {
       document.querySelector('.app').lastElementChild.remove();
       this.setState({
@@ -46,6 +47,34 @@ export default function NewPost(props) {
           .lastElementChild.classList.add('slide-in');
       }, 50);
     });
+  };
+
+  this.getProductData = (productIdx) => {
+    api.sendPost('/product/productDetail', { productIdx }).then((result) => {
+      document.querySelector('.app').lastElementChild.remove();
+      this.setState({
+        product: result.data,
+      });
+      setTimeout(() => {
+        document
+          .querySelector('.app')
+          .lastElementChild.classList.add('slide-in');
+      }, 50);
+    });
+  };
+
+  this.componentDidMount = () => {
+    isLogin();
+
+    this.getUser();
+    this.getCategory();
+
+    setTimeout(() => {
+      const lastPath = window.location.pathname.split('/').pop();
+      if (lastPath !== 'newpost') {
+        this.getProductData(lastPath);
+      }
+    }, 0);
   };
 
   this.validationCheck = () => {

@@ -13,7 +13,6 @@ export default function homeHeader(props) {
   };
 
   this.render = () => {
-    console.log(this.state.data);
     let templateLiteral = `
     <div class='home-header'>
       <div class='flex'>

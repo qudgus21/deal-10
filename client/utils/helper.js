@@ -18,6 +18,8 @@ export const getPageName = (path) => {
       return 'categorydetail';
     } else if (paths[0] === 'product') {
       return 'productdetail';
+    } else if (paths[0] === 'newpost') {
+      return 'newpost';
     }
     // return paths.pop();
   }
