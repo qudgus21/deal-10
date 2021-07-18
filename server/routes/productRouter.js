@@ -117,7 +117,9 @@ productRouter.post('/productDetail', (req, res) => {
   product
     .productDetail(params)
     .then((rows) => {
-      res.json({ status: 'ok', data: rows });
+      category.getCategorys(params).then((categorys) => {
+        res.json({ status: 'ok', data: { categorys, product: rows } });
+      });
     })
     .catch(() => {
       res.json({ status: 'error' });

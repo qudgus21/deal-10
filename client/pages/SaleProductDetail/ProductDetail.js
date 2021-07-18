@@ -36,6 +36,7 @@ export default function ProductDetail(props) {
   };
 
   this.modify = () => {
+    this.removeDrops();
     const productIdx = window.location.pathname.split('/').pop();
     slideIn(`newpost/${productIdx}`, false);
   };

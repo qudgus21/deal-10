@@ -53,7 +53,8 @@ export default function NewPost(props) {
     api.sendPost('/product/productDetail', { productIdx }).then((result) => {
       document.querySelector('.app').lastElementChild.remove();
       this.setState({
-        product: result.data,
+        product: result.data.product,
+        categorys: result.data.categorys,
       });
       setTimeout(() => {
         document
@@ -203,13 +204,17 @@ export default function NewPost(props) {
   };
 
   this.render = () => {
+    const { product } = this.state;
+
     let templateLiteral = `
             <div class='newpost slide'>
                 <div class='header-box'></div>
                 <form action='/newpost' method='post' class='newpost-image-form' encType="multipart/form-data">
                 </form>
                 <form action='/newpost' method='post' class='newpost-form'>
-                    <input type='text' class='newpost-input' name='title' placeholder='글 제목'/>
+                    <input type='text' class='newpost-input' name='title' placeholder='글 제목' ${
+                      product ? `value='${product.title}'` : ``
+                    }/>
                     <div class="category-title">(필수)카테고리를 선택해 주세요.</div>
                     <div class="select-category">
                         <ul>
