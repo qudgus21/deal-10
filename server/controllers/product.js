@@ -128,6 +128,31 @@ const product = {
         });
     });
   },
+
+  newpost: (params) => {
+    let sql = `insert into products(userId, title, description, price, imgUrls, category, status) values(${
+      params.userIdx
+    },${params.title},${params.description},${params.price},'${JSON.stringify(
+      params.imgUrls
+    )}',${params.category},'S');`;
+
+    console.log('\n');
+    console.log('\n');
+    console.log(sql);
+    console.log('\n');
+    console.log('\n');
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
 };
 
 export default product;

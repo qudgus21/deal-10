@@ -42,6 +42,20 @@ const category = {
         });
     });
   },
+
+  findIdxbyName: (params) => {
+    let sql = `select * from categories where name='${params.category}'`;
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fileds]) => {
+          return resolve(rows[0].idx.toString());
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
 };
 
 export default category;

@@ -51,10 +51,21 @@ productRouter.post('/products', (req, res) => {
 
 productRouter.post('/newpost', uploadImage, (req, res) => {
   const params = Object.assign({}, req.body);
-  console.log(params);
-  console.log(req.files);
-  res.json({
-    status: 'ok',
+
+  category.findIdxbyName(params).then((categoryIdx) => {
+    let imgUrls = [];
+    req.files.forEach((imgResult) => {
+      imgUrls.push(imgResult.location);
+    });
+    params.category = categoryIdx;
+    params.imgUrls = imgUrls;
+
+    product.newpost(params).then((result) => {
+      res.json({
+        status: 'ok',
+        productIdx: result.insertId,
+      });
+    });
   });
 });
 export default productRouter;
