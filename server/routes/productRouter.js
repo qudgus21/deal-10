@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import product from '../controllers/product.js';
 import category from '../controllers/category.js';
+import like from '../controllers/like.js';
+
 import { uploadImage } from '../middleware.js';
 
 const productRouter = Router();
@@ -68,4 +70,25 @@ productRouter.post('/newpost', uploadImage, (req, res) => {
     });
   });
 });
+
+productRouter.post('/toggleLike', (req, res) => {
+  const params = req.body;
+
+  like.isLike(params).then((rows) => {
+    if (!rows.length) {
+      like.insertLike(params).then((result) => {
+        res.json({
+          status: 'ok',
+        });
+      });
+    } else {
+      like.deleteLike(rows[0]).then((result) => {
+        res.json({
+          status: 'ok',
+        });
+      });
+    }
+  });
+});
+
 export default productRouter;

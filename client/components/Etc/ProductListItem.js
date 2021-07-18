@@ -1,5 +1,6 @@
 import { slideIn } from '../../utils/slide';
 import { selectLatestElement, isLogin } from '../../utils/helper';
+import api from '../../utils/api';
 
 export default function ProductListItem(props) {
   this.state = {
@@ -26,13 +27,17 @@ export default function ProductListItem(props) {
   this.favoriteButtonClickHandler = (e) => {
     let img = e.currentTarget;
 
-    if (Array.from(img.classList).includes('checked')) {
-      img.classList.remove('checked');
-      img.src = '../images/dev/favorite_border.svg';
-    } else {
-      img.classList.add('checked');
-      img.src = '../images/dev/favorite.svg';
-    }
+    api
+      .sendPost('/product/toggleLike', { productIdx: props.product.idx })
+      .then((result) => {
+        if (Array.from(img.classList).includes('checked')) {
+          img.classList.remove('checked');
+          img.src = '../images/dev/favorite_border.svg';
+        } else {
+          img.classList.add('checked');
+          img.src = '../images/dev/favorite.svg';
+        }
+      });
   };
 
   this.render = () => {
@@ -55,7 +60,12 @@ export default function ProductListItem(props) {
               isLogin()
                 ? `
           <div class='product-favorite'>
-          <img class='product-favorite-img' src='../images/dev/favorite_border.svg'>
+          ${
+            product.isLike === 'N'
+              ? `<img class='product-favorite-img' src='../images/dev/favorite_border.svg'>
+          `
+              : `<img class='product-favorite-img checked' src="../images/dev/favorite.svg"/>`
+          } 
             </div>
               `
                 : ``
