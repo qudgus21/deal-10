@@ -27,6 +27,27 @@ const api = {
         })
     );
   },
+
+  sendProduct(url, formData) {
+    url = apiHost + url;
+    let userIdx = getCookie('userIdx');
+    if (userIdx) formData.append('userIdx', userIdx);
+    return new Promise((resolve, reject) =>
+      fetch(url, {
+        method: 'post',
+        body: formData,
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (json) {
+          return resolve(json);
+        })
+        .catch(function (error) {
+          return reject(error);
+        })
+    );
+  },
 };
 
 export default api;

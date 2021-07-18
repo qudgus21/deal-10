@@ -1,5 +1,5 @@
 import { slideIn } from '../../utils/slide';
-import { selectLatestElement } from '../../utils/helper';
+import { selectLatestElement, isLogin } from '../../utils/helper';
 
 export default function ProductListItem(props) {
   this.state = {
@@ -12,13 +12,27 @@ export default function ProductListItem(props) {
   };
 
   this.productClickHandler = (e) => {
-    const $favorite = document.querySelector('.product-favorite img');
-    if (e.target === $favorite) return;
+    if (
+      Array.from(e.target.classList).includes('product-favorite') ||
+      Array.from(e.target.classList).includes('product-favorite-img')
+    ) {
+      return;
+    }
+
     const productIdx = e.currentTarget.classList[1].split('-').pop();
-
-    //window.location.pathname 후 slidein의 세번째 인자로 사용하는 방법
-
     slideIn(`product/${productIdx}`, false);
+  };
+
+  this.favoriteButtonClickHandler = (e) => {
+    let img = e.currentTarget;
+
+    if (Array.from(img.classList).includes('checked')) {
+      img.classList.remove('checked');
+      img.src = '../images/dev/favorite_border.svg';
+    } else {
+      img.classList.add('checked');
+      img.src = '../images/dev/favorite.svg';
+    }
   };
 
   this.render = () => {
@@ -26,18 +40,26 @@ export default function ProductListItem(props) {
     let templateLiteral = `
     <div class='product-list-item p-${product.idx}'>
       <div class='img-box'>
-        <img class='border-medium' src='../images/dev/${product.imgUrls[0]}.svg'>
+        <img class='border-medium' src='${product.imgUrls[0]}'>
       </div>
       <div class='product-info'>
       <div class='product-top'>
         <div class='product-title-bar'>
           <div class='product-title'>${product.title}</div>
-          <div class='product-location'>${product.location[0]}·${product.agoTime}</div>
-          <div class='product-price'>${product.price}원</div>
-        </div>
-        <div class='product-favorite'>
-          <img src='../images/dev/favorite_border.svg'>
-        </div>
+          <div class='product-location'>${product.location[0]}·${
+      product.agoTime
+    }</div>
+              <div class='product-price'>${product.price}원</div>
+            </div>
+            ${
+              isLogin()
+                ? `
+          <div class='product-favorite'>
+          <img class='product-favorite-img' src='../images/dev/favorite_border.svg'>
+            </div>
+              `
+                : ``
+            }
         </div>
         <div class='product-status-bar'>
           <div class='product-chats flex'>
@@ -54,8 +76,21 @@ export default function ProductListItem(props) {
     `;
 
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
-    const $product = selectLatestElement(props.parent, '.product-list-item');
+
+    // const $product = selectLatestElement(props.parent, '.product-list-item');
+
+    const $product = document.querySelector(
+      `.product-list-item.p-${product.idx}`
+    );
+
     $product.addEventListener('click', this.productClickHandler);
+
+    if (isLogin()) {
+      const $favorite = document.querySelector(
+        `.product-list-item.p-${product.idx} .product-favorite img`
+      );
+      $favorite.addEventListener('click', this.favoriteButtonClickHandler);
+    }
   };
 
   this.render();

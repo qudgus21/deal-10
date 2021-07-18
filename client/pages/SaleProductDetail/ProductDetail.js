@@ -3,6 +3,7 @@ import Dropdown from '../../components/Etc/Dropdown';
 import { saleConstant } from '../../utils/constant';
 import Button from '../../components/Button/Button';
 import api from '../../utils/api';
+import Carousel from '../../components/Etc/Carousel';
 
 export default function ProductDetail(props) {
   this.state = {
@@ -15,7 +16,6 @@ export default function ProductDetail(props) {
     //   document.querySelector('.app').lastElementChild.remove();
     // }, 100);
     this.state = nextState;
-
     this.render();
     // setTimeout(() => {
     //   document.querySelector('.app').lastElementChild.classList.add('slide-in');
@@ -104,7 +104,6 @@ export default function ProductDetail(props) {
     const { product, saleStatus } = this.state;
 
     let templateLiteral = `
-
             <div class="productdetail slide">
                 <div class="header-box">
                     <div>
@@ -120,7 +119,6 @@ export default function ProductDetail(props) {
                     }
                 </div>
                 <div class="product-img">
-                  <img src='https://photo.coolenjoy.net/bbs/data/26/SN020.JPG'/>
                 </div>
                 <div class="content">
                     ${
@@ -207,7 +205,7 @@ export default function ProductDetail(props) {
     const $currentButton = document.querySelector(
       '.productdetail .current-status'
     );
-
+    ``;
     if ($currentButton !== null) {
       document
         .querySelector('.productdetail .current-status')
@@ -218,6 +216,11 @@ export default function ProductDetail(props) {
           });
         });
     }
+
+    new Carousel({
+      parent: document.querySelector('.product-img'),
+      imgUrls: product.imgUrls,
+    });
 
     new Button({
       cls: `medium-button`,

@@ -9,13 +9,13 @@ export default function WithAction(props) {
   };
 
   this.render = () => {
-    const { content, parent, eventHandler } = props;
+    const { content, parent, src1, src2, eventHandler1, eventHandler2 } = props;
 
     const templateLiteral = `
     <div class='header with-action'>
-      <img class='back-button' src='../../images/dev/arrow_back.svg'/>
+      <img class='back-button' src='../../images/dev/${src1}.svg'/>
       <h1>${content}</h1>
-      <img class='done-button' src='../../images/dev/done.svg'/>
+      <img class='done-button' src='../../images/dev/${src2}.svg'/>
     </div>
         `;
 
@@ -24,10 +24,8 @@ export default function WithAction(props) {
     const $backBtn = selectLatestElement(parent, '.back-button');
     const $doneBtn = selectLatestElement(parent, '.done-button');
 
-    $backBtn.addEventListener('click', eventHandler);
-    $doneBtn.addEventListener('click', () => {
-      document.forms[0].submit();
-    });
+    $backBtn.addEventListener('click', eventHandler1);
+    $doneBtn.addEventListener('click', eventHandler2);
   };
 
   this.render();

@@ -117,7 +117,25 @@ const product = {
         order by p.updateDate desc
   `;
 
-    console.log(sql);
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  newpost: (params) => {
+    let sql = `insert into products(userId, title, description, price, imgUrls, category, status) values(${
+      params.userIdx
+    },'${params.title}','${params.description}',${
+      params.price
+    },'${JSON.stringify(params.imgUrls)}',${params.category},'S');`;
+
     return new Promise((resolve, reject) => {
       db.promise()
         .query(sql)

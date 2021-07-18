@@ -42,7 +42,9 @@ export default function MyAccount(props) {
           if (result.status === 'ok') {
             setCookie('user', 'none', 0);
             setCookie('userIdx', 'none', 0);
-            slideOut('/', false);
+            alert('로그아웃 성고');
+            window.location.href = '/';
+            // slideOut('/', false);
           }
         });
       },

@@ -1,4 +1,5 @@
 import ProductDetail from '../pages/SaleProductDetail/ProductDetail';
+import { slideOut } from './slide';
 
 export const selectLatestElement = (parent, cls) => {
   return Array.from(parent.querySelectorAll(cls)).pop();
@@ -42,5 +43,13 @@ export const getCookie = (cookie_name) => {
     if (x == cookie_name) {
       return unescape(y);
     }
+  }
+};
+
+export const isLogin = () => {
+  if (!getCookie('user')) {
+    return false;
+  } else {
+    return true;
   }
 };
