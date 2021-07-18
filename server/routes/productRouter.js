@@ -91,4 +91,25 @@ productRouter.post('/toggleLike', (req, res) => {
   });
 });
 
+productRouter.post('/detail', (req, res) => {
+  const params = req.body;
+
+  product.productDetail(params).then((rows) => {
+    if (params.userIdx) {
+      product.userIncludeDetail(params).then((user) => {
+        res.json({
+          status: 'ok',
+          data: Object.assign(rows, user),
+        });
+      });
+    } else {
+      console.log(rows);
+      res.json({
+        status: 'ok',
+        data: rows,
+      });
+    }
+  });
+});
+
 export default productRouter;
