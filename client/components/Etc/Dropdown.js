@@ -22,7 +22,6 @@ export default function Dropdown(props) {
     const $btn2 = parent.querySelector('.btn2');
 
     $btn1.addEventListener('click', data[0].eventHandler);
-
     $btn2.addEventListener('click', data[1].eventHandler);
 
     if ($btn2.textContent === '삭제하기') $btn2.classList.add('red');
