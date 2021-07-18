@@ -22,44 +22,51 @@ export default function ProductDetail(props) {
     // }, 50);
   };
 
-  setTimeout(() => {
-    const product = window.location.pathname.split('/').pop();
-    this.setState({
-      product: {
-        isSaler: 5,
-        isLike: 'N',
-        salerId: 'qudgus21',
-        location: '역삼동',
-        chattCnt: 10,
-        likeCnt: '5',
-        viewCnt: '12',
-        title: '테스트 제목',
-        description:
-          '설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명',
-        price: '10,000원',
-        category: '기타 중고물품',
-        imgUrls: [
-          'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
-          'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
-          'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
-          'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
-          'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
-        ],
-        status: 'S',
-        updateDate: '2시간 전',
-      },
-      saleStatus: 'S',
-    });
-    // api
-    //   .sendPost('/product/categoryProducts', { categoryIdx: category })
-    //   .then((result) => {
-    //     this.setState({
-    //       ...this.state,
-    //       products: result.data.products,
-    //       category: result.data.category,
-    //     });
-    //   });
-  }, 0);
+  this.componentDidMount = () => {
+    setTimeout(() => {
+      const productIdx = window.location.pathname.split('/').pop();
+
+      api.sendPost('/product/detail', { productIdx }).then((result) => {
+        console.log(result);
+      });
+
+      this.setState({
+        product: {
+          isSaler: 5, //따로호출
+          isLike: 'N', //따로호출
+          salerId: 'qudgus21',
+          location: '역삼동',
+          chattCnt: 10,
+          likeCnt: '5',
+          viewCnt: '12',
+          title: '테스트 제목',
+          description:
+            '설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명',
+          price: '10,000원',
+          category: '기타 중고물품',
+          imgUrls: [
+            'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
+            'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
+            'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
+            'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
+            'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
+          ],
+          status: 'S',
+          updateDate: '2시간 전',
+        },
+        saleStatus: 'S',
+      });
+      // api
+      //   .sendPost('/product/categoryProducts', { categoryIdx: category })
+      //   .then((result) => {
+      //     this.setState({
+      //       ...this.state,
+      //       products: result.data.products,
+      //       category: result.data.category,
+      //     });
+      //   });
+    }, 0);
+  };
 
   this.modify = () => {
     slideIn('newpost', false);
@@ -235,4 +242,6 @@ export default function ProductDetail(props) {
       eventHandler: (e) => {},
     });
   };
+
+  this.componentDidMount();
 }
