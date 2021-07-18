@@ -41,7 +41,7 @@ export default function ProductListItem(props) {
   };
 
   this.render = () => {
-    const { product } = props;
+    const { product, parent } = props;
     let templateLiteral = `
     <div class='product-list-item p-${product.idx}'>
       <div class='img-box'>
@@ -89,16 +89,17 @@ export default function ProductListItem(props) {
 
     // const $product = selectLatestElement(props.parent, '.product-list-item');
 
-    const $product = document.querySelector(
+    const $product = parent.querySelector(
       `.product-list-item.p-${product.idx}`
     );
 
     $product.addEventListener('click', this.productClickHandler);
 
     if (isLogin()) {
-      const $favorite = document.querySelector(
+      const $favorite = parent.querySelector(
         `.product-list-item.p-${product.idx} .product-favorite img`
       );
+
       $favorite.addEventListener('click', this.favoriteButtonClickHandler);
     }
   };
