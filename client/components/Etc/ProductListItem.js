@@ -26,7 +26,7 @@ export default function ProductListItem(props) {
     let templateLiteral = `
     <div class='product-list-item p-${product.idx}'>
       <div class='img-box'>
-        <img class='border-medium' src='../images/dev/${product.imgUrls[0]}.svg'>
+        <img class='border-medium' src='${product.imgUrls[0]}'>
       </div>
       <div class='product-info'>
       <div class='product-top'>
