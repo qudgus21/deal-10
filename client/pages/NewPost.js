@@ -110,6 +110,7 @@ export default function NewPost(props) {
           alert('상품이 등록되었습니다');
           window.location.href = '/';
           // slideOut('/', false);
+          //이부분
           return;
         }
       });
