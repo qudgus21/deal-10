@@ -56,7 +56,6 @@ export default function Home(props) {
     });
 
     document.querySelector('.home').addEventListener('click', (e) => {
-      console.log(e.target);
       if (!e.target.classList.contains('dropdown')) {
         if (document.querySelector('.dropdown') != null) {
           document.querySelector('.dropdown').remove();

@@ -50,7 +50,6 @@ const user = {
     let sql = `update users set location = '${JSON.stringify(
       params.location
     )}' where idx='${params.userIdx}'`;
-    console.log(sql);
     return new Promise((resolve, reject) => {
       db.promise()
         .query(sql)

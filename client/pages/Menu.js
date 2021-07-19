@@ -1,7 +1,8 @@
-import ProductListItem from '../components/Etc/ProductListItem';
 import WithoutAction from '../components/Header/WithoutAction';
-import api from '../utils/api';
-import { slideIn, slideOut } from '../utils/slide';
+import { slideOut } from '../utils/slide';
+import SaleList from '../components/Menu/SaleList';
+import LikeList from '../components/Menu/LikeList';
+import ChatList from '../components/Menu/ChatList';
 
 export default function Menu(props) {
   this.state = {
@@ -32,8 +33,7 @@ export default function Menu(props) {
                     <div class='tab-title chat-list'>채팅</div>
                     <div class='tab-title fav-list'>관심목록</div>
                 </div>
-                <div class='menu-container'>
-                </div>
+                <div class='menu-container'></div>
             </div>
         `;
 
@@ -47,24 +47,21 @@ export default function Menu(props) {
       },
     });
 
+    new SaleList({
+      parent: document.querySelector('.menu .menu-container'),
+    });
+
     const $saleList = document.querySelector('.sale-list');
     const $chatList = document.querySelector('.chat-list');
     const $favList = document.querySelector('.fav-list');
 
     $saleList.addEventListener('click', () => {
-      document.querySelector('.menu-container').innerHTML = '';
       $saleList.classList.add('tab-select');
       $chatList.classList.remove('tab-select');
       $favList.classList.remove('tab-select');
-
-      //   api.sendPost('/product/products', { userIdx: 1 }).then((result) => {
-      //     result.data.forEach((data) => {
-      //       new ProductListItem({
-      //         parent: document.querySelector('menu-container'),
-      //         data: data,
-      //       });
-      //     });
-      //   });
+      new SaleList({
+        parent: document.querySelector('.menu .menu-container'),
+      });
     });
 
     $chatList.addEventListener('click', () => {
@@ -72,7 +69,9 @@ export default function Menu(props) {
       $saleList.classList.remove('tab-select');
       $chatList.classList.add('tab-select');
       $favList.classList.remove('tab-select');
-
+      new ChatList({
+        parent: document.querySelector('.menu .menu-container'),
+      });
       //   api.sendPost('/chatting/chattings', { userIdx: 1 }).then((result) => {
       //     result.data.forEach((data) => {
       //         new ChatListItem({
@@ -88,7 +87,9 @@ export default function Menu(props) {
       $saleList.classList.remove('tab-select');
       $chatList.classList.remove('tab-select');
       $favList.classList.add('tab-select');
-
+      new LikeList({
+        parent: document.querySelector('.menu .menu-container'),
+      });
       //   api.sendPost('/product/likes', { userIdx: 1 }).then((result) => {
       //     result.data.forEach((data) => {
       //         new ProductListItem({
