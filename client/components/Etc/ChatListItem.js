@@ -1,10 +1,7 @@
 import { selectLatestElement } from '../../utils/helper';
-import { slideIn } from '../../utils/slide';
 
 export default function ChatListItem(props) {
-  this.state = {
-    data: null,
-  };
+  this.state = {};
 
   this.setState = (nextState) => {
     this.state = nextState;
@@ -21,10 +18,10 @@ export default function ChatListItem(props) {
       unreadCnt,
       imgUrls,
       updatetime,
-    } = this.state.data;
+    } = props.chat;
 
     let templateLiteral = `
-        <div class='chat-list-item'>
+        <div class='chatlist-item'>
             <div class='chat-div'>
                 <div class='chat-row'>
                     <div class='chat-id'>${opponent.userName}</div>
@@ -44,14 +41,10 @@ export default function ChatListItem(props) {
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
 
     const $chatListItem = selectLatestElement(
-      document.querySelector('.chat-list-item'),
-      '.chat-div'
+      document.querySelector('.chatlist-container'),
+      '.chatlist-item'
     );
-    $chatListItem.addEventListener('click', () => {
-      // product/${productId}/chatting/${chatting-contentsId}
-      // product id랑 chattingcontentsid도 받아야할듯
-      slideIn(`/product/${productId}/chatting/${chattingId}`, false);
-    });
+    $chatListItem.addEventListener('click', props.eventHandler);
   };
 
   this.render();
