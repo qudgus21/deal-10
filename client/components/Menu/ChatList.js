@@ -1,35 +1,44 @@
-import { slideIn } from '../../utils/slide';
-import { isLogin } from '../../utils/helper';
 import api from '../../utils/api';
+import ChatListItem from '../Etc/ChatListItem';
 
 export default function ChatList(props) {
-  this.state = {};
+  this.state = {
+    chats: null,
+  };
 
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
   };
 
+  this.componentDidMount = () => {
+    api.sendPost('/chat/listAll').then((result) => {
+      this.setState({
+        chats: result.data,
+      });
+    });
+  };
+
   this.render = () => {
     const { parent } = props;
+    const { chats } = this.state;
 
     const templateLiteral = `
       <div class='chatlist'>
-       채팅목록
       </div>
     `;
 
     parent.innerHTML = templateLiteral;
+    chats
+      ? chats.forEach((chat) => {
+          new ChatListItem({
+            parent: parent.querySelector('.chatlist'),
+            chat: chat,
+          });
+        })
+      : null;
   };
 
+  this.componentDidMount();
   this.render();
 }
-
-//   api.sendPost('/product/products', { userIdx: 1 }).then((result) => {
-//     result.data.forEach((data) => {
-//       new ProductListItem({
-//         parent: document.querySelector('menu-container'),
-//         data: data,
-//       });
-//     });
-//   });
