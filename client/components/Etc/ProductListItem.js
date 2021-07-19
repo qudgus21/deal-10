@@ -55,13 +55,17 @@ export default function ProductListItem(props) {
   };
 
   this.menuProductHandler = (e) => {
-    this.removeDrops();
-    const productIdx = e.target.classList[1].split('-').pop();
-    new Dropdown({
-      parent: e.target.parentNode,
-      data: this.makeHeaderDropdownData(),
-      cls: `status-dropdown status-${productIdx}`,
-    });
+    if (e.target.nextElementSibling) {
+      e.target.nextElementSibling.remove();
+    } else {
+      this.removeDrops();
+      const productIdx = e.target.classList[1].split('-').pop();
+      new Dropdown({
+        parent: e.target.parentNode,
+        data: this.makeHeaderDropdownData(),
+        cls: `status-dropdown status-${productIdx}`,
+      });
+    }
   };
 
   this.modify = (e) => {

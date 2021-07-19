@@ -1,6 +1,5 @@
-import { slideIn } from '../../utils/slide';
-import { isLogin } from '../../utils/helper';
 import api from '../../utils/api';
+import ProductListItem from '../Etc/ProductListItem';
 
 export default function LikeList(props) {
   this.state = {};
@@ -10,26 +9,42 @@ export default function LikeList(props) {
     this.render();
   };
 
+  this.sortMyProduct = (products) => {
+    const result = products.filter((product) => {
+      return product.isLike === 'Y';
+    });
+    return result;
+  };
+
+  this.componentDidMount = () => {
+    api.sendPost('/product/products').then((result) => {
+      this.setState({
+        ...this.state,
+        products: this.sortMyProduct(result.data),
+      });
+    });
+  };
+
   this.render = () => {
     const { parent } = props;
+    const { products } = this.state;
 
     const templateLiteral = `
-      <div class='likelist'>
-        좋아요목록
-      </div>
+      <div class='likelist'></div>
     `;
 
     parent.innerHTML = templateLiteral;
+
+    products
+      ? products.forEach((product) => {
+          new ProductListItem({
+            parent: parent.querySelector('.likelist'),
+            product: product,
+          });
+        })
+      : null;
   };
 
+  this.componentDidMount();
   this.render();
 }
-
-//   api.sendPost('/product/products', { userIdx: 1 }).then((result) => {
-//     result.data.forEach((data) => {
-//       new ProductListItem({
-//         parent: document.querySelector('menu-container'),
-//         data: data,
-//       });
-//     });
-//   });
