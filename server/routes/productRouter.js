@@ -26,9 +26,13 @@ productRouter.post('/categoryProducts', (req, res) => {
     .categoryProducts(params)
     .then((rows) => {
       category.info(params).then((category) => {
+        let filtered = rows.filter((row) => {
+          return row.status !== 'C';
+        });
+
         res.json({
           status: 'ok',
-          data: { category: category[0], products: rows },
+          data: { category: category[0], products: filtered },
         });
       });
     })
@@ -39,6 +43,8 @@ productRouter.post('/categoryProducts', (req, res) => {
 
 productRouter.post('/products', (req, res) => {
   const params = req.body;
+
+  console.log(params.isSale);
   product
     .products(params)
     .then((rows) => {

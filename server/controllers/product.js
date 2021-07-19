@@ -28,7 +28,7 @@ const product = {
       WHEN TIMESTAMPDIFF(HOUR , p.updateDate,NOW()  ) < 24 THEN concat(TIMESTAMPDIFF(HOUR, p.updateDate, NOW()), '시간 전')
       WHEN TIMESTAMPDIFF(DAY , p.updateDate,NOW()  ) < 30 THEN concat(TIMESTAMPDIFF(DAY, p.updateDate, NOW()), '일 전')
       WHEN TIMESTAMPDIFF(MONTH , p.updateDate,NOW()  ) < 12 THEN concat(TIMESTAMPDIFF(MONTH, p.updateDate, NOW()), '달 전')
-      ELSE concat(TIMESTAMPDIFF(YEAR , p.updateDate, NOW()), '년 전') END as agoTime
+      ELSE concat(TIMESTAMPDIFF(YEAR , p.updateDate, NOW()), '년 전') END as agoTime , status
       from products p
       left join (
       select products.idx as idx, count(products.idx) as likeCnt
@@ -114,6 +114,7 @@ const product = {
         group by (products.idx)
         ) c on c.idx = p.idx
         left join users u on p.userId = u.idx
+        ${params.isSale ? `` : `where p.status = 'S' or p.status = 'R'`}
         order by p.updateDate desc
   `;
 
