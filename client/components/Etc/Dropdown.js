@@ -1,8 +1,6 @@
-import { selectLatestElement } from '../../utils/helper';
-
 export default function Dropdown(props) {
   this.render = () => {
-    const { data, parent } = props;
+    const { data, parent, cls } = props;
     //props.data는 다음과 같은 형태로 전달
     // [
     //     { text: '수정하기', eventHandler1: this.modify },
@@ -10,9 +8,9 @@ export default function Dropdown(props) {
     //   ];
 
     let templateLiteral = `
-            <div class="dropdown">
-                <div class="btn1">${data[0].text}</div>
-                <div class="btn2">${data[1].text}</div>
+            <div class="dropdown ${cls}">
+                <div class="btn1 drop-btn">${data[0].text}</div>
+                <div class="btn2 drop-btn">${data[1].text}</div>
             </div>
         `;
 

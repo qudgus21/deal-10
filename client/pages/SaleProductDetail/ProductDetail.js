@@ -27,54 +27,21 @@ export default function ProductDetail(props) {
       const productIdx = window.location.pathname.split('/').pop();
 
       api.sendPost('/product/detail', { productIdx }).then((result) => {
-        console.log(result);
+        this.setState({
+          product: result.data,
+          saleStatus: result.data.status,
+        });
       });
-
-      this.setState({
-        product: {
-          isSaler: 5, //따로호출
-          isLike: 'N', //따로호출
-          salerId: 'qudgus21',
-          location: '역삼동',
-          chattCnt: 10,
-          likeCnt: '5',
-          viewCnt: '12',
-          title: '테스트 제목',
-          description:
-            '설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명설명 설명 설명',
-          price: '10,000원',
-          category: '기타 중고물품',
-          imgUrls: [
-            'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
-            'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
-            'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
-            'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
-            'https://photo.coolenjoy.net/bbs/data/26/SN020.JPG',
-          ],
-          status: 'S',
-          updateDate: '2시간 전',
-        },
-        saleStatus: 'S',
-      });
-      // api
-      //   .sendPost('/product/categoryProducts', { categoryIdx: category })
-      //   .then((result) => {
-      //     this.setState({
-      //       ...this.state,
-      //       products: result.data.products,
-      //       category: result.data.category,
-      //     });
-      //   });
     }, 0);
   };
 
   this.modify = () => {
-    slideIn('newpost', false);
+    this.removeDrops();
+    const productIdx = window.location.pathname.split('/').pop();
+    slideIn(`newpost/${productIdx}`, false);
   };
 
   this.delete = () => {
-    //api 보내고
-    //이부분도 뒤로가기 생각해 보아야 함
     slideIn('/', false);
   };
 
@@ -107,6 +74,57 @@ export default function ProductDetail(props) {
     return data;
   };
 
+  this.removeDrops = () => {
+    const $drops = document.querySelectorAll('.productdetail .dropdown');
+    if ($drops.length) {
+      $drops.forEach((drop) => {
+        drop.remove();
+      });
+    }
+  };
+
+  this.handleFocusout = (e) => {
+    const targetClass = Array.from(e.target.classList);
+
+    if (
+      !targetClass.includes('drop-btn') &&
+      !targetClass.includes('more-button') &&
+      !targetClass.includes('current-message') &&
+      !targetClass.includes('current-image') &&
+      !targetClass.includes('current-status')
+    ) {
+      this.removeDrops();
+    }
+  };
+
+  this.statusHandler = (e) => {
+    const $dropdown = document.querySelector('.productdetail .status-dropdown');
+    if ($dropdown) {
+      $dropdown.remove();
+    } else {
+      this.removeDrops();
+      new Dropdown({
+        parent: document.querySelector('.productdetail .current-status'),
+        data: this.makeStatusDropdownData(),
+        cls: 'status-dropdown',
+      });
+    }
+  };
+
+  this.headerHandler = (e) => {
+    const $dropdown = document.querySelector('.productdetail .header-dropdown');
+    if ($dropdown) {
+      $dropdown.remove();
+    } else {
+      this.removeDrops();
+      new Dropdown({
+        parent: document.querySelector('.productdetail .dropdown-button'),
+        data: this.makeHeaderDropdownData(),
+        cls: 'header-dropdown',
+      });
+    }
+  };
+
   this.render = () => {
     const { product, saleStatus } = this.state;
 
@@ -117,7 +135,7 @@ export default function ProductDetail(props) {
                     <img class='back-button' src='../../images/dev/arrow_back.svg'/>
                     </div>
                     ${
-                      product.isSaler > 0
+                      product.isSaler === 'Y'
                         ? `
                         <div class="dropdown-button">
                           <img class='more-button' src='../../images/dev/more_vert.svg'/>
@@ -126,15 +144,16 @@ export default function ProductDetail(props) {
                     }
                 </div>
                 <div class="product-img">
+                  <img src="${product.imgUrls[0]}"/>
                 </div>
                 <div class="content">
                     ${
-                      product.isSaler > 0
+                      product.isSaler === 'Y'
                         ? `
                      <div class="status-box">   
                       <button class="current-status">
-                          <div>${saleConstant[saleStatus]}</div>
-                          <img src='../../images/dev/expand_more.svg'/>
+                          <div class="current-message">${saleConstant[saleStatus]}</div>
+                          <img class="current-image" src='../../images/dev/expand_more.svg'/>
                       </button>
                     </div>
                     <div class="status-select">
@@ -148,11 +167,11 @@ export default function ProductDetail(props) {
                     <div class="category">
                       ${product.category} · ${product.updateDate}
                     </div>
-                    <div>
+                    <div class="description">
                       ${product.description}
                     </div>
                     <div class="info">
-                    채팅 ${Number(product.chattCnt)} · 관심 ${
+                    채팅 ${Number(product.chatCnt)} · 관심 ${
       product.likeCnt
     } · 조회 ${product.viewCnt}
                     </div>
@@ -160,9 +179,9 @@ export default function ProductDetail(props) {
                       <div >판매자 정보</div>
                       <div>
                           <span>${
-                            product.salerId
+                            product.userId
                           }</span><span class="location">${
-      product.location
+      product.location[0]
     }</span>
                       </div>
                     </div>
@@ -201,12 +220,7 @@ export default function ProductDetail(props) {
     if ($moreButton !== null) {
       document
         .querySelector('.productdetail .more-button')
-        .addEventListener('click', () => {
-          new Dropdown({
-            parent: document.querySelector('.productdetail .dropdown-button'),
-            data: this.makeHeaderDropdownData(),
-          });
-        });
+        .addEventListener('click', this.headerHandler);
     }
 
     const $currentButton = document.querySelector(
@@ -216,24 +230,19 @@ export default function ProductDetail(props) {
     if ($currentButton !== null) {
       document
         .querySelector('.productdetail .current-status')
-        .addEventListener('click', () => {
-          new Dropdown({
-            parent: document.querySelector('.productdetail .current-status'),
-            data: this.makeStatusDropdownData(),
-          });
-        });
+        .addEventListener('click', this.statusHandler);
     }
 
-    new Carousel({
-      parent: document.querySelector('.product-img'),
-      imgUrls: product.imgUrls,
-    });
+    // new Carousel({
+    //   parent: document.querySelector('.product-img'),
+    //   imgUrls: product.imgUrls,
+    // });
 
     new Button({
       cls: `medium-button`,
       parent: document.querySelector('.productdetail .footer .btn-box'),
       content: `${
-        product.isSaler > 0
+        product.isSaler === 'Y'
           ? `채팅 목록 보기${
               product.chattCnt > 0 ? `(${product.chattCnt})` : ``
             }`
@@ -241,6 +250,10 @@ export default function ProductDetail(props) {
       }`,
       eventHandler: (e) => {},
     });
+
+    document
+      .querySelector('.productdetail')
+      .addEventListener('click', this.handleFocusout);
   };
 
   this.componentDidMount();
