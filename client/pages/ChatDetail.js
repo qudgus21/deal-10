@@ -1,44 +1,87 @@
-import api from '../utils/api';
 import WithAction from '../components/Header/withAction';
 import { slideOut } from '../utils/slide';
+import { saleConstant } from '../utils/constant';
+import api from '../utils/api';
 
 export default function ChatDetail(props) {
   this.state = {
-    data: null,
-    chat: null,
+    chatContents: [],
+    product: {},
+    user: {},
+    isFirst: true,
   };
+
+  setTimeout(() => {
+    const productId = window.location.pathname.split('/')[2];
+    console.log(productId);
+    api
+      .sendPost('/product/detail', {
+        productIdx: productId,
+      })
+      .then((result) => {
+        api
+          .sendPost('/user/getInfo', {
+            userIdx: result.data.userIdx,
+          })
+          .then((result2) => {
+            this.setState({
+              ...this.state,
+              product: result.data,
+              user: result2.data,
+              isFirst: true,
+            });
+          });
+      });
+  }, 0);
 
   this.setState = (nextState) => {
+    const $app = document.querySelector('.app');
+    if (!$app.lastElementChild.classList.contains('chatlist'))
+      document.querySelector('.app').lastElementChild.remove();
     this.state = nextState;
     this.render();
+    if (this.state.isFirst == true) {
+      setTimeout(() => {
+        document
+          .querySelector('.app')
+          .lastElementChild.classList.add('slide-in');
+      }, 50);
+    } else {
+      document.querySelector('.chatdetail').style.left = '0px';
+      document.querySelector('.chatdetail').style.top = '0px';
+    }
   };
 
-  //   api.sendPost('/chatting/chattingDetail 주소 나중에 정하기', {}).then((result) => {
-  //     this.setState({
-  //       chat: chat.data, append하면되는데 전부 읽어오면 좀 손해인듯 생각ㄲ 걍 다가져오는게 낫나?
-  //     });
-  //   });
+  // TODO: 채팅방 입장시 해당 방 메시지 싹다 read로 바꾸기
+  // 메시지 fetch 방식에 따라 렌더 고쳐야할듯
 
   this.render = () => {
-    // const { chat } = this.state.data;
     let templateLiteral = `
             <div class='chatdetail slide'>
                 <div class='header-box'></div>
                 <div class='chatdetail-product'>
                     <div class='img-box'>
-                        <img class='border-small' src='https://evan-moon.github.io/static/0a02b37a5a8be4d9a803999dc5586f67/14b42/thumbnail.jpg'>
+                        <img class='border-small' src='${
+                          this.state.product.imgUrls[0]
+                        }'>
                     </div>
                     <div class='chatdetail-row'>
-                        <div class='chatdetail-title'>빈티지 롤러 스케이트</div>
-                        <div class='chatdetail-price'>160,000원</div>
+                        <div class='chatdetail-title'>${
+                          this.state.product.title
+                        }</div>
+                        <div class='chatdetail-price'>${
+                          this.state.product.price
+                        }</div>
                     </div>
-                    <div class='chatdetail-status flex'>판매중</div>
+                    <div class='chatdetail-status flex'>${
+                      saleConstant[this.state.product.status]
+                    }</div>
                 </div>
                 <div class='msg-container'></div>
                 <div class='msg-input-div'>
                     <input type='text' name='msg' placeholder='메시지를 입력하세요.'>
                     <button class='send-msg-button'>
-                        <img src='../images/dev/send.svg'>
+                        <img src='../../../images/dev/send.svg'>
                     </button>
                 </div>
             </div>
@@ -48,30 +91,39 @@ export default function ChatDetail(props) {
 
     new WithAction({
       parent: document.querySelector('.chatdetail .header-box'),
-      content: 'UserE',
-      eventHandler: (e) => {
-        slideOut('/', false);
+      content: this.state.user.id,
+      src1: 'arrow_back',
+      src2: 'exit',
+      eventHandler1: () => {
+        if (this.state.product) {
+          slideOut(`/product/${this.state.product.productIdx}/chatlist`, false);
+        } else {
+          slideOut(`/product/${this.stat.product.productIdx}/chatlist`, false);
+        }
+      },
+      eventHandler2: () => {
+        //TODO: db에서 채팅방 삭제
+        // confirm 팝업 있어야할듯?
       },
     });
-    //TODO: withaction 헤더 아이콘 & 액션이벤트핸들러 파라미터 추가
 
-    let msgReceiveTl = `<div class='msg-left'><div class='msg-receive'>안녕하세요 궁금한게 있는데요</div></div>`;
-    let msgSendTl = `<div class='msg-right'><div class='msg-send'>네 안녕하세요!</div></div>`;
-
-    // 데이터 받아와서 리시브 샌드 Div 추가하기 가장 오래된게 가장 먼저 추가됨 그리고 로드 다하면 바닥 자동 스크롤?
-    // 데이터는 셋인터벌로 가져오나?
-    // 최신부터 가져와서 앞에다 끼우는 거도 괜찮을거같은데 이건 하기 나름인듯 이렇게하면 스크롤 안해도 될듯
     const $msgContainer = document.querySelector('.msg-container');
-    for (let i = 0; i < 50; i++) {
-      $msgContainer.insertAdjacentHTML('afterbegin', msgSendTl);
-      $msgContainer.insertAdjacentHTML('afterbegin', msgReceiveTl);
-    }
+
+    // TODO: 채팅 가져오기
+    // 데이터는 셋인터벌로 가져오나?
+    // this.state.chatContents.forEach((chatContent) => {
+    //   if (chatContent.type == 'S') {
+    //     let msgSendTl = `<div class='msg-right'><div class='msg-send'>${chatContent.content}</div></div>`;
+    //     $msgContainer.insertAdjacentHTML('afterbegin', msgSendTl);
+    //   } else {
+    //     let msgReceiveTl = `<div class='msg-left'><div class='msg-receive'>${chatContent.content}</div></div>`;
+    //     $msgContainer.insertAdjacentHTML('afterbegin', msgReceiveTl);
+    //   }
+    // });
     $msgContainer.insertAdjacentHTML(
       'beforeend',
       `<div class='msg-padding'></div>`
     );
     $msgContainer.scrollTo(0, $msgContainer.scrollHeight);
   };
-
-  this.render();
 }
