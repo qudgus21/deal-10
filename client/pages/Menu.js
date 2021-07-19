@@ -1,6 +1,8 @@
 import WithoutAction from '../components/Header/WithoutAction';
 import { slideOut } from '../utils/slide';
 import SaleList from '../components/Menu/SaleList';
+import LikeList from '../components/Menu/LikeList';
+import ChatList from '../components/Menu/ChatList';
 
 export default function Menu(props) {
   this.state = {
@@ -45,6 +47,10 @@ export default function Menu(props) {
       },
     });
 
+    new SaleList({
+      parent: document.querySelector('.menu .menu-container'),
+    });
+
     const $saleList = document.querySelector('.sale-list');
     const $chatList = document.querySelector('.chat-list');
     const $favList = document.querySelector('.fav-list');
@@ -63,7 +69,9 @@ export default function Menu(props) {
       $saleList.classList.remove('tab-select');
       $chatList.classList.add('tab-select');
       $favList.classList.remove('tab-select');
-
+      new ChatList({
+        parent: document.querySelector('.menu .menu-container'),
+      });
       //   api.sendPost('/chatting/chattings', { userIdx: 1 }).then((result) => {
       //     result.data.forEach((data) => {
       //         new ChatListItem({
@@ -79,7 +87,9 @@ export default function Menu(props) {
       $saleList.classList.remove('tab-select');
       $chatList.classList.remove('tab-select');
       $favList.classList.add('tab-select');
-
+      new LikeList({
+        parent: document.querySelector('.menu .menu-container'),
+      });
       //   api.sendPost('/product/likes', { userIdx: 1 }).then((result) => {
       //     result.data.forEach((data) => {
       //         new ProductListItem({

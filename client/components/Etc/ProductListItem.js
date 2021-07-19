@@ -1,6 +1,7 @@
 import { slideIn } from '../../utils/slide';
 import { selectLatestElement, isLogin } from '../../utils/helper';
 import api from '../../utils/api';
+import Dropdown from '../Etc/Dropdown';
 
 export default function ProductListItem(props) {
   this.state = {
@@ -15,12 +16,16 @@ export default function ProductListItem(props) {
   this.productClickHandler = (e) => {
     if (
       Array.from(e.target.classList).includes('product-favorite') ||
-      Array.from(e.target.classList).includes('product-favorite-img')
+      Array.from(e.target.classList).includes('product-favorite-img') ||
+      Array.from(e.target.classList).includes('menu-controll') ||
+      Array.from(e.target.classList).includes('dropdown') ||
+      Array.from(e.target.classList).includes('drop-btn')
     ) {
       return;
     }
 
     const productIdx = e.currentTarget.classList[1].split('-').pop();
+
     slideIn(`product/${productIdx}`, false);
   };
 
@@ -40,8 +45,54 @@ export default function ProductListItem(props) {
       });
   };
 
+  this.removeDrops = () => {
+    const $drops = document.querySelectorAll('.menu .dropdown');
+    if ($drops.length) {
+      $drops.forEach((drop) => {
+        drop.remove();
+      });
+    }
+  };
+
+  this.menuProductHandler = (e) => {
+    this.removeDrops();
+    const productIdx = e.target.classList[1].split('-').pop();
+    new Dropdown({
+      parent: e.target.parentNode,
+      data: this.makeHeaderDropdownData(),
+      cls: `status-dropdown status-${productIdx}`,
+    });
+  };
+
+  this.modify = (e) => {
+    const productIdx = Array.from(e.target.parentNode.classList)
+      .pop()
+      .split('-')
+      .pop();
+    this.removeDrops();
+    slideIn(`newpost/${productIdx}`, false);
+  };
+
+  this.delete = (e) => {
+    const productIdx = Array.from(e.target.parentNode.classList)
+      .pop()
+      .split('-')
+      .pop();
+    api.sendPost('/product/delete', { productIdx }).then((result) => {
+      alert('삭제되었습니다');
+      slideIn('/', false);
+    });
+  };
+
+  this.makeHeaderDropdownData = () => {
+    return [
+      { text: '수정하기', eventHandler: this.modify },
+      { text: '삭제하기', eventHandler: this.delete },
+    ];
+  };
+
   this.render = () => {
-    const { product, parent } = props;
+    const { product, parent, isMenu, saleListHandler } = props;
     let templateLiteral = `
     <div class='product-list-item p-${product.idx}'>
       <div class='img-box'>
@@ -59,17 +110,27 @@ export default function ProductListItem(props) {
             ${
               isLogin()
                 ? `
-          <div class='product-favorite'>
-          ${
-            product.isLike === 'N'
-              ? `<img class='product-favorite-img' src='../images/dev/favorite_border.svg'>
-          `
-              : `<img class='product-favorite-img checked' src="../images/dev/favorite.svg"/>`
-          } 
-            </div>
+              ${
+                isMenu
+                  ? `
+                  <div>
+                <img class='menu-controll controll-${product.idx}' src='../../images/dev/more_vert.svg'/>
+                </div>
               `
+                  : `
+              <div class='product-favorite'>
+              ${
+                product.isLike === 'N'
+                  ? `<img class='product-favorite-img' src='../images/dev/favorite_border.svg'>`
+                  : `<img class='product-favorite-img checked' src="../images/dev/favorite.svg"/>`
+              }
+                </div>
+              `
+              }
+      `
                 : ``
             }
+
         </div>
         <div class='product-status-bar'>
           <div class='product-chats flex'>
@@ -100,9 +161,17 @@ export default function ProductListItem(props) {
         `.product-list-item.p-${product.idx} .product-favorite img`
       );
 
-      $favorite.addEventListener('click', this.favoriteButtonClickHandler);
+      const $menu = parent.querySelector(
+        `.product-list-item.p-${product.idx} .menu-controll`
+      );
+      if ($menu) {
+        $menu.addEventListener('click', this.menuProductHandler);
+      }
+
+      if ($favorite) {
+        $favorite.addEventListener('click', this.favoriteButtonClickHandler);
+      }
     }
   };
-
   this.render();
 }

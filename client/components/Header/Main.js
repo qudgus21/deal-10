@@ -1,6 +1,5 @@
-import { isLogin, selectLatestElement } from '../../utils/helper';
+import { isLogin, selectLatestElement, getCookie } from '../../utils/helper';
 import { slideIn } from '../../utils/slide';
-import { getCookie } from '../../utils/helper';
 import Dropdown from '../Etc/Dropdown';
 import api from '../../utils/api';
 
@@ -90,7 +89,11 @@ export default function homeHeader(props) {
       }
     });
     $menuButton.addEventListener('click', () => {
-      slideIn('/menu', false);
+      if (isLogin()) {
+        slideIn('/menu', false);
+      } else {
+        alert('로그인 후 이용해주세요');
+      }
     });
   };
   this.render();
