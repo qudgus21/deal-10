@@ -42,7 +42,11 @@ export default function ProductDetail(props) {
   };
 
   this.delete = () => {
-    slideIn('/', false);
+    const productIdx = window.location.pathname.split('/').pop();
+    api.sendPost('/product/delete', { productIdx }).then((result) => {
+      alert('삭제되었습니다');
+      slideIn('/', false);
+    });
   };
 
   this.makeHeaderDropdownData = () => {
