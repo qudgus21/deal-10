@@ -7,9 +7,18 @@ export default function ImgButton(props) {
   };
 
   this.render = () => {
-    const { parent, imgNum, imgCnt, imageHandler, cancleHandler } = props;
+    const {
+      parent,
+      imgNum,
+      imgCnt,
+      imageHandler,
+      cancleHandler,
+      isuploaded,
+    } = props;
     let templateLiteral = `
-        <div class="image-input box-${imgNum}">
+        <div class="image-input box-${imgNum} ${
+      isuploaded ? `isuploaded` : ``
+    }">
             <input type="file" accept="image/*" class="imageInput" id="product-image-${imgNum}">
             <label for="product-image-${imgNum}" class="image-button">
             <div class='img-list'>

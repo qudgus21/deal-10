@@ -226,6 +226,37 @@ const product = {
         });
     });
   },
+
+  getProduct: (params) => {
+    let sql = `select * from products where idx=${params.productIdx}`;
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows[0]);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  update: (params) => {
+    let sql = `update products set title='${params.title}',category=${params.categoryIdx},price=${params.price},description='${params.description}',imgUrls='${params.imgUrls}' where idx=${params.productIdx}`;
+    console.log('\n');
+    console.log(sql);
+    console.log('\n');
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
 };
 
 export default product;
