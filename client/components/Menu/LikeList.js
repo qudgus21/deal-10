@@ -2,7 +2,9 @@ import api from '../../utils/api';
 import ProductListItem from '../Etc/ProductListItem';
 
 export default function LikeList(props) {
-  this.state = {};
+  this.state = {
+    products: null,
+  };
 
   this.setState = (nextState) => {
     this.state = nextState;

@@ -7,6 +7,7 @@ import userRouter from './routes/userRouter.js';
 import homeRouter from './routes/homeRouter.js';
 import categoryRouter from './routes/categoryRouter.js';
 import productRouter from './routes/productRouter.js';
+import chatRouter from './routes/chatRouter.js';
 
 const app = express();
 dotenv.config();
@@ -31,6 +32,7 @@ app.use('/', homeRouter);
 app.use('/user', userRouter);
 app.use('/category', categoryRouter);
 app.use('/product', productRouter);
+app.use('/chat', chatRouter);
 
 app.use((req, res) => {
   const rightPath = ['/test'];
