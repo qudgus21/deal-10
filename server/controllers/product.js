@@ -243,9 +243,36 @@ const product = {
 
   update: (params) => {
     let sql = `update products set title='${params.title}',category=${params.categoryIdx},price=${params.price},description='${params.description}',imgUrls='${params.imgUrls}' where idx=${params.productIdx}`;
-    console.log('\n');
-    console.log(sql);
-    console.log('\n');
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  delete: (params) => {
+    let sql = `delete from products where idx=${params.productIdx}`;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  changeState: (params) => {
+    let sql = `update products set status='${params.status}' where idx=${params.productIdx}`;
+
     return new Promise((resolve, reject) => {
       db.promise()
         .query(sql)

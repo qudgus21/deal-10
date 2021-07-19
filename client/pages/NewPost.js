@@ -53,7 +53,6 @@ export default function NewPost(props) {
 
   this.getProductData = (productIdx) => {
     api.sendPost('/product/productDetail', { productIdx }).then((result) => {
-      console.log(result);
       document.querySelector('.app').lastElementChild.remove();
       this.setState({
         product: result.data.product,
@@ -221,7 +220,6 @@ export default function NewPost(props) {
         );
       }
     }
-
     $target.remove();
     this.validationCheck();
   };

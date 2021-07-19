@@ -2,6 +2,8 @@ import { slideIn, slideOut } from '../../utils/slide';
 import Dropdown from '../../components/Etc/Dropdown';
 import { saleConstant } from '../../utils/constant';
 import Button from '../../components/Button/Button';
+import { isLogin } from '../../utils/helper';
+
 import api from '../../utils/api';
 import Carousel from '../../components/Etc/Carousel';
 
@@ -27,6 +29,7 @@ export default function ProductDetail(props) {
       const productIdx = window.location.pathname.split('/').pop();
 
       api.sendPost('/product/detail', { productIdx }).then((result) => {
+        console.log(result);
         this.setState({
           product: result.data,
           saleStatus: result.data.status,
@@ -42,7 +45,11 @@ export default function ProductDetail(props) {
   };
 
   this.delete = () => {
-    slideIn('/', false);
+    const productIdx = window.location.pathname.split('/').pop();
+    api.sendPost('/product/delete', { productIdx }).then((result) => {
+      alert('삭제되었습니다');
+      slideIn('/', false);
+    });
   };
 
   this.makeHeaderDropdownData = () => {
@@ -53,10 +60,19 @@ export default function ProductDetail(props) {
   };
 
   this.changeSaleState = (st) => {
-    this.setState({
-      ...this.state,
-      saleStatus: st,
-    });
+    const productIdx = window.location.pathname.split('/').pop();
+
+    api
+      .sendPost('/product/changeState', {
+        productIdx,
+        status: st,
+      })
+      .then((result) => {
+        this.setState({
+          ...this.state,
+          saleStatus: st,
+        });
+      });
   };
 
   this.makeStatusDropdownData = () => {
@@ -125,6 +141,20 @@ export default function ProductDetail(props) {
     }
   };
 
+  this.favoriteButtonClickHandler = (e) => {
+    const img = e.currentTarget;
+    const productIdx = window.location.pathname.split('/').pop();
+    api.sendPost('/product/toggleLike', { productIdx }).then((result) => {
+      if (Array.from(img.classList).includes('checked')) {
+        img.classList.remove('checked');
+        img.src = '../images/dev/favorite_border.svg';
+      } else {
+        img.classList.add('checked');
+        img.src = '../images/dev/favorite.svg';
+      }
+    });
+  };
+
   this.render = () => {
     const { product, saleStatus } = this.state;
 
@@ -187,7 +217,15 @@ export default function ProductDetail(props) {
                     </div>
                     <div class="footer">
                       <div>
-                        <img src='../images/dev/favorite_border_mini.svg'>
+                        ${
+                          isLogin()
+                            ? `${
+                                product.isLike === 'Y'
+                                  ? `<img class="favorite-img checked" src='../images/dev/favorite.svg'>`
+                                  : `<img class="favorite-img" src='../images/dev/favorite_border_mini.svg'>`
+                              }`
+                            : ``
+                        }
                         <span>${product.price}</span>
                       </div>
                       <div class="btn-box">
@@ -213,7 +251,8 @@ export default function ProductDetail(props) {
     document
       .querySelector('.productdetail .back-button')
       .addEventListener('click', () => {
-        slideOut('/', false);
+        window.location.href = '/';
+        // slideOut('/', false);
       });
 
     const $moreButton = document.querySelector('.productdetail .more-button');
@@ -254,6 +293,11 @@ export default function ProductDetail(props) {
     document
       .querySelector('.productdetail')
       .addEventListener('click', this.handleFocusout);
+
+    const $favorite = document.querySelector('.productdetail .favorite-img');
+    if ($favorite) {
+      $favorite.addEventListener('click', this.favoriteButtonClickHandler);
+    }
   };
 
   this.componentDidMount();
