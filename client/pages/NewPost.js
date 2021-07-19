@@ -12,6 +12,7 @@ export default function NewPost(props) {
     imgCnt: 0,
     selectedCategory: null,
     product: null,
+    mode: null,
   };
 
   this.setState = (nextState) => {
@@ -51,10 +52,13 @@ export default function NewPost(props) {
 
   this.getProductData = (productIdx) => {
     api.sendPost('/product/productDetail', { productIdx }).then((result) => {
+      console.log(result);
       document.querySelector('.app').lastElementChild.remove();
       this.setState({
         product: result.data.product,
         categorys: result.data.categorys,
+        mode: 'u',
+        location: result.data.user.location,
       });
       setTimeout(() => {
         document
@@ -203,8 +207,24 @@ export default function NewPost(props) {
     this.validationCheck();
   };
 
+  this.categoryFetch = () => {
+    const targetCategory = this.state.product.category;
+    document.querySelectorAll('.newpost ul .category-item').forEach((item) => {
+      if (item.textContent.trim() === targetCategory) {
+        item.classList.add('selected');
+        this.state.selectedCategory = item.textContent.trim();
+        this.validationCheck();
+      }
+    });
+  };
+
+  this.updateMode = () => {
+    this.categoryFetch();
+    console.log(this.state.product.imgUrls);
+  };
+
   this.render = () => {
-    const { product } = this.state;
+    const { product, mode } = this.state;
 
     let templateLiteral = `
             <div class='newpost slide'>
@@ -236,8 +256,12 @@ export default function NewPost(props) {
                           }          
                         </ul>
                     </div>
-                    <input type='text' class='newpost-input' name='price' placeholder='₩ 가격(선택사항)'/>
-                    <textarea rows="4" class='newpost-input' name='description' placeholder='게시글 내용을 작성해주세요.'></textarea>
+                    <input type='text' class='newpost-input' name='price' placeholder='가격(선택사항)' ${
+                      product ? `value='${product.price}'` : ``
+                    }/>
+                    <textarea rows="4" class='newpost-input' name='description' placeholder='게시글 내용을 작성해주세요.'>${
+                      product ? `${product.description}` : ``
+                    }</textarea>
                 </form>
                 <div class='location-bar'>
                     <img src='../../images/dev/location_black.svg'>
@@ -261,7 +285,7 @@ export default function NewPost(props) {
 
     new WithAction({
       parent: document.querySelector('.newpost .header-box'),
-      content: '글쓰기',
+      content: `${mode === 'u' ? `글수정` : `글쓰기`}`,
       src1: 'arrow_back',
       src2: 'done',
       eventHandler1: () => {
@@ -270,13 +294,17 @@ export default function NewPost(props) {
       eventHandler2: this.submitHandler,
     });
 
-    new ImgButton({
-      parent: document.querySelector('.newpost .newpost-image-form'),
-      imgNum: this.state.imgNum,
-      imgCnt: this.state.imgCnt,
-      imageHandler: this.imageInputHandler,
-      cancleHandler: this.imageCancleHandler,
-    });
+    if (mode === 'u') {
+      this.updateMode();
+    } else {
+      new ImgButton({
+        parent: document.querySelector('.newpost .newpost-image-form'),
+        imgNum: this.state.imgNum,
+        imgCnt: this.state.imgCnt,
+        imageHandler: this.imageInputHandler,
+        cancleHandler: this.imageCancleHandler,
+      });
+    }
   };
 
   this.componentDidMount();

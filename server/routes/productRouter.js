@@ -2,6 +2,7 @@ import { Router } from 'express';
 import product from '../controllers/product.js';
 import category from '../controllers/category.js';
 import like from '../controllers/like.js';
+import user from '../controllers/user.js';
 
 import { uploadImage } from '../middleware.js';
 
@@ -118,7 +119,12 @@ productRouter.post('/productDetail', (req, res) => {
     .productDetail(params)
     .then((rows) => {
       category.getCategorys(params).then((categorys) => {
-        res.json({ status: 'ok', data: { categorys, product: rows } });
+        user.getInfo(params).then((user) => {
+          res.json({
+            status: 'ok',
+            data: { categorys, product: rows, user: user[0] },
+          });
+        });
       });
     })
     .catch(() => {
