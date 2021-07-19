@@ -257,17 +257,44 @@ const product = {
   },
 
   delete: (params) => {
-    let sql = `delete from products where idx=${params.productIdx}`;
+    return new Promise(async (resolve, reject) => {
+      let chattings = `delete from chattings where productId=${params.productIdx}`;
 
-    return new Promise((resolve, reject) => {
-      db.promise()
-        .query(sql)
-        .then(([rows, fields]) => {
-          return resolve(rows);
-        })
-        .catch((err) => {
-          return reject(err);
+      let likes = `delete from likes where productId=${params.productIdx}`;
+
+      let products = `delete from products where idx=${params.productIdx}`;
+
+      let views = `delete from views where productId=${params.productIdx}`;
+
+      let data1 = await db
+        .promise()
+        .query(chattings)
+        .then((rows) => {
+          return rows[0];
         });
+
+      let data2 = await db
+        .promise()
+        .query(likes)
+        .then((rows) => {
+          return rows[0];
+        });
+
+      let data3 = await db
+        .promise()
+        .query(products)
+        .then((rows) => {
+          return rows[0];
+        });
+
+      let data4 = await db
+        .promise()
+        .query(views)
+        .then((rows) => {
+          return rows[0];
+        });
+
+      return resolve({});
     });
   },
 

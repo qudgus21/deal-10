@@ -160,7 +160,6 @@ productRouter.post('/update', uploadImage, (req, res) => {
 
 productRouter.post('/delete', (req, res) => {
   const params = req.body;
-
   product
     .delete(params)
     .then((rows) => {
