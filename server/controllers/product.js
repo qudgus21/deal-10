@@ -269,6 +269,21 @@ const product = {
         });
     });
   },
+
+  changeState: (params) => {
+    let sql = `update products set status='${params.status}' where idx=${params.productIdx}`;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
 };
 
 export default product;

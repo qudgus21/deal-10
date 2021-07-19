@@ -166,4 +166,16 @@ productRouter.post('/delete', (req, res) => {
     });
 });
 
+productRouter.post('/changeState', (req, res) => {
+  const params = req.body;
+
+  product
+    .changeState(params)
+    .then((rows) => {
+      res.json({ status: 'ok' });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
 export default productRouter;

@@ -57,10 +57,19 @@ export default function ProductDetail(props) {
   };
 
   this.changeSaleState = (st) => {
-    this.setState({
-      ...this.state,
-      saleStatus: st,
-    });
+    const productIdx = window.location.pathname.split('/').pop();
+
+    api
+      .sendPost('/product/changeState', {
+        productIdx,
+        status: st,
+      })
+      .then((result) => {
+        this.setState({
+          ...this.state,
+          saleStatus: st,
+        });
+      });
   };
 
   this.makeStatusDropdownData = () => {
