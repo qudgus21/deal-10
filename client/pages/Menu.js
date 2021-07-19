@@ -90,14 +90,6 @@ export default function Menu(props) {
       new LikeList({
         parent: document.querySelector('.menu .menu-container'),
       });
-      //   api.sendPost('/product/likes', { userIdx: 1 }).then((result) => {
-      //     result.data.forEach((data) => {
-      //         new ProductListItem({
-      //           parent: document.querySelector('menu-container'),
-      //           data: data,
-      //         });
-      //     });
-      //   });
     });
   };
 

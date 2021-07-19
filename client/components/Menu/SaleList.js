@@ -41,6 +41,7 @@ export default function SaleList(props) {
     `;
 
     parent.innerHTML = templateLiteral;
+
     products
       ? products.forEach((product) => {
           new ProductListItem({
@@ -56,12 +57,3 @@ export default function SaleList(props) {
   this.componentDidMount();
   this.render();
 }
-
-//   api.sendPost('/product/products', { userIdx: 1 }).then((result) => {
-//     result.data.forEach((data) => {
-//       new ProductListItem({
-//         parent: document.querySelector('menu-container'),
-//         data: data,
-//       });
-//     });
-//   });
