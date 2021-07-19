@@ -16,12 +16,10 @@ export default function Location(props) {
   });
 
   this.setState = (nextState) => {
-    // document.querySelector('.app').lastElementChild.remove();
+    document.querySelector('.app').lastElementChild.remove();
     this.state = nextState;
     this.render();
-    // setTimeout(() => {
-    //   document.querySelector('.app').lastElementChild.classList.add('slide-in');
-    // }, 50);
+    document.querySelector('.app').lastElementChild.classList.add('slide-in');
   };
 
   this.render = () => {
@@ -79,9 +77,9 @@ export default function Location(props) {
           $locationButton,
           '.location-cancel'
         );
-        $locationCancel.addEventListener('click', () => {
-          if (location.length == 1) {
-          } else {
+        $locationCancel.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (location.length !== 1) {
             $locationButton.remove();
             api
               .sendPost('/user/setLocation', {
@@ -160,5 +158,5 @@ export default function Location(props) {
     }
   };
 
-  this.render();
+  // this.render();
 }
