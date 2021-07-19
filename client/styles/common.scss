@@ -301,8 +301,8 @@ $baemin: #2ac0bc;
 
 .fab-button {
   position: absolute;
-  bottom: 1rem;
-  right: 1rem;
+  left: calc(375px - 4.5rem);
+  top: calc(669px - 4.5rem);
   border-radius: 50%;
   background-color: #2ac1bc;
   width: 3rem;
