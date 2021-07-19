@@ -44,7 +44,6 @@ productRouter.post('/categoryProducts', (req, res) => {
 productRouter.post('/products', (req, res) => {
   const params = req.body;
 
-  console.log(params.isSale);
   product
     .products(params)
     .then((rows) => {
@@ -183,5 +182,19 @@ productRouter.post('/changeState', (req, res) => {
     .catch(() => {
       res.json({ status: 'error' });
     });
+});
+
+productRouter.post('/view', (req, res) => {
+  const params = req.body;
+
+  product.isView(params).then((rows) => {
+    if (!rows.length) {
+      product.registerView(params).then((result) => {
+        res.json({ status: 'ok' });
+      });
+    } else {
+      res.json({ status: 'ok' });
+    }
+  });
 });
 export default productRouter;

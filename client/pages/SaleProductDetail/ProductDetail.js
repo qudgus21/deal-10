@@ -34,6 +34,8 @@ export default function ProductDetail(props) {
           saleStatus: result.data.status,
         });
       });
+
+      api.sendPost('/product/view', { productIdx }).then((result) => {});
     }, 0);
   };
 

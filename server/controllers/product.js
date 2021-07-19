@@ -285,6 +285,36 @@ const product = {
         });
     });
   },
+
+  isView: (params) => {
+    let sql = `select * from views where userId=${params.userIdx} and productId=${params.productIdx}`;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  registerView: (params) => {
+    let sql = `insert into views (userId, productId) values (${params.userIdx}, ${params.productIdx})`;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
 };
 
 export default product;
