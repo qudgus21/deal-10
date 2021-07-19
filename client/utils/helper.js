@@ -20,6 +20,8 @@ export const getPageName = (path) => {
       return 'productdetail';
     } else if (paths[0] === 'newpost') {
       return 'newpost';
+    } else if (paths[3] === 'chatlist') {
+      return 'chatdetail';
     }
     // return paths.pop();
   }
