@@ -12,6 +12,8 @@ export default function NewPost(props) {
     imgCnt: 0,
     selectedCategory: null,
     product: null,
+    mode: null,
+    removeImgList: [],
   };
 
   this.setState = (nextState) => {
@@ -51,10 +53,16 @@ export default function NewPost(props) {
 
   this.getProductData = (productIdx) => {
     api.sendPost('/product/productDetail', { productIdx }).then((result) => {
+      console.log(result);
       document.querySelector('.app').lastElementChild.remove();
       this.setState({
         product: result.data.product,
         categorys: result.data.categorys,
+        mode: 'u',
+        location: result.data.user.location,
+        imgNum: result.data.product.imgUrls.length,
+        imgCnt: result.data.product.imgUrls.length,
+        removeImgList: [],
       });
       setTimeout(() => {
         document
@@ -112,6 +120,56 @@ export default function NewPost(props) {
     return message;
   };
 
+  this.updatePost = (nameValue, priceValue, descriptionValue, $imageInputs) => {
+    let formData = new FormData();
+    let uploadedCheck;
+    for (let i = 0; i < $imageInputs.length; i++) {
+      if (i !== $imageInputs.length - 1) {
+        uploadedCheck = Array.from(
+          $imageInputs[i].parentNode.classList
+        ).includes('isuploaded');
+        if (!uploadedCheck) {
+          formData.append('img', $imageInputs[i].files[0]);
+        }
+      }
+    }
+
+    formData.append('productIdx', this.state.product.productIdx);
+    formData.append('title', nameValue);
+    formData.append('price', priceValue);
+    formData.append('description', descriptionValue);
+    formData.append('category', this.state.selectedCategory);
+    formData.append('cancleList', JSON.stringify(this.state.removeImgList));
+    api.sendProduct('/product/update', formData).then((result) => {
+      if (result.status === 'ok') {
+        alert('상품정보가 수정되었습니다');
+        window.location.href = '/';
+        // slideOut('/', false);
+        return;
+      }
+    });
+  };
+
+  this.insertPost = (nameValue, priceValue, descriptionValue, $imageInputs) => {
+    let formData = new FormData();
+    for (let i = 0; i < $imageInputs.length; i++) {
+      if (i !== $imageInputs.length - 1)
+        formData.append('img', $imageInputs[i].files[0]);
+    }
+    formData.append('title', nameValue);
+    formData.append('price', priceValue);
+    formData.append('description', descriptionValue);
+    formData.append('category', this.state.selectedCategory);
+    api.sendProduct('/product/newpost', formData).then((result) => {
+      if (result.status === 'ok') {
+        alert('상품이 등록되었습니다');
+        window.location.href = '/';
+        // slideOut('/', false);
+        return;
+      }
+    });
+  };
+
   this.submitHandler = () => {
     const nameValue = document.querySelector('.newpost input[name=title]')
       .value;
@@ -120,30 +178,14 @@ export default function NewPost(props) {
     const descriptionValue = document.querySelector(
       '.newpost textarea[name=description]'
     ).value;
-
     const $imageInputs = document.querySelectorAll('.newpost .imageInput');
-
     const uploadValid = this.validationCheck();
-
     if (uploadValid === 'ok') {
-      let formData = new FormData();
-      for (let i = 0; i < $imageInputs.length; i++) {
-        if (i !== $imageInputs.length - 1)
-          formData.append('img', $imageInputs[i].files[0]);
+      if (this.state.mode === 'u') {
+        this.updatePost(nameValue, priceValue, descriptionValue, $imageInputs);
+      } else {
+        this.insertPost(nameValue, priceValue, descriptionValue, $imageInputs);
       }
-      formData.append('title', nameValue);
-      formData.append('price', priceValue);
-      formData.append('description', descriptionValue);
-      formData.append('category', this.state.selectedCategory);
-      api.sendProduct('/product/newpost', formData).then((result) => {
-        if (result.status === 'ok') {
-          alert('상품이 등록되었습니다');
-          window.location.href = '/';
-          // slideOut('/', false);
-          //이부분
-          return;
-        }
-      });
     } else {
       alert(uploadValid);
       return;
@@ -160,6 +202,48 @@ export default function NewPost(props) {
       imgCnt: this.state.imgCnt,
       imageHandler: this.imageInputHandler,
       cancleHandler: this.imageCancleHandler,
+    });
+  };
+
+  this.imageCancleHandler = (e) => {
+    const targetNum = Array.from(e.target.classList).pop().split('-')[1];
+    const $target = document.querySelector(`.newpost .box-${targetNum}`);
+    this.state.imgCnt -= 1;
+
+    Array.from(
+      document.querySelectorAll('.newpost .newpost-image-form .image-count')
+    ).pop().textContent = `${this.state.imgCnt}/10`;
+
+    if (this.state.mode === 'u') {
+      if (Array.from($target.classList).includes('isuploaded')) {
+        this.state.removeImgList.push(
+          $target.querySelector('.image-preview').src
+        );
+      }
+    }
+
+    $target.remove();
+    this.validationCheck();
+  };
+
+  this.categorySelectHandler = (e) => {
+    const $categorys = document.querySelectorAll('.newpost ul .category-item');
+    $categorys.forEach((node) => {
+      node.classList.remove('selected');
+    });
+    e.target.classList.add('selected');
+    this.state.selectedCategory = e.target.textContent.trim();
+    this.validationCheck();
+  };
+
+  this.categoryFetch = () => {
+    const targetCategory = this.state.product.category;
+    document.querySelectorAll('.newpost ul .category-item').forEach((item) => {
+      if (item.textContent.trim() === targetCategory) {
+        item.classList.add('selected');
+        this.state.selectedCategory = item.textContent.trim();
+        this.validationCheck();
+      }
     });
   };
 
@@ -181,30 +265,39 @@ export default function NewPost(props) {
     };
   };
 
-  this.imageCancleHandler = (e) => {
-    const targetNum = Array.from(e.target.classList).pop().split('-')[1];
-    const $target = document.querySelector(`.newpost .box-${targetNum}`);
-    this.state.imgCnt -= 1;
+  this.imgFetch = () => {
+    const imgUrls = this.state.product.imgUrls;
+    for (let i = 0; i < this.state.imgNum + 1; i++) {
+      new ImgButton({
+        parent: document.querySelector('.newpost .newpost-image-form'),
+        imgNum: i,
+        imgCnt: this.state.imgCnt,
+        imageHandler: this.imageInputHandler,
+        cancleHandler: this.imageCancleHandler,
+        isuploaded: i !== this.state.imgNum ? true : false,
+      });
 
-    Array.from(
-      document.querySelectorAll('.newpost .newpost-image-form .image-count')
-    ).pop().textContent = `${this.state.imgCnt}/10`;
-
-    $target.remove();
+      if (i !== this.state.imgNum) {
+        const $targetBox = document.querySelector(
+          `.newpost .newpost-image-form .image-input.box-${i}`
+        );
+        $targetBox.querySelector('input').disabled = true;
+        $targetBox.querySelector('.image-preview').src = imgUrls[i];
+        $targetBox.querySelector('.image-preview').classList.add('isIn');
+        $targetBox.querySelector('.image-count').classList.add('none');
+        $targetBox.querySelector('.border-medium2').classList.add('upload');
+        $targetBox.querySelector('.cancle-btn').classList.remove('none');
+      }
+    }
   };
 
-  this.categorySelectHandler = (e) => {
-    const $categorys = document.querySelectorAll('.newpost ul .category-item');
-    $categorys.forEach((node) => {
-      node.classList.remove('selected');
-    });
-    e.target.classList.add('selected');
-    this.state.selectedCategory = e.target.textContent.trim();
-    this.validationCheck();
+  this.updateMode = () => {
+    this.categoryFetch();
+    this.imgFetch();
   };
 
   this.render = () => {
-    const { product } = this.state;
+    const { product, mode } = this.state;
 
     let templateLiteral = `
             <div class='newpost slide'>
@@ -236,8 +329,12 @@ export default function NewPost(props) {
                           }          
                         </ul>
                     </div>
-                    <input type='text' class='newpost-input' name='price' placeholder='₩ 가격(선택사항)'/>
-                    <textarea rows="4" class='newpost-input' name='description' placeholder='게시글 내용을 작성해주세요.'></textarea>
+                    <input type='text' class='newpost-input' name='price' placeholder='가격(선택사항)' ${
+                      product ? `value='${product.price}'` : ``
+                    }/>
+                    <textarea rows="4" class='newpost-input' name='description' placeholder='게시글 내용을 작성해주세요.'>${
+                      product ? `${product.description}` : ``
+                    }</textarea>
                 </form>
                 <div class='location-bar'>
                     <img src='../../images/dev/location_black.svg'>
@@ -261,22 +358,31 @@ export default function NewPost(props) {
 
     new WithAction({
       parent: document.querySelector('.newpost .header-box'),
-      content: '글쓰기',
+      content: `${mode === 'u' ? `글수정` : `글쓰기`}`,
       src1: 'arrow_back',
       src2: 'done',
       eventHandler1: () => {
-        slideOut('/', false);
+        if (this.state.product) {
+          slideOut(`/product/${this.state.product.productIdx}`);
+        } else {
+          slideOut('/', false);
+        }
       },
       eventHandler2: this.submitHandler,
     });
 
-    new ImgButton({
-      parent: document.querySelector('.newpost .newpost-image-form'),
-      imgNum: this.state.imgNum,
-      imgCnt: this.state.imgCnt,
-      imageHandler: this.imageInputHandler,
-      cancleHandler: this.imageCancleHandler,
-    });
+    if (mode === 'u') {
+      this.updateMode();
+    } else {
+      new ImgButton({
+        parent: document.querySelector('.newpost .newpost-image-form'),
+        imgNum: this.state.imgNum,
+        imgCnt: this.state.imgCnt,
+        imageHandler: this.imageInputHandler,
+        cancleHandler: this.imageCancleHandler,
+        isuploaded: false,
+      });
+    }
   };
 
   this.componentDidMount();

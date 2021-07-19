@@ -2,7 +2,8 @@ import { Router } from 'express';
 import product from '../controllers/product.js';
 import category from '../controllers/category.js';
 import like from '../controllers/like.js';
-
+import user from '../controllers/user.js';
+import { arrDiff } from '../helper.js';
 import { uploadImage } from '../middleware.js';
 
 const productRouter = Router();
@@ -118,12 +119,38 @@ productRouter.post('/productDetail', (req, res) => {
     .productDetail(params)
     .then((rows) => {
       category.getCategorys(params).then((categorys) => {
-        res.json({ status: 'ok', data: { categorys, product: rows } });
+        user.getInfo(params).then((user) => {
+          res.json({
+            status: 'ok',
+            data: { categorys, product: rows, user: user[0] },
+          });
+        });
       });
     })
     .catch(() => {
       res.json({ status: 'error' });
     });
+});
+
+productRouter.post('/update', uploadImage, (req, res) => {
+  const params = req.body;
+  product.getProduct(params).then((productitem) => {
+    let newUrls = arrDiff(productitem.imgUrls, JSON.parse(params.cancleList));
+    req.files.forEach((file) => {
+      newUrls = newUrls.concat(file.location);
+    });
+    newUrls = JSON.stringify(newUrls);
+    params.imgUrls = newUrls;
+
+    category.findIdxbyName(params).then((categoryIdx) => {
+      params.categoryIdx = categoryIdx;
+      product.update(params).then((result) => {
+        res.json({
+          status: 'ok',
+        });
+      });
+    });
+  });
 });
 
 export default productRouter;
