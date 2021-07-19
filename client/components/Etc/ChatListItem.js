@@ -7,30 +7,23 @@ export default function ChatListItem(props) {
   };
 
   this.render = () => {
-    const {
-      productId,
-      roomId,
-      opponent,
-      currentMessage,
-      unreadCnt,
-      imgUrls,
-      updatetime,
-    } = props.chat;
+    const { chat } = props;
+    console.log(chat.conversation);
 
     let templateLiteral = `
         <div class='chatlist-item'>
             <div class='chat-div'>
                 <div class='chat-row'>
-                    <div class='chat-id'>username</div>
-                    <div class='chat-agoTime'>12분 전</div>
+                    <div class='chat-id'>${chat.id}</div>
+                    <div class='chat-agoTime'>${chat.conversation[0].registerDate}</div>
                 </div>
                 <div class='chat-row'>
-                    <div class='chat-preview'>혹시 팔렷나요?</div>
-                    <div class='chat-badge'>5</div>
+                    <div class='chat-preview'>${chat.conversation[0].content}</div>
+                    <div class='chat-badge'>${chat.unreadCnt}</div>
                 </div>
             </div>
             <div class='img-box'>
-                <img src='https://deal10.s3.ap-northeast-2.amazonaws.com/products/7148d9b7d668a408db9e09aa5b669d55' class='border-small'>
+                <img src=${chat.imgUrls[0]} class='border-small'>
             </div>
         </div>
     `;

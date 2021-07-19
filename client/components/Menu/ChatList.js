@@ -12,16 +12,11 @@ export default function ChatList(props) {
   };
 
   this.componentDidMount = () => {
-    this.setState({
-      ...this.state,
-      chats: [{}, {}, {}, {}, {}],
+    api.sendPost('/chat/listAll').then((result) => {
+      this.setState({
+        chats: result.data,
+      });
     });
-    // api.sendPost('/chat/list').then((result) => {
-    //   // this.setState({
-    //   //   ...this.state,
-    //   //   products: this.sortMyProduct(result.data),
-    //   // });
-    // });
   };
 
   this.render = () => {
@@ -34,12 +29,11 @@ export default function ChatList(props) {
     `;
 
     parent.innerHTML = templateLiteral;
-    console.log(chats);
     chats
       ? chats.forEach((chat) => {
           new ChatListItem({
             parent: parent.querySelector('.chatlist'),
-            chat: chats,
+            chat: chat,
           });
         })
       : null;
