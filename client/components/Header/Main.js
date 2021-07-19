@@ -5,12 +5,20 @@ import Dropdown from '../Etc/Dropdown';
 import api from '../../utils/api';
 
 export default function homeHeader(props) {
-  this.state = {};
+  this.state = {
+    data: null,
+  };
 
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
   };
+
+  api.sendPost('/user/getInfo', {}).then((result) => {
+    this.setState({
+      data: result.data,
+    });
+  });
 
   this.render = () => {
     let templateLiteral = `
@@ -23,7 +31,7 @@ export default function homeHeader(props) {
       </div>
       <div class='location-div flex'>
         <img src='./images/dev/location.svg'>
-        <div>역삼동</div>
+        <div>동네 설정</div>
       </div>
       <div>
         <button class='my-account-button' type='button'>
@@ -54,22 +62,27 @@ export default function homeHeader(props) {
       slideIn('/category', false);
     });
 
+    if (this.state.data != null) {
+      $locationDiv.children[1].innerText = this.state.data.location[0];
+    }
+
     $locationDiv.addEventListener('click', () => {
       if (isLogin()) {
-        api.sendPost('/user/getInfo', {}).then((result) => {
-          new Dropdown({
-            parent: $homeHeader,
-            data: [
-              { text: result.data.location[0], eventHandler: () => {} },
-              {
-                text: '내 동네 설정',
-                eventHandler: () => {
-                  slideIn('/location', false);
-                  document.querySelector('.dropdown').remove();
-                },
+        if (document.querySelector('.dropdown') !== null) {
+          document.querySelector('.dropdown').remove();
+        }
+        new Dropdown({
+          parent: $homeHeader,
+          data: [
+            { text: this.state.data.location[0], eventHandler: () => {} },
+            {
+              text: '내 동네 설정',
+              eventHandler: () => {
+                slideIn('/location', false);
+                document.querySelector('.dropdown').remove();
               },
-            ],
-          });
+            },
+          ],
         });
       } else {
         alert('로그인을 해주세요.');
