@@ -7,19 +7,31 @@ import { selectLatestElement } from '../utils/helper';
 export default function Location(props) {
   this.state = {
     data: null,
+    isFirst: true,
   };
 
   api.sendPost('/user/getInfo', {}).then((result) => {
     this.setState({
       data: result.data,
+      isFirst: true,
     });
   });
 
   this.setState = (nextState) => {
-    document.querySelector('.app').lastElementChild.remove();
+    const $app = document.querySelector('.app');
+    if (!$app.lastElementChild.classList.contains('home'))
+      document.querySelector('.app').lastElementChild.remove();
     this.state = nextState;
     this.render();
-    document.querySelector('.app').lastElementChild.classList.add('slide-in');
+    if (this.state.isFirst == true) {
+      setTimeout(() => {
+        document
+          .querySelector('.app')
+          .lastElementChild.classList.add('slide-in');
+      }, 50);
+    } else {
+      document.querySelector('.app').lastElementChild.classList.add('slide-in');
+    }
   };
 
   this.render = () => {
@@ -67,6 +79,7 @@ export default function Location(props) {
                   api.sendPost('/user/getInfo', {}).then((result) => {
                     this.setState({
                       data: result.data,
+                      isFirst: false,
                     });
                   });
                 });
@@ -92,6 +105,7 @@ export default function Location(props) {
                 api.sendPost('/user/getInfo', {}).then((result) => {
                   this.setState({
                     data: result.data,
+                    isFirst: false,
                   });
                 });
               });
@@ -149,7 +163,10 @@ export default function Location(props) {
                 .sendPost('/user/setLocation', { location: newLocation })
                 .then((result) => {
                   document.querySelector('.location-modal').remove();
-                  this.setState({ data: { location: newLocation } });
+                  this.setState({
+                    data: { location: newLocation },
+                    isFirst: false,
+                  });
                 });
             }
           });
