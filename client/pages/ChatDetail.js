@@ -4,23 +4,40 @@ import { slideOut } from '../utils/slide';
 
 export default function ChatDetail(props) {
   this.state = {
-    data: null,
     chat: null,
   };
 
   this.setState = (nextState) => {
+    document.querySelector('.app').lastElementChild.remove();
     this.state = nextState;
     this.render();
+    setTimeout(() => {
+      document.querySelector('.app').lastElementChild.classList.add('slide-in');
+    }, 50);
   };
 
+  this.componentDidMount = () => {
+    setTimeout(() => {
+      const roomIdx = window.location.pathname.split('/').pop();
+      api.sendPost('/chat/chatData', { roomIdx }).then((result) => {
+        let chat = result.data;
+        //여기서 chat을 적당히 가공 후 setstate에 저장
+        this.setState({
+          chat,
+        });
+      });
+    }, 0);
+  };
   //   api.sendPost('/chatting/chattingDetail 주소 나중에 정하기', {}).then((result) => {
   //     this.setState({
-  //       chat: chat.data, append하면되는데 전부 읽어오면 좀 손해인듯 생각ㄲ 걍 다가져오는게 낫나?
+  //       chat: chat.data, append하면되는데 전부 읽어오면 좀 손해인듯 생각ㄲ 걍 다가져오는게 낫나?  ===> 했습니당
   //     });
   //   });
 
   this.render = () => {
-    // const { chat } = this.state.data;
+    const { chat } = this.state;
+    console.log(chat); //state에 저장된 chat사용 , 사용시 chat ? xx : null  3항연산자 사용필쑤
+
     let templateLiteral = `
             <div class='chatdetail slide'>
                 <div class='header-box'></div>
@@ -73,5 +90,6 @@ export default function ChatDetail(props) {
     $msgContainer.scrollTo(0, $msgContainer.scrollHeight);
   };
 
+  this.componentDidMount();
   this.render();
 }
