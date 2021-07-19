@@ -29,7 +29,6 @@ export default function ProductDetail(props) {
       const productIdx = window.location.pathname.split('/').pop();
 
       api.sendPost('/product/detail', { productIdx }).then((result) => {
-        console.log(result);
         this.setState({
           product: result.data,
           saleStatus: result.data.status,

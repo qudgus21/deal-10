@@ -46,7 +46,8 @@ export default function CategoryDetail(props) {
       parent: document.querySelector('.categorydetail .header-box'),
       content: this.state.category ? this.state.category.name : '',
       eventHandler: (e) => {
-        slideOut('/category', false);
+        window.location.href = '/';
+        // slideOut('/category', false);
       },
     });
 

@@ -60,7 +60,6 @@ export default function Location(props) {
 
     if (this.state.data != null) {
       const { location } = this.state.data;
-      console.log(location);
       location.forEach((loc, index) => {
         new LocationButton({ parent: $locationDiv, location: loc });
         const $locationButton = selectLatestElement(
@@ -158,7 +157,6 @@ export default function Location(props) {
                 newLocation.push(location[0]);
               }
               newLocation.push(value);
-              console.log(newLocation);
               api
                 .sendPost('/user/setLocation', { location: newLocation })
                 .then((result) => {
