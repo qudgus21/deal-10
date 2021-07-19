@@ -14,6 +14,7 @@ export default function ChatListItem(props) {
   this.render = () => {
     const {
       productId,
+      chattingId,
       status,
       opponent,
       currentMessage,
@@ -49,7 +50,7 @@ export default function ChatListItem(props) {
     $chatListItem.addEventListener('click', () => {
       // product/${productId}/chatting/${chatting-contentsId}
       // product id랑 chattingcontentsid도 받아야할듯
-      slideIn(`/product/${productId}/chatting/${chattingContentsId}`, false);
+      slideIn(`/product/${productId}/chatting/${chattingId}`, false);
     });
   };
 
