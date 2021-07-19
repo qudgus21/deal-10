@@ -13,6 +13,7 @@ export default function ChatList(props) {
 
   this.componentDidMount = () => {
     api.sendPost('/chat/listAll').then((result) => {
+      console.log(result);
       this.setState({
         chats: result.data,
       });
