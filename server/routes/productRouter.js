@@ -26,9 +26,13 @@ productRouter.post('/categoryProducts', (req, res) => {
     .categoryProducts(params)
     .then((rows) => {
       category.info(params).then((category) => {
+        let filtered = rows.filter((row) => {
+          return row.status !== 'C';
+        });
+
         res.json({
           status: 'ok',
-          data: { category: category[0], products: rows },
+          data: { category: category[0], products: filtered },
         });
       });
     })
@@ -39,6 +43,7 @@ productRouter.post('/categoryProducts', (req, res) => {
 
 productRouter.post('/products', (req, res) => {
   const params = req.body;
+
   product
     .products(params)
     .then((rows) => {
@@ -155,7 +160,6 @@ productRouter.post('/update', uploadImage, (req, res) => {
 
 productRouter.post('/delete', (req, res) => {
   const params = req.body;
-
   product
     .delete(params)
     .then((rows) => {
@@ -177,5 +181,19 @@ productRouter.post('/changeState', (req, res) => {
     .catch(() => {
       res.json({ status: 'error' });
     });
+});
+
+productRouter.post('/view', (req, res) => {
+  const params = req.body;
+
+  product.isView(params).then((rows) => {
+    if (!rows.length) {
+      product.registerView(params).then((result) => {
+        res.json({ status: 'ok' });
+      });
+    } else {
+      res.json({ status: 'ok' });
+    }
+  });
 });
 export default productRouter;

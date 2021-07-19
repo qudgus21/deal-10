@@ -8,7 +8,6 @@ export default function ChatListItem(props) {
 
   this.render = () => {
     const { chat } = props;
-    console.log(chat.conversation);
 
     let templateLiteral = `
         <div class='chatlist-item'>

@@ -2,7 +2,7 @@ import { slideIn, slideOut } from '../../utils/slide';
 import Dropdown from '../../components/Etc/Dropdown';
 import { saleConstant } from '../../utils/constant';
 import Button from '../../components/Button/Button';
-import { isLogin } from '../../utils/helper';
+import { isLogin, numberWithCommas } from '../../utils/helper';
 
 import api from '../../utils/api';
 import Carousel from '../../components/Etc/Carousel';
@@ -34,6 +34,8 @@ export default function ProductDetail(props) {
           saleStatus: result.data.status,
         });
       });
+
+      api.sendPost('/product/view', { productIdx }).then((result) => {});
     }, 0);
   };
 
@@ -146,17 +148,17 @@ export default function ProductDetail(props) {
     api.sendPost('/product/toggleLike', { productIdx }).then((result) => {
       if (Array.from(img.classList).includes('checked')) {
         img.classList.remove('checked');
-        img.src = '../images/dev/favorite_border.svg';
+        img.src = '../../images/dev/favorite_border.svg';
       } else {
         img.classList.add('checked');
-        img.src = '../images/dev/favorite.svg';
+        img.src = '../../images/dev/favorite.svg';
       }
     });
   };
 
   this.render = () => {
     const { product, saleStatus } = this.state;
-
+    console.log(product);
     let templateLiteral = `
             <div class="productdetail slide">
                 <div class="header-box">
@@ -220,12 +222,12 @@ export default function ProductDetail(props) {
                           isLogin()
                             ? `${
                                 product.isLike === 'Y'
-                                  ? `<img class="favorite-img checked" src='../images/dev/favorite.svg'>`
-                                  : `<img class="favorite-img" src='../images/dev/favorite_border_mini.svg'>`
+                                  ? `<img class="favorite-img checked" src='../../images/dev/favorite.svg'>`
+                                  : `<img class="favorite-img" src='../../images/dev/favorite_border_mini.svg'>`
                               }`
                             : ``
                         }
-                        <span>${product.price}</span>
+                        <span>${numberWithCommas(product.price)}원</span>
                       </div>
                       <div class="btn-box">
 

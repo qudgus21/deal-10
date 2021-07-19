@@ -21,7 +21,7 @@ export default function SaleList(props) {
   };
 
   this.componentDidMount = () => {
-    api.sendPost('/product/products').then((result) => {
+    api.sendPost('/product/products', { isSale: true }).then((result) => {
       this.setState({
         ...this.state,
         products: this.sortMyProduct(result.data),

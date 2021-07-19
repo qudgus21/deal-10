@@ -28,7 +28,7 @@ const product = {
       WHEN TIMESTAMPDIFF(HOUR , p.updateDate,NOW()  ) < 24 THEN concat(TIMESTAMPDIFF(HOUR, p.updateDate, NOW()), '시간 전')
       WHEN TIMESTAMPDIFF(DAY , p.updateDate,NOW()  ) < 30 THEN concat(TIMESTAMPDIFF(DAY, p.updateDate, NOW()), '일 전')
       WHEN TIMESTAMPDIFF(MONTH , p.updateDate,NOW()  ) < 12 THEN concat(TIMESTAMPDIFF(MONTH, p.updateDate, NOW()), '달 전')
-      ELSE concat(TIMESTAMPDIFF(YEAR , p.updateDate, NOW()), '년 전') END as agoTime
+      ELSE concat(TIMESTAMPDIFF(YEAR , p.updateDate, NOW()), '년 전') END as agoTime , status
       from products p
       left join (
       select products.idx as idx, count(products.idx) as likeCnt
@@ -114,6 +114,7 @@ const product = {
         group by (products.idx)
         ) c on c.idx = p.idx
         left join users u on p.userId = u.idx
+        ${params.isSale ? `` : `where p.status = 'S' or p.status = 'R'`}
         order by p.updateDate desc
   `;
 
@@ -256,7 +257,49 @@ const product = {
   },
 
   delete: (params) => {
-    let sql = `delete from products where idx=${params.productIdx}`;
+    return new Promise(async (resolve, reject) => {
+      let chattings = `delete from chattings where productId=${params.productIdx}`;
+
+      let likes = `delete from likes where productId=${params.productIdx}`;
+
+      let products = `delete from products where idx=${params.productIdx}`;
+
+      let views = `delete from views where productId=${params.productIdx}`;
+
+      let data1 = await db
+        .promise()
+        .query(chattings)
+        .then((rows) => {
+          return rows[0];
+        });
+
+      let data2 = await db
+        .promise()
+        .query(likes)
+        .then((rows) => {
+          return rows[0];
+        });
+
+      let data3 = await db
+        .promise()
+        .query(products)
+        .then((rows) => {
+          return rows[0];
+        });
+
+      let data4 = await db
+        .promise()
+        .query(views)
+        .then((rows) => {
+          return rows[0];
+        });
+
+      return resolve({});
+    });
+  },
+
+  changeState: (params) => {
+    let sql = `update products set status='${params.status}' where idx=${params.productIdx}`;
 
     return new Promise((resolve, reject) => {
       db.promise()
@@ -270,8 +313,23 @@ const product = {
     });
   },
 
-  changeState: (params) => {
-    let sql = `update products set status='${params.status}' where idx=${params.productIdx}`;
+  isView: (params) => {
+    let sql = `select * from views where userId=${params.userIdx} and productId=${params.productIdx}`;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  registerView: (params) => {
+    let sql = `insert into views (userId, productId) values (${params.userIdx}, ${params.productIdx})`;
 
     return new Promise((resolve, reject) => {
       db.promise()
