@@ -1,5 +1,9 @@
 import { slideIn } from '../../utils/slide';
-import { selectLatestElement, isLogin } from '../../utils/helper';
+import {
+  selectLatestElement,
+  isLogin,
+  numberWithCommas,
+} from '../../utils/helper';
 import api from '../../utils/api';
 import Dropdown from '../Etc/Dropdown';
 
@@ -109,7 +113,9 @@ export default function ProductListItem(props) {
           <div class='product-location'>${product.location[0]}·${
       product.agoTime
     }</div>
-              <div class='product-price'>${product.price}원</div>
+              <div class='product-price'>${numberWithCommas(
+                product.price
+              )}원</div>
             </div>
             ${
               isLogin()

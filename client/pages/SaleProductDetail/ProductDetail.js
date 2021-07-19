@@ -2,7 +2,7 @@ import { slideIn, slideOut } from '../../utils/slide';
 import Dropdown from '../../components/Etc/Dropdown';
 import { saleConstant } from '../../utils/constant';
 import Button from '../../components/Button/Button';
-import { isLogin } from '../../utils/helper';
+import { isLogin, numberWithCommas } from '../../utils/helper';
 
 import api from '../../utils/api';
 import Carousel from '../../components/Etc/Carousel';
@@ -225,7 +225,7 @@ export default function ProductDetail(props) {
                               }`
                             : ``
                         }
-                        <span>${product.price}</span>
+                        <span>${numberWithCommas(product.price)}원</span>
                       </div>
                       <div class="btn-box">
 
