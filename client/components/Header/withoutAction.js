@@ -12,10 +12,11 @@ export default function WithoutAction(props) {
     const { content, parent, eventHandler } = props;
 
     const templateLiteral = `
-            <div class="header">
-              <img class="back-button" src="../../images/dev/arrow_back.svg"/>
+            <div class='header'>
+              <img class='back-button' src='../../images/dev/arrow_back.svg'/>
               <h1>${content}</h1>
-            <div>
+              <img src='../../images/dev/none2.svg'/>
+            </div>
         `;
 
     props.parent.innerHTML = templateLiteral;
