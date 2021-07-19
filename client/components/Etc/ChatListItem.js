@@ -15,11 +15,19 @@ export default function ChatListItem(props) {
             <div class='chat-div'>
                 <div class='chat-row'>
                     <div class='chat-id'>${chat.id}</div>
-                    <div class='chat-agoTime'>${chat.conversation[0].registerDate}</div>
+                    <div class='chat-agoTime'>${
+                      chat.conversation[0].registerDate
+                    }</div>
                 </div>
                 <div class='chat-row'>
-                    <div class='chat-preview'>${chat.conversation[0].content}</div>
-                    <div class='chat-badge'>${chat.unreadCnt}</div>
+                    <div class='chat-preview'>${
+                      chat.conversation[0].content
+                    }</div>
+                    ${
+                      chat.unreadCnt > 0
+                        ? `<div class='chat-badge'>${chat.unreadCnt}</div>`
+                        : ``
+                    }
                 </div>
             </div>
             <div class='img-box'>
