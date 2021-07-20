@@ -1,5 +1,6 @@
 import { selectLatestElement } from '../../utils/helper';
 import { slideIn } from '../../utils/slide';
+import { timeForToday } from '../../utils/helper';
 
 export default function ChatListItem(props) {
   this.state = {};
@@ -21,9 +22,9 @@ export default function ChatListItem(props) {
             <div class='chat-div'>
                 <div class='chat-row'>
                     <div class='chat-id'>${chat.id}</div>
-                    <div class='chat-agoTime'>${
+                    <div class='chat-agoTime'>${timeForToday(
                       chat.conversation[0].registerDate
-                    }</div>
+                    )}</div>
                 </div>
                 <div class='chat-row'>
                     <div class='chat-preview'>${

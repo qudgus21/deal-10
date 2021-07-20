@@ -3,14 +3,8 @@ import db from '../db.js';
 const chat = {
   chatAsSaler: (params) => {
     let sql = `
-    select c.idx as roomIdx, productId, saler, customer,  c.updateDate as updateDate,
-       concat('[', group_concat(json_object('commentIdx', cc.idx, 'type',type,'content',content, 'registerDate', CASE
-       WHEN TIMESTAMPDIFF(SECOND,cc.registerDate ,NOW() ) < 60 THEN concat(TIMESTAMPDIFF(SECOND, cc.registerDate, NOW()), '초 전')
-       WHEN TIMESTAMPDIFF(MINUTE, cc.registerDate,NOW()  ) < 60 THEN concat(TIMESTAMPDIFF(MINUTE, cc.registerDate, NOW()), '분 전')
-       WHEN TIMESTAMPDIFF(HOUR , cc.registerDate,NOW()  ) < 24 THEN concat(TIMESTAMPDIFF(HOUR, cc.registerDate, NOW()), '시간 전')
-       WHEN TIMESTAMPDIFF(DAY , cc.registerDate,NOW()  ) < 30 THEN concat(TIMESTAMPDIFF(DAY, cc.registerDate, NOW()), '일 전')
-       WHEN TIMESTAMPDIFF(MONTH , cc.registerDate,NOW()  ) < 12 THEN concat(TIMESTAMPDIFF(MONTH, cc.registerDate, NOW()), '달 전')
-       ELSE concat(TIMESTAMPDIFF(YEAR , cc.registerDate, NOW()), '년 전') end)),']') as conversation,
+      select c.idx as roomIdx, productId, saler, customer,  c.updateDate as updateDate,
+       concat('[', group_concat(json_object('commentIdx', cc.idx, 'type',type,'content',content, 'registerDate', cc.registerDate)),']') as conversation,
        sum(case when salerRead='N' then 1 else 0 end) as unreadCnt , imgUrls, id
        from chattings c
        left join chatting_content cc on cc.roomIdx= c.idx
@@ -35,13 +29,7 @@ const chat = {
   chatAsCustomer: (params) => {
     let sql = `
         select c.idx as roomIdx, productId, saler, customer,  c.updateDate as updateDate,
-        concat('[', group_concat(json_object('commentIdx', cc.idx, 'type',type,'content',content, 'registerDate', CASE
-        WHEN TIMESTAMPDIFF(SECOND,cc.registerDate ,NOW() ) < 60 THEN concat(TIMESTAMPDIFF(SECOND, cc.registerDate, NOW()), '초 전')
-        WHEN TIMESTAMPDIFF(MINUTE, cc.registerDate,NOW()  ) < 60 THEN concat(TIMESTAMPDIFF(MINUTE, cc.registerDate, NOW()), '분 전')
-        WHEN TIMESTAMPDIFF(HOUR , cc.registerDate,NOW()  ) < 24 THEN concat(TIMESTAMPDIFF(HOUR, cc.registerDate, NOW()), '시간 전')
-        WHEN TIMESTAMPDIFF(DAY , cc.registerDate,NOW()  ) < 30 THEN concat(TIMESTAMPDIFF(DAY, cc.registerDate, NOW()), '일 전')
-        WHEN TIMESTAMPDIFF(MONTH , cc.registerDate,NOW()  ) < 12 THEN concat(TIMESTAMPDIFF(MONTH, cc.registerDate, NOW()), '달 전')
-        ELSE concat(TIMESTAMPDIFF(YEAR , cc.registerDate, NOW()), '년 전') end )),']') as conversation,
+        concat('[', group_concat(json_object('commentIdx', cc.idx, 'type',type,'content',content, 'registerDate',cc.registerDate)),']') as conversation,
         sum(case when customer='N' then 1 else 0 end) as unreadCnt, imgUrls, id
         from chattings c
         left join chatting_content cc on cc.roomIdx= c.idx
@@ -144,6 +132,41 @@ const chat = {
     }, '${params.content}', '${params.myType}', '${
       params.myType === 'C' ? 'Y' : 'N'
     }', '${params.myType === 'S' ? 'Y' : 'N'}')`;
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fileds]) => {
+          return resolve(rows[0]);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  getType: (params) => {
+    let sql = `
+    select if(saler=${params.userIdx}, 'S', 'C') as type
+      from chattings c
+      where c.idx=${params.roomIdx};
+    `;
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fileds]) => {
+          return resolve(rows[0].type);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  read: (params) => {
+    let sql = `update chatting_content set ${
+      params.type === 'S' ? `salerRead` : `customerRead`
+    } = 'Y' where roomIdx=${params.roomIdx}`;
+
     return new Promise((resolve, reject) => {
       db.promise()
         .query(sql)

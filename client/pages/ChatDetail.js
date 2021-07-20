@@ -32,6 +32,8 @@ export default function ChatDetail(props) {
         });
         conversatsion(result.data);
       });
+
+      api.sendPost('/chat/read', { roomIdx });
     }, 0);
   };
 
