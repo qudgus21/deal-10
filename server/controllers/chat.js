@@ -178,6 +178,29 @@ const chat = {
         });
     });
   },
+
+  listSaleProduct: (params) => {
+    let sql = `select c.idx as roomIdx, productId, saler, customer,  c.updateDate as updateDate,
+    concat('[', group_concat(json_object('commentIdx', cc.idx, 'type',type,'content',content, 'registerDate', cc.registerDate)),']') as conversation,
+    sum(case when salerRead='N' then 1 else 0 end) as unreadCnt , imgUrls, id
+    from chattings c
+    left join chatting_content cc on cc.roomIdx= c.idx
+    left join products p on p.idx = productId
+    left join users u on u.idx = customer
+    where c.saler=${params.userIdx} and productId=${params.productIdx}
+    group by c.idx;`;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fileds]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
 };
 
 export default chat;

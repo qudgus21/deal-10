@@ -92,4 +92,23 @@ chatRouter.post('/read', (req, res) => {
     });
 });
 
+chatRouter.post('/listSaleProduct', (req, res) => {
+  const params = req.body;
+  chat
+    .listSaleProduct(params)
+    .then((rows) => {
+      rows.forEach((row) => {
+        row.conversation = JSON.parse(row.conversation);
+        row.conversation.sort((a, b) => {
+          return new Date(b.registerDate) - new Date(a.registerDate);
+        });
+      });
+      console.log(rows);
+      res.json({ status: 'ok', data: rows });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
 export default chatRouter;
