@@ -6,6 +6,7 @@ import {
 } from '../../utils/helper';
 import api from '../../utils/api';
 import Dropdown from '../Etc/Dropdown';
+import Snackbar from './SnackBar';
 
 export default function ProductListItem(props) {
   this.state = {
@@ -87,7 +88,7 @@ export default function ProductListItem(props) {
       .split('-')
       .pop();
     api.sendPost('/product/delete', { productIdx }).then((result) => {
-      alert('삭제되었습니다');
+      new Snackbar({ msg: '삭제되었습니다.', duration: 1000 });
       slideIn('/', false);
     });
   };

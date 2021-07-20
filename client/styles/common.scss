@@ -664,3 +664,21 @@ $baemin: #2ac0bc;
 .hidden {
   display: none;
 }
+
+.snackbar {
+  position: absolute;
+  top: 70px;
+  width: 200px;
+  left: calc(375px / 2 - 100px);
+  opacity: 0;
+  transition: 0.2s ease;
+  color: white;
+  background-color: #333;
+  border-radius: 0.2rem;
+  padding: 1rem;
+}
+
+.show-snackbar {
+  opacity: 1;
+  transition: 0.2s ease;
+}

@@ -3,6 +3,7 @@ import { isLogin } from '../utils/helper';
 import WithAction from '../components/Header/withAction';
 import api from '../utils/api';
 import ImgButton from '../components/Etc/ImgButton';
+import Snackbar from '../components/Etc/SnackBar';
 
 export default function NewPost(props) {
   this.state = {
@@ -86,10 +87,12 @@ export default function NewPost(props) {
   };
 
   this.validationCheck = () => {
-    const nameValue = document.querySelector('.newpost input[name=title]')
-      .value;
-    const priceValue = document.querySelector('.newpost input[name=price]')
-      .value;
+    const nameValue = document.querySelector(
+      '.newpost input[name=title]'
+    ).value;
+    const priceValue = document.querySelector(
+      '.newpost input[name=price]'
+    ).value;
     const descriptionValue = document.querySelector(
       '.newpost textarea[name=description]'
     ).value;
@@ -141,9 +144,8 @@ export default function NewPost(props) {
     formData.append('cancleList', JSON.stringify(this.state.removeImgList));
     api.sendProduct('/product/update', formData).then((result) => {
       if (result.status === 'ok') {
-        alert('상품정보가 수정되었습니다');
+        new Snackbar({ msg: '상품 정보가 수정되었습니다', duration: 1000 });
         window.location.href = '/';
-        // slideOut('/', false);
         return;
       }
     });
@@ -161,19 +163,20 @@ export default function NewPost(props) {
     formData.append('category', this.state.selectedCategory);
     api.sendProduct('/product/newpost', formData).then((result) => {
       if (result.status === 'ok') {
-        alert('상품이 등록되었습니다');
+        new Snackbar({ msg: '상품이 등록되었습니다', duration: 1000 });
         window.location.href = '/';
-        // slideOut('/', false);
         return;
       }
     });
   };
 
   this.submitHandler = () => {
-    const nameValue = document.querySelector('.newpost input[name=title]')
-      .value;
-    const priceValue = document.querySelector('.newpost input[name=price]')
-      .value;
+    const nameValue = document.querySelector(
+      '.newpost input[name=title]'
+    ).value;
+    const priceValue = document.querySelector(
+      '.newpost input[name=price]'
+    ).value;
     const descriptionValue = document.querySelector(
       '.newpost textarea[name=description]'
     ).value;
@@ -186,7 +189,7 @@ export default function NewPost(props) {
         this.insertPost(nameValue, priceValue, descriptionValue, $imageInputs);
       }
     } else {
-      alert(uploadValid);
+      new Snackbar({ msg: uploadValid, duration: 1000 });
       return;
     }
   };

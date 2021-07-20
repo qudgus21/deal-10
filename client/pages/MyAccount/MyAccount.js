@@ -3,6 +3,7 @@ import { slideOut } from '../../utils/slide';
 import WithoutAction from '../../components/Header/WithoutAction';
 import Button from '../../components/Button/Button';
 import api from '../../utils/api';
+import Snackbar from '../../components/Etc/SnackBar';
 
 export default function MyAccount(props) {
   this.state = {};
@@ -42,9 +43,8 @@ export default function MyAccount(props) {
           if (result.status === 'ok') {
             setCookie('user', 'none', 0);
             setCookie('userIdx', 'none', 0);
-            alert('로그아웃 되었습니다');
+            new Snackbar({ msg: '로그아웃 되었습니다', duration: 1000 });
             window.location.href = '/';
-            // slideOut('/', false);
           }
         });
       },

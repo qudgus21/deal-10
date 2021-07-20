@@ -4,6 +4,7 @@ import WithoutAction from '../../components/Header/WithoutAction';
 import Button from '../../components/Button/Button';
 import TextInput from '../../components/TextInput/TextInput';
 import api from '../../utils/api';
+import Snackbar from '../../components/Etc/SnackBar';
 
 export default function Register(props) {
   this.state = {
@@ -59,8 +60,9 @@ export default function Register(props) {
       content: '회원가입',
       eventHandler: (e) => {
         const $Register = document.querySelector('.register');
-        const id = document.querySelector('.register .id-input-box input')
-          .value;
+        const id = document.querySelector(
+          '.register .id-input-box input'
+        ).value;
         const location = document.querySelector(
           '.register .location-input-box input'
         ).value;
@@ -68,20 +70,20 @@ export default function Register(props) {
         const idResult = idValidation(id);
         const locateResult = locateValidation(location);
         if (idResult !== 'ok') {
-          alert(idResult);
+          new Snackbar({ msg: idResult, duration: 1000 });
           return;
         } else if (locateResult !== 'ok') {
-          alert(locateResult);
+          new Snackbar({ msg: locateResult, duration: 1000 });
           return;
         } else {
           api
             .sendPost('/user/register', { userId: id, location })
             .then((result) => {
               if (result.status === 'ok') {
-                alert('회원가입 성공');
+                new Snackbar({ msg: '회원가입 성공', duration: 1000 });
                 slideOut('/login', false);
               } else {
-                alert(result.message);
+                new Snackbar({ msg: result.message, duration: 1000 });
                 return;
               }
             });

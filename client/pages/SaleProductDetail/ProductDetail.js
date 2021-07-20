@@ -3,7 +3,7 @@ import Dropdown from '../../components/Etc/Dropdown';
 import { saleConstant } from '../../utils/constant';
 import Button from '../../components/Button/Button';
 import { isLogin, numberWithCommas } from '../../utils/helper';
-
+import Snackbar from '../../components/Etc/SnackBar';
 import api from '../../utils/api';
 import Carousel from '../../components/Etc/Carousel';
 
@@ -48,7 +48,7 @@ export default function ProductDetail(props) {
   this.delete = () => {
     const productIdx = window.location.pathname.split('/').pop();
     api.sendPost('/product/delete', { productIdx }).then((result) => {
-      alert('삭제되었습니다');
+      new Snackbar({ msg: '삭제되었습니다.', duration: 1000 });
       slideIn('/', false);
     });
   };
