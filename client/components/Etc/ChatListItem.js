@@ -1,3 +1,6 @@
+import { selectLatestElement } from '../../utils/helper';
+import { slideIn } from '../../utils/slide';
+
 export default function ChatListItem(props) {
   this.state = {};
 
@@ -6,11 +9,15 @@ export default function ChatListItem(props) {
     this.render();
   };
 
+  this.chatClickHandler = (e) => {
+    slideIn(`chatting/${props.chat.roomIdx}`);
+  };
+
   this.render = () => {
-    const { chat } = props;
+    const { chat, parent } = props;
 
     let templateLiteral = `
-        <div class='chatlist-item'>
+        <div class='chatlist-item room-${chat.roomIdx}'>
             <div class='chat-div'>
                 <div class='chat-row'>
                     <div class='chat-id'>${chat.id}</div>
@@ -37,11 +44,11 @@ export default function ChatListItem(props) {
 
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
 
-    // const $chatListItem = selectLatestElement(
-    //   document.querySelector('.chatlist-container'),
-    //   '.chatlist-item'
-    // );
-    // $chatListItem.addEventListener('click', props.eventHandler);
+    const $chatListItem = parent.querySelector(
+      `.chatlist-item.room-${chat.roomIdx}`
+    );
+
+    $chatListItem.addEventListener('click', this.chatClickHandler);
   };
 
   this.render();
