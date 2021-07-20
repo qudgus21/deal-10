@@ -8,7 +8,6 @@ export const selectLatestElement = (parent, cls) => {
 export const getPageName = (path) => {
   let paths = path.split('/');
   let page = paths.pop();
-
   if (page == '') {
     return 'home';
   } else if (isNaN(Number(page))) {
@@ -20,7 +19,7 @@ export const getPageName = (path) => {
       return 'productdetail';
     } else if (paths[0] === 'newpost') {
       return 'newpost';
-    } else if (paths[3] === 'chatlist') {
+    } else if (paths[0] === 'chatting') {
       return 'chatdetail';
     }
     // return paths.pop();
