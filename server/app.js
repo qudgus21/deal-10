@@ -8,8 +8,17 @@ import homeRouter from './routes/homeRouter.js';
 import categoryRouter from './routes/categoryRouter.js';
 import productRouter from './routes/productRouter.js';
 import chatRouter from './routes/chatRouter.js';
+import { Server } from 'socket.io';
+import { createServer } from 'http';
 
 const app = express();
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  },
+});
+
 dotenv.config();
 const __dirname = path.resolve();
 
@@ -34,15 +43,37 @@ app.use('/category', categoryRouter);
 app.use('/product', productRouter);
 app.use('/chat', chatRouter);
 
-app.use((req, res) => {
-  const rightPath = ['/test'];
-  if (rightPath.includes(req.path)) {
-    res.render('index.html');
-  } else {
-    res.render('error.html');
-  }
+let clients = [];
+
+io.sockets.on('connection', function (socket) {
+  socket.on('newUserChatInfo', function (info) {
+    let clientInfo = {
+      ...info,
+      clientId: socket.id,
+    };
+    clients.push(clientInfo);
+    console.log(`user${info.myIdx}번님이 ${info.roomIdx}방에 입장하셨습니다.`);
+  });
+
+  socket.on('disconnect', function () {
+    console.log(`방에서 나가셨습니다.`);
+  });
+
+  socket.on('message', function (message) {
+    let target = clients.filter((c) => {
+      if (
+        message.data.opponentIdx === c.myIdx &&
+        message.data.roomIdx === c.roomIdx
+      ) {
+        return c;
+      }
+    });
+    console.log(target[0]);
+    console.log(message.data.content);
+    io.to(target[0].clientId).emit('update', message.data.content);
+  });
 });
 
-app.listen(process.env.PORT || 3000, () => {
+server.listen(process.env.PORT || 3000, () => {
   console.log('server is runnig');
 });

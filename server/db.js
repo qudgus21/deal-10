@@ -9,7 +9,7 @@ const db = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   timezone: process.env.DB_TIMEZONE,
   database: process.env.DB_DATABASE,
-  connectionLimit: 5,
+  connectionLimit: 50,
 });
 
 db.query('SET SESSION group_concat_max_len = 4294967295');

@@ -2,6 +2,7 @@ import api from '../utils/api';
 import WithAction from '../components/Header/withAction';
 import { slideOut } from '../utils/slide';
 import { numberWithCommas } from '../utils/helper';
+import conversatsion from '../utils/conversation';
 
 export default function ChatDetail(props) {
   this.state = {
@@ -21,15 +22,15 @@ export default function ChatDetail(props) {
     setTimeout(() => {
       const roomIdx = window.location.pathname.split('/').pop();
       api.sendPost('/chat/chatData', { roomIdx }).then((result) => {
-        let chat = result.data;
         this.setState({
-          chat,
+          chat: result.data,
           saleState: {
             C: '종료',
             R: '예약중',
             S: '판매중',
           },
         });
+        conversatsion(result.data);
       });
     }, 0);
   };
@@ -37,7 +38,6 @@ export default function ChatDetail(props) {
   this.addChat = (chat) => {
     const $msgContainer = document.querySelector('.chatdetail .msg-container');
     let mesage = ``;
-    console.log(chat);
     chat.conversation.forEach((c) => {
       if (c.type === chat.myType) {
         mesage = `<div class='msg-right'><div class='msg-send'>${c.content}</div></div>`; //내타입이랑 같은놈
@@ -53,6 +53,35 @@ export default function ChatDetail(props) {
     );
     $msgContainer.scrollTo(0, $msgContainer.scrollHeight);
   };
+
+  // this.afterChat = (value) => {
+  //   const $msgContainer = document.querySelector('.chatdetail .msg-container');
+  //   const mesage = `<div class='msg-right'><div class='msg-send'>${value}</div></div>`; //내타입이랑 다른놈
+  //   $msgContainer.insertAdjacentHTML('beforeend', mesage);
+  //   document.querySelector('.chatdetail .chat-input').value = ' ';
+  // };
+
+  // this.imgSubmitHandler = (e) => {
+  //   const value = document.querySelector('.chatdetail .chat-input').value;
+  //   if (value) {
+  //     api
+  //       .sendPost('/chat/chattingContent', {
+  //         ...this.state.chat,
+  //         content: value,
+  //       })
+  //       .then((result) => {
+  //         this.afterChat(value);
+
+  //         //여기서 에미트!
+  //       });
+  //   }
+  // };
+
+  // this.enterHandler = (e) => {
+  //   if (e.keyCode === 13) {
+  //     this.imgSubmitHandler();
+  //   }
+  // };
 
   this.render = () => {
     const { chat, saleState } = this.state;
@@ -81,7 +110,7 @@ export default function ChatDetail(props) {
                 </div>
                 <div class='msg-container'></div>
                 <div class='msg-input-div'>
-                    <input type='text' name='msg' placeholder='메시지를 입력하세요.'>
+                    <input class="chat-input" type='text' name='msg' placeholder='메시지를 입력하세요.'>
                     <button class='send-msg-button'>
                         <img src='../images/dev/send.svg'>
                     </button>
@@ -97,19 +126,19 @@ export default function ChatDetail(props) {
       eventHandler: (e) => {
         slideOut('/', false);
       },
+      src1: 'arrow_back',
+      src2: 'exit',
     });
 
     chat ? this.addChat(chat) : null;
 
-    // let msgReceiveTl = `<div class='msg-left'><div class='msg-receive'>안녕하세요 궁금한게 있는데요</div></div>`; //내 타입이랑반대인놈
-    // let msgSendTl = `<div class='msg-right'><div class='msg-send'>네 안녕하세요!</div></div>`; //내타입이랑 같은놈
+    // document
+    //   .querySelector('.chatdetail .send-msg-button img')
+    //   .addEventListener('click', this.imgSubmitHandler);
 
-    // const $msgContainer = document.querySelector('.chatdetail .msg-container');
-
-    // for (let i = 0; i < 50; i++) {
-    //   $msgContainer.insertAdjacentHTML('afterbegin', msgSendTl);
-    //   $msgContainer.insertAdjacentHTML('afterbegin', msgReceiveTl);
-    // }
+    // document
+    //   .querySelector('.chatdetail .chat-input')
+    //   .addEventListener('keyup', this.enterHandler);
   };
 
   this.componentDidMount();

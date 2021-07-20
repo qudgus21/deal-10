@@ -137,6 +137,24 @@ const chat = {
         });
     });
   },
+
+  chattingContent: (params) => {
+    let sql = `insert into chatting_content (roomIdx, content, type, customerRead, salerRead) values (${
+      params.roomIdx
+    }, '${params.content}', '${params.myType}', '${
+      params.myType === 'C' ? 'Y' : 'N'
+    }', '${params.myType === 'S' ? 'Y' : 'N'}')`;
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fileds]) => {
+          return resolve(rows[0]);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
 };
 
 export default chat;

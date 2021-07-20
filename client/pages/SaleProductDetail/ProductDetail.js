@@ -158,7 +158,6 @@ export default function ProductDetail(props) {
 
   this.render = () => {
     const { product, saleStatus } = this.state;
-    console.log(product);
     let templateLiteral = `
             <div class="productdetail slide">
                 <div class="header-box">
