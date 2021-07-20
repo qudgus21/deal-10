@@ -5,6 +5,7 @@ import Button from '../../components/Button/Button';
 import TextInput from '../../components/TextInput/TextInput';
 import Register from './Register';
 import api from '../../utils/api';
+import Snackbar from '../../components/Etc/SnackBar';
 
 export default function Login(props) {
   this.state = {
@@ -53,16 +54,15 @@ export default function Login(props) {
         const value = selectLatestElement($Login, '.id-input-box input').value;
 
         !value
-          ? alert('아이디를 입력해 주세요')
+          ? new Snackbar({ msg: '아이디를 입력해 주세요', duration: 1000 })
           : api.sendPost('/user/login', { userId: value }).then((result) => {
               if (result.status === 'ok') {
-                alert('로그인 성공');
+                new Snackbar({ msg: '로그인 성공', duration: 1000 });
                 setCookie('user', result.data.id);
                 setCookie('userIdx', result.data.idx);
                 window.location.href = '/';
-                // slideOut('/', false);
               } else {
-                alert(result.message);
+                new Snackbar({ msg: result.message, duration: 1000 });
               }
             });
       },

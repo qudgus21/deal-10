@@ -3,7 +3,7 @@ import Dropdown from '../../components/Etc/Dropdown';
 import { saleConstant } from '../../utils/constant';
 import Button from '../../components/Button/Button';
 import { isLogin, numberWithCommas } from '../../utils/helper';
-
+import Snackbar from '../../components/Etc/SnackBar';
 import api from '../../utils/api';
 import Carousel from '../../components/Etc/Carousel';
 
@@ -48,7 +48,7 @@ export default function ProductDetail(props) {
   this.delete = () => {
     const productIdx = window.location.pathname.split('/').pop();
     api.sendPost('/product/delete', { productIdx }).then((result) => {
-      alert('삭제되었습니다');
+      new Snackbar({ msg: '삭제되었습니다.', duration: 1000 });
       slideIn('/', false);
     });
   };
@@ -162,19 +162,18 @@ export default function ProductDetail(props) {
             <div class="productdetail slide">
                 <div class="header-box">
                     <div>
-                    <img class='back-button' src='../../images/dev/arrow_back.svg'/>
+                    <img class='back-button' src='../../images/dev/arrow_back_green.svg'/>
                     </div>
                     ${
                       product.isSaler === 'Y'
                         ? `
                         <div class="dropdown-button">
-                          <img class='more-button' src='../../images/dev/more_vert.svg'/>
+                          <img class='more-button' src='../../images/dev/more_vert_green.svg'/>
                         </div>`
                         : ``
                     }
                 </div>
                 <div class="product-img">
-                  <img src="${product.imgUrls[0]}"/>
                 </div>
                 <div class="content">
                     ${
@@ -272,11 +271,6 @@ export default function ProductDetail(props) {
         .addEventListener('click', this.statusHandler);
     }
 
-    // new Carousel({
-    //   parent: document.querySelector('.product-img'),
-    //   imgUrls: product.imgUrls,
-    // });
-
     new Button({
       cls: `medium-button`,
       parent: document.querySelector('.productdetail .footer .btn-box'),
@@ -298,6 +292,9 @@ export default function ProductDetail(props) {
     if ($favorite) {
       $favorite.addEventListener('click', this.favoriteButtonClickHandler);
     }
+
+    const $img = document.querySelector('.product-img');
+    new Carousel({ parent: $img, imgUrls: product.imgUrls });
   };
 
   this.componentDidMount();

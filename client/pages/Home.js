@@ -3,6 +3,7 @@ import { isLogin } from '../utils/helper';
 import homeHeader from '../components/Header/Main';
 import api from '../utils/api';
 import ProductListItem from '../components/Etc/ProductListItem';
+import Snackbar from '../components/Etc/SnackBar';
 
 export default function Home(props) {
   this.state = {
@@ -49,7 +50,7 @@ export default function Home(props) {
 
     document.querySelector('.fab-button').addEventListener('click', () => {
       if (!isLogin()) {
-        alert('로그인 후 이용해 주세요');
+        new Snackbar({ msg: '로그인 후 이용해 주세요', duration: 1000 });
         return;
       }
       slideIn('/newpost', false);

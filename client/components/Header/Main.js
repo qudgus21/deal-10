@@ -2,6 +2,7 @@ import { isLogin, selectLatestElement, getCookie } from '../../utils/helper';
 import { slideIn } from '../../utils/slide';
 import Dropdown from '../Etc/Dropdown';
 import api from '../../utils/api';
+import Snackbar from '../Etc/SnackBar';
 
 export default function homeHeader(props) {
   this.state = {};
@@ -21,8 +22,8 @@ export default function homeHeader(props) {
         <img src='./images/dev/none.svg'>
       </div>
       <div class='location-div flex'>
-        <img src='./images/dev/location.svg'>
-        <div>동네 설정</div>
+        <img class='location-icon' src='./images/dev/location.svg'>
+        <div class='location-title'>동네 설정</div>
       </div>
       <div>
         <button class='my-account-button' type='button'>
@@ -49,33 +50,46 @@ export default function homeHeader(props) {
     );
     const $menuButton = selectLatestElement($homeHeader, '.menu-button');
 
-    api.sendPost('/user/getInfo', {}).then((result) => {
-      $locationDiv.children[1].innerText = result.data.location[0];
-      $locationDiv.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (isLogin()) {
-          if (document.querySelector('.dropdown') !== null) {
-            document.querySelector('.dropdown').remove();
-          }
-          new Dropdown({
-            parent: $homeHeader,
-            data: [
-              { text: result.data.location[0], eventHandler: () => {} },
-              {
-                text: '내 동네 설정',
-                eventHandler: () => {
-                  slideIn('/location', false);
-                  document.querySelector('.dropdown').remove();
-                },
-              },
-            ],
+    if (isLogin()) {
+      api
+        .sendPost('/user/getInfo', {})
+        .then((result) => {
+          $locationDiv.children[1].innerText = result.data.location[0];
+          $locationDiv.addEventListener('click', (e) => {
+            console.log(e.target);
+            e.stopPropagation();
+            if (isLogin()) {
+              if (document.querySelector('.dropdown') !== null) {
+                document.querySelector('.dropdown').remove();
+              } else {
+                new Dropdown({
+                  parent: $homeHeader,
+                  data: [
+                    { text: result.data.location[0], eventHandler: () => {} },
+                    {
+                      text: '내 동네 설정',
+                      eventHandler: () => {
+                        slideIn('/location', false);
+                        document.querySelector('.dropdown').remove();
+                      },
+                    },
+                  ],
+                });
+                document
+                  .querySelector('.dropdown')
+                  .classList.add('dropdown-home');
+              }
+            }
           });
-          document.querySelector('.dropdown').classList.add('dropdown-home');
-        } else {
-          alert('로그인을 해주세요.');
+        })
+        .catch((err) => {});
+    } else {
+      $locationDiv.addEventListener('click', (e) => {
+        if (isLogin() == false) {
+          new Snackbar({ msg: '로그인 후 이용해 주세요', duration: 1000 });
         }
       });
-    });
+    }
 
     $categoryButton.addEventListener('click', () => {
       slideIn('/category', false);
@@ -92,7 +106,10 @@ export default function homeHeader(props) {
       if (isLogin()) {
         slideIn('/menu', false);
       } else {
-        alert('로그인 후 이용해주세요');
+        new Snackbar({
+          msg: '로그인 후 이용해 주세요',
+          duration: 1000,
+        });
       }
     });
   };
