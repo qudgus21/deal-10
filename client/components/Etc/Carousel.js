@@ -40,7 +40,6 @@ export default function Carousel(props) {
       selectLatestElement($navigator, `.nav-${index}`).addEventListener(
         'click',
         () => {
-          console.log('click');
           shiftTo(index);
         }
       );

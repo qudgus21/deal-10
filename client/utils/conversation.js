@@ -18,7 +18,6 @@ export default function conversatsion(chat) {
   });
 
   socket.on('update', function (data) {
-    console.log(data);
     const $msgContainer = document.querySelector('.chatdetail .msg-container');
     const mesage = `<div class='msg-left'><div class='msg-receive'>${data}</div></div>`;
     $msgContainer.insertAdjacentHTML('beforeend', mesage);
@@ -37,7 +36,7 @@ export default function conversatsion(chat) {
 
   const imgSubmitHandler = () => {
     const value = document.querySelector('.chatdetail .chat-input').value;
-    if (value) {
+    if (value.trim()) {
       api
         .sendPost('/chat/chattingContent', {
           ...chat,

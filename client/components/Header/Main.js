@@ -56,7 +56,6 @@ export default function homeHeader(props) {
         .then((result) => {
           $locationDiv.children[1].innerText = result.data.location[0];
           $locationDiv.addEventListener('click', (e) => {
-            console.log(e.target);
             e.stopPropagation();
             if (isLogin()) {
               if (document.querySelector('.dropdown') !== null) {
