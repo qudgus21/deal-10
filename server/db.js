@@ -1,12 +1,17 @@
 import mysql from 'mysql2';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'qudgus423!',
-  // password: 'rootroot',
-  timezone: 'Asia/Seoul',
-  database: 'woowamarket',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  timezone: process.env.DB_TIMEZONE,
+  database: process.env.DB_DATABASE,
+  connectionLimit: 50,
 });
+
+db.query('SET SESSION group_concat_max_len = 4294967295');
 
 export default db;

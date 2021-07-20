@@ -52,7 +52,8 @@ export default function Location(props) {
       parent: document.querySelector('.location .header-box'),
       content: '내 동네 설정하기',
       eventHandler: (e) => {
-        slideOut('/', false);
+        window.location.href = '/';
+        // slideOut('/', false);
       },
     });
 

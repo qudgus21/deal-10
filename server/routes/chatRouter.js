@@ -59,4 +59,16 @@ chatRouter.post('/chatData', (req, res) => {
   });
 });
 
+chatRouter.post('/chattingContent', (req, res) => {
+  const params = req.body;
+  chat
+    .chattingContent(params)
+    .then((rows) => {
+      res.json({ status: 'ok' });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
 export default chatRouter;
