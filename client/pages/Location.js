@@ -52,7 +52,7 @@ export default function Location(props) {
       parent: document.querySelector('.location .header-box'),
       content: '내 동네 설정하기',
       eventHandler: (e) => {
-        slideOut('/', false);
+        window.location.href = '/';
       },
     });
 
@@ -138,10 +138,10 @@ export default function Location(props) {
           const $modalCancel = document.querySelector('.modal-cancel');
 
           $modalInput.addEventListener('keyup', ({ target }) => {
-            if (target.value == '') {
-              $modalConfirm.classList.remove('confirm');
-            } else {
+            if (target.value != '' && target.value.slice(-1) == '동') {
               $modalConfirm.classList.add('confirm');
+            } else {
+              $modalConfirm.classList.remove('confirm');
             }
           });
 
@@ -151,7 +151,7 @@ export default function Location(props) {
 
           $modalConfirm.addEventListener('click', () => {
             let value = $modalInput.value;
-            if (value != '') {
+            if (value != '' && value.slice(-1) == '동') {
               let newLocation = [];
               if (location.length == 1) {
                 newLocation.push(location[0]);
