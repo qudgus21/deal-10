@@ -20,8 +20,8 @@ export default function Carousel(props) {
         </div>
         <div class='carousel-navigator'>
         </div>
-        <a id='prev' class='control prev'></a>
-        <a id='next' class='control next'></a>
+        <a class='control prev'></a>
+        <a class='control next'></a>
       </div>        
     `;
 
@@ -40,20 +40,20 @@ export default function Carousel(props) {
       selectLatestElement($navigator, `.nav-${index}`).addEventListener(
         'click',
         () => {
+          console.log('click');
           shiftTo(index);
         }
       );
       if (index == 0) {
         selectLatestElement($navigator, `.nav-${index}`).classList.add(
-          'selected'
+          'nav-selected'
         );
       }
     });
-    //애니메이션이 안댐 그리고 넘겨도 멈춤 체크 ㄱ
+
     const $carousel = document.querySelector('.carousel');
     const $prev = document.querySelector('.prev');
     const $next = document.querySelector('.next');
-
     carouselInit($carousel, $container, $prev, $next);
   };
 
