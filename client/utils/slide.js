@@ -10,6 +10,10 @@ export const slideIn = (path, onpop) => {
   }
   setTimeout(() => {
     document.querySelector(`.${pageName}`).classList.add('slide-in');
+    document.querySelector('.app').classList.add('disabled');
+    setTimeout(() => {
+      document.querySelector('.app').classList.remove('disabled');
+    }, 300);
   }, 100);
 };
 
@@ -18,8 +22,10 @@ export const slideOut = (path) => {
   let pageName = getPageName(path);
   window.history.pushState({}, pageName, path);
   $app.lastElementChild.classList.add('slide-out');
+  document.querySelector('.app').classList.add('disabled');
   setTimeout(() => {
     $app.lastElementChild.remove();
+    document.querySelector('.app').classList.remove('disabled');
   }, 300);
 };
 

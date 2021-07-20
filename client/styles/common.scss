@@ -10,6 +10,10 @@ $backgroundGrey: #f6f6f6;
 $bordrColor2: #d7d7d7;
 $baemin: #2ac0bc;
 
+.disabled {
+  pointer-events: none;
+}
+
 .slide {
   position: absolute;
   left: 375px;
