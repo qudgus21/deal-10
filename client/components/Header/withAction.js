@@ -13,9 +13,9 @@ export default function WithAction(props) {
 
     const templateLiteral = `
     <div class='header with-action'>
-      <img class='back-button' src='../../images/dev/${src1}.svg'/>
+      <img class='back-button' src='../../../images/dev/${src1}.svg'/>
       <h1>${content}</h1>
-      <img class='done-button' src='../../images/dev/${src2}.svg'/>
+      <img class='done-button' src='../../../images/dev/${src2}.svg'/>
     </div>
         `;
 

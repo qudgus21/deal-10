@@ -39,6 +39,7 @@ chatRouter.post('/chatData', (req, res) => {
   chat.findPosition(params).then((position) => {
     if (position === 'saler') {
       chat.roomAsSaler(params).then((result) => {
+        result.conversation = JSON.parse(result.conversation);
         result.myType = 'S';
         res.json({
           status: 'ok',
@@ -47,6 +48,7 @@ chatRouter.post('/chatData', (req, res) => {
       });
     } else if (position === 'customer') {
       chat.roomAsCustomer(params).then((result) => {
+        result.conversation = JSON.parse(result.conversation);
         result.myType = 'C';
         res.json({
           status: 'ok',
