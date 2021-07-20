@@ -9,15 +9,6 @@ export default function Menu(props) {
     data: null,
   };
 
-  //   api.sendPost('/product/products', { userIdx: 1 }).then((result) => {
-  //     result.data.forEach((data) => {
-  //       new ProductListItem({
-  //         parent: document.querySelector('menu-container'),
-  //         data: data,
-  //       });
-  //     });
-  //   });
-
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
@@ -72,14 +63,6 @@ export default function Menu(props) {
       new ChatList({
         parent: document.querySelector('.menu .menu-container'),
       });
-      //   api.sendPost('/chatting/chattings', { userIdx: 1 }).then((result) => {
-      //     result.data.forEach((data) => {
-      //         new ChatListItem({
-      //           parent: document.querySelector('menu-container'),
-      //           data: data,
-      //         });
-      //     });
-      //   });
     });
 
     $favList.addEventListener('click', () => {

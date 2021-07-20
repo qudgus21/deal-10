@@ -12,6 +12,9 @@ chatRouter.post('/listAll', async (req, res) => {
   let salers = await chat.chatAsSaler(params).then((rows) => {
     rows.forEach((row) => {
       row.conversation = JSON.parse(row.conversation);
+      row.conversation.sort((a, b) => {
+        return new Date(b.registerDate) - new Date(a.registerDate);
+      });
     });
     return rows;
   });
@@ -19,6 +22,9 @@ chatRouter.post('/listAll', async (req, res) => {
   let customers = await chat.chatAsCustomer(params).then((rows) => {
     rows.forEach((row) => {
       row.conversation = JSON.parse(row.conversation);
+      row.conversation.sort((a, b) => {
+        return new Date(b.registerDate) - new Date(a.registerDate);
+      });
     });
     return rows;
   });
@@ -65,6 +71,40 @@ chatRouter.post('/chattingContent', (req, res) => {
     .chattingContent(params)
     .then((rows) => {
       res.json({ status: 'ok' });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
+chatRouter.post('/read', (req, res) => {
+  const params = req.body;
+  chat
+    .getType(params)
+    .then((type) => {
+      params.type = type;
+      chat.read(params).then((result) => {
+        res.json({ status: 'ok' });
+      });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
+chatRouter.post('/listSaleProduct', (req, res) => {
+  const params = req.body;
+  chat
+    .listSaleProduct(params)
+    .then((rows) => {
+      rows.forEach((row) => {
+        row.conversation = JSON.parse(row.conversation);
+        row.conversation.sort((a, b) => {
+          return new Date(b.registerDate) - new Date(a.registerDate);
+        });
+      });
+      console.log(rows);
+      res.json({ status: 'ok', data: rows });
     })
     .catch(() => {
       res.json({ status: 'error' });

@@ -32,6 +32,8 @@ export default function ChatDetail(props) {
         });
         conversatsion(result.data);
       });
+
+      api.sendPost('/chat/read', { roomIdx });
     }, 0);
   };
 
@@ -40,9 +42,9 @@ export default function ChatDetail(props) {
     let mesage = ``;
     chat.conversation.forEach((c) => {
       if (c.type === chat.myType) {
-        mesage = `<div class='msg-right'><div class='msg-send'>${c.content}</div></div>`; //내타입이랑 같은놈
+        mesage = `<div class='msg-right'><div class='msg-send'>${c.content}</div></div>`;
       } else {
-        mesage = `<div class='msg-left'><div class='msg-receive'>${c.content}</div></div>`; //내타입이랑 다른놈
+        mesage = `<div class='msg-left'><div class='msg-receive'>${c.content}</div></div>`;
       }
       $msgContainer.insertAdjacentHTML('beforeend', mesage);
     });
@@ -53,35 +55,6 @@ export default function ChatDetail(props) {
     );
     $msgContainer.scrollTo(0, $msgContainer.scrollHeight);
   };
-
-  // this.afterChat = (value) => {
-  //   const $msgContainer = document.querySelector('.chatdetail .msg-container');
-  //   const mesage = `<div class='msg-right'><div class='msg-send'>${value}</div></div>`; //내타입이랑 다른놈
-  //   $msgContainer.insertAdjacentHTML('beforeend', mesage);
-  //   document.querySelector('.chatdetail .chat-input').value = ' ';
-  // };
-
-  // this.imgSubmitHandler = (e) => {
-  //   const value = document.querySelector('.chatdetail .chat-input').value;
-  //   if (value) {
-  //     api
-  //       .sendPost('/chat/chattingContent', {
-  //         ...this.state.chat,
-  //         content: value,
-  //       })
-  //       .then((result) => {
-  //         this.afterChat(value);
-
-  //         //여기서 에미트!
-  //       });
-  //   }
-  // };
-
-  // this.enterHandler = (e) => {
-  //   if (e.keyCode === 13) {
-  //     this.imgSubmitHandler();
-  //   }
-  // };
 
   this.render = () => {
     const { chat, saleState } = this.state;
@@ -131,14 +104,6 @@ export default function ChatDetail(props) {
     });
 
     chat ? this.addChat(chat) : null;
-
-    // document
-    //   .querySelector('.chatdetail .send-msg-button img')
-    //   .addEventListener('click', this.imgSubmitHandler);
-
-    // document
-    //   .querySelector('.chatdetail .chat-input')
-    //   .addEventListener('keyup', this.enterHandler);
   };
 
   this.componentDidMount();

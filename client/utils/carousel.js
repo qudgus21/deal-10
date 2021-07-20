@@ -16,7 +16,6 @@ export const carouselInit = (wrapper, items, prev, next) => {
 
   items.appendChild(cloneFirst);
   items.insertBefore(cloneLast, firstSlide);
-  console.log(items);
   wrapper.classList.add('loaded');
 
   items.onmousedown = dragStart;

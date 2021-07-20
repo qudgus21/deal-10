@@ -10,6 +10,7 @@ import productRouter from './routes/productRouter.js';
 import chatRouter from './routes/chatRouter.js';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
+import './socket.js';
 
 const app = express();
 const server = createServer(app);
@@ -44,7 +45,6 @@ app.use('/product', productRouter);
 app.use('/chat', chatRouter);
 
 let clients = [];
-
 io.sockets.on('connection', function (socket) {
   socket.on('newUserChatInfo', function (info) {
     let clientInfo = {
@@ -68,9 +68,9 @@ io.sockets.on('connection', function (socket) {
         return c;
       }
     });
-    console.log(target[0]);
-    console.log(message.data.content);
-    io.to(target[0].clientId).emit('update', message.data.content);
+    if (target.length) {
+      io.to(target[0].clientId).emit('update', message.data.content);
+    }
   });
 });
 

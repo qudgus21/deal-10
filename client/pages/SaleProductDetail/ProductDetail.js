@@ -271,6 +271,11 @@ export default function ProductDetail(props) {
         .addEventListener('click', this.statusHandler);
     }
 
+    this.moveToChatList = () => {
+      const productIdx = window.location.pathname.split('/').pop();
+      slideIn(`/product/${productIdx}/productchatlist`);
+    };
+
     new Button({
       cls: `medium-button`,
       parent: document.querySelector('.productdetail .footer .btn-box'),
@@ -281,7 +286,8 @@ export default function ProductDetail(props) {
             }`
           : `문의하기`
       }`,
-      eventHandler: (e) => {},
+      eventHandler:
+        product.isSaler === 'Y' ? this.moveToChatList : this.customerAsk,
     });
 
     document
