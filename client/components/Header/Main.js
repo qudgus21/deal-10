@@ -22,8 +22,8 @@ export default function homeHeader(props) {
         <img src='./images/dev/none.svg'>
       </div>
       <div class='location-div flex'>
-        <img src='./images/dev/location.svg'>
-        <div>동네 설정</div>
+        <img class='location-icon' src='./images/dev/location.svg'>
+        <div class='location-title'>동네 설정</div>
       </div>
       <div>
         <button class='my-account-button' type='button'>
@@ -56,27 +56,29 @@ export default function homeHeader(props) {
         .then((result) => {
           $locationDiv.children[1].innerText = result.data.location[0];
           $locationDiv.addEventListener('click', (e) => {
+            console.log(e.target);
             e.stopPropagation();
             if (isLogin()) {
               if (document.querySelector('.dropdown') !== null) {
                 document.querySelector('.dropdown').remove();
-              }
-              new Dropdown({
-                parent: $homeHeader,
-                data: [
-                  { text: result.data.location[0], eventHandler: () => {} },
-                  {
-                    text: '내 동네 설정',
-                    eventHandler: () => {
-                      slideIn('/location', false);
-                      document.querySelector('.dropdown').remove();
+              } else {
+                new Dropdown({
+                  parent: $homeHeader,
+                  data: [
+                    { text: result.data.location[0], eventHandler: () => {} },
+                    {
+                      text: '내 동네 설정',
+                      eventHandler: () => {
+                        slideIn('/location', false);
+                        document.querySelector('.dropdown').remove();
+                      },
                     },
-                  },
-                ],
-              });
-              document
-                .querySelector('.dropdown')
-                .classList.add('dropdown-home');
+                  ],
+                });
+                document
+                  .querySelector('.dropdown')
+                  .classList.add('dropdown-home');
+              }
             }
           });
         })
