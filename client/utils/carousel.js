@@ -4,15 +4,35 @@ export const carouselInit = (wrapper, items, prev, next) => {
     posInitial,
     posFinal,
     threshold = 100,
+    index = 0,
+    allowShift = true,
     slides = items.querySelectorAll('.carousel-img'),
     slidesLength = slides.length,
     slideSize = items.querySelectorAll('.carousel-img')[0].offsetWidth,
     firstSlide = slides[0],
     lastSlide = slides[slidesLength - 1],
     cloneFirst = firstSlide.cloneNode(true),
-    cloneLast = lastSlide.cloneNode(true),
-    index = 0,
-    allowShift = true;
+    cloneLast = lastSlide.cloneNode(true);
+
+  items.appendChild(cloneFirst);
+  items.insertBefore(cloneLast, firstSlide);
+  console.log(items);
+  wrapper.classList.add('loaded');
+
+  items.onmousedown = dragStart;
+
+  items.addEventListener('touchstart', dragStart);
+  items.addEventListener('touchend', dragEnd);
+  items.addEventListener('touchmove', dragAction);
+
+  prev.addEventListener('click', function () {
+    shiftSlide(-1);
+  });
+  next.addEventListener('click', function () {
+    shiftSlide(1);
+  });
+
+  items.addEventListener('transitionend', checkIndex);
 
   function dragStart(e) {
     e = e || window.event;
@@ -89,42 +109,22 @@ export const carouselInit = (wrapper, items, prev, next) => {
     }
 
     allowShift = true;
+
+    document.querySelector('.nav-selected').classList.remove('nav-selected');
+    document.querySelector(`.nav-${index}`).classList.add('nav-selected');
   }
-
-  items.appendChild(cloneFirst);
-  items.insertBefore(cloneLast, firstSlide);
-  wrapper.classList.add('loaded');
-
-  items.onmousedown = dragStart;
-
-  items.addEventListener('touchstart', dragStart);
-  items.addEventListener('touchend', dragEnd);
-  items.addEventListener('touchmove', dragAction);
-
-  prev.addEventListener('click', function () {
-    shiftSlide(-1);
-  });
-  next.addEventListener('click', function () {
-    shiftSlide(1);
-  });
-
-  items.addEventListener('transitionend', checkIndex);
 };
 
 export const shiftTo = (imgNum) => {
-  let curIndex = 0;
-  let $navigator = document.querySelector('.carousel-navigator');
-  Array.from($navigator.children).forEach((element, index) => {
-    if (element.classList.contains('selected')) {
-      curIndex = index;
-    }
-  });
+  let curIndex = document
+    .querySelector('.nav-selected')
+    .classList[1].split('-')[1];
+  const $next = document.querySelector('.next');
 
   if (imgNum != curIndex) {
-    const $next = document.querySelector('.next');
     $next.click();
     setTimeout(() => {
       shiftTo(imgNum);
-    }, 0);
+    }, 300);
   }
 };
