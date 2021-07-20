@@ -53,10 +53,7 @@ export default function Location(props) {
       content: '내 동네 설정하기',
       eventHandler: (e) => {
         window.location.href = '/';
-<<<<<<< HEAD
         // slideOut('/', false);
-=======
->>>>>>> 33fd969c37b1744fc96181b5d8544ed567a63294
       },
     });
 
