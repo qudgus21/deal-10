@@ -10,7 +10,7 @@ const makeEmitData = (chat) => {
   };
 };
 
-export default function conversatsion(chat) {
+export default function conversation(chat) {
   const socket = io.connect('http://localhost:3000');
 
   socket.on('connect', function () {
