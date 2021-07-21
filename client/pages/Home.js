@@ -15,9 +15,12 @@ export default function Home(props) {
     this.render();
   };
 
-  api.sendPost('/product/products', {}).then((result) => {
+  api.sendPost('/product/products', { isHome: true }).then((result) => {
+    let products = result.data.filter((product) => {
+      return product.location !== null;
+    });
     this.setState({
-      products: result.data,
+      products,
     });
   });
 

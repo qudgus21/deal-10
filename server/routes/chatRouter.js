@@ -15,6 +15,9 @@ chatRouter.post('/listAll', async (req, res) => {
       row.conversation.sort((a, b) => {
         return new Date(b.registerDate) - new Date(a.registerDate);
       });
+      row.conversation = row.conversation.filter((item) => {
+        return item.type !== null;
+      });
     });
     return rows;
   });
@@ -22,8 +25,12 @@ chatRouter.post('/listAll', async (req, res) => {
   let customers = await chat.chatAsCustomer(params).then((rows) => {
     rows.forEach((row) => {
       row.conversation = JSON.parse(row.conversation);
+
       row.conversation.sort((a, b) => {
         return new Date(b.registerDate) - new Date(a.registerDate);
+      });
+      row.conversation = row.conversation.filter((item) => {
+        return item.type !== null;
       });
     });
     return rows;
@@ -70,7 +77,7 @@ chatRouter.post('/chattingContent', (req, res) => {
   chat
     .chattingContent(params)
     .then((rows) => {
-      res.json({ status: 'ok' });
+      res.json({ status: 'ok', data: { insertId: rows.insertId } });
     })
     .catch(() => {
       res.json({ status: 'error' });
@@ -103,7 +110,6 @@ chatRouter.post('/listSaleProduct', (req, res) => {
           return new Date(b.registerDate) - new Date(a.registerDate);
         });
       });
-      console.log(rows);
       res.json({ status: 'ok', data: rows });
     })
     .catch(() => {
@@ -123,4 +129,44 @@ chatRouter.post('/exit', (req, res) => {
     });
 });
 
+chatRouter.post('/question', (req, res) => {
+  const params = req.body;
+  chat
+    .isRoom(params)
+    .then((isRoom) => {
+      if (isRoom.length) {
+        res.json({
+          status: 'ok',
+          data: { isRoom: true, roomIdx: isRoom[0].idx },
+        });
+      } else {
+        product.getProduct(params).then((p) => {
+          params.saler = p.userId;
+          chat.makeRoom(params).then((insertId) => {
+            res.json({
+              status: 'ok',
+              data: { isRoom: false, roomIdx: insertId },
+            });
+          });
+        });
+      }
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
+chatRouter.post('/readRealTime', (req, res) => {
+  const params = req.body;
+  chat
+    .readRealTime(params)
+    .then((result) => {
+      res.json({
+        status: 'ok',
+      });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
 export default chatRouter;

@@ -56,7 +56,16 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('disconnect', function () {
-    console.log(`방에서 나가셨습니다.`);
+    for (var i = 0; i < clients.length; i++) {
+      let client = clients[i];
+      if (client.clientId === socket.id) {
+        console.log(
+          `user${client.myIdx}번님이 ${client.roomIdx}방에서 나가셨습니다.`
+        );
+        clients.splice(i, 1);
+        break;
+      }
+    }
   });
 
   socket.on('message', function (message) {
@@ -69,7 +78,7 @@ io.sockets.on('connection', function (socket) {
       }
     });
     if (target.length) {
-      io.to(target[0].clientId).emit('update', message.data.content);
+      io.to(target[0].clientId).emit('update', message.data);
     }
   });
 });

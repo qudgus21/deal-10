@@ -156,6 +156,15 @@ export default function ProductDetail(props) {
     });
   };
 
+  this.customerAsk = (e) => {
+    const productIdx = window.location.pathname.split('/').pop();
+
+    api.sendPost('/chat/question', { productIdx }).then((result) => {
+      console.log(result.data.roomIdx);
+      slideIn(`chatting/${result.data.roomIdx}`);
+    });
+  };
+
   this.render = () => {
     const { product, saleStatus } = this.state;
     let templateLiteral = `
