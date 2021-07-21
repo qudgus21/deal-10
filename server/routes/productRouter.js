@@ -162,7 +162,6 @@ productRouter.post('/update', uploadImage, (req, res) => {
     });
     newUrls = JSON.stringify(newUrls);
     params.imgUrls = newUrls;
-
     category.findIdxbyName(params).then((categoryIdx) => {
       params.categoryIdx = categoryIdx;
       product.update(params).then((result) => {

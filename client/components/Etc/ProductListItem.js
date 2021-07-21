@@ -110,9 +110,11 @@ export default function ProductListItem(props) {
           <div class='product-location'>${product.location[0]}·${
       product.agoTime
     }</div>
-              <div class='product-price'>${numberWithCommas(
+              <div class='product-price'>${
                 product.price
-              )}원</div>
+                  ? `${numberWithCommas(product.price)}원`
+                  : `가격미정`
+              }</div>
             </div>
             ${
               isLogin()

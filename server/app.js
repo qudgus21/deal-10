@@ -4,7 +4,6 @@ import path from 'path';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import userRouter from './routes/userRouter.js';
-import homeRouter from './routes/homeRouter.js';
 import categoryRouter from './routes/categoryRouter.js';
 import productRouter from './routes/productRouter.js';
 import chatRouter from './routes/chatRouter.js';
@@ -38,7 +37,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/public', express.static(__dirname + '/public'));
 
-app.use('/', homeRouter);
 app.use('/user', userRouter);
 app.use('/category', categoryRouter);
 app.use('/product', productRouter);

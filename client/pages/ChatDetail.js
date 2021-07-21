@@ -2,7 +2,7 @@ import api from '../utils/api';
 import WithAction from '../components/Header/withAction';
 import { slideOut } from '../utils/slide';
 import { numberWithCommas } from '../utils/helper';
-import conversatsion from '../utils/conversation';
+import conversation from '../utils/conversation';
 import Snackbar from '../components/Etc/SnackBar';
 
 export default function ChatDetail(props) {
@@ -31,7 +31,7 @@ export default function ChatDetail(props) {
             S: '판매중',
           },
         });
-        conversatsion(result.data);
+        conversation(result.data);
       });
 
       api.sendPost('/chat/read', { roomIdx });

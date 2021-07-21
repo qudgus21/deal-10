@@ -10,7 +10,7 @@ const makeEmitData = (chat) => {
   };
 };
 
-export default function conversatsion(chat) {
+export default function conversation(chat) {
   const socket = io.connect('http://localhost:3000');
 
   socket.on('connect', function () {
@@ -88,6 +88,14 @@ export default function conversatsion(chat) {
   document
     .querySelector('.chatdetail .send-msg-button img')
     .addEventListener('click', imgSubmitHandler);
+
+  document
+    .querySelector('.chatdetail .chat-input')
+    .addEventListener('keyup', (e) => {
+      if (e.keyCode === 13) {
+        imgSubmitHandler();
+      }
+    });
 
   document
     .querySelector('.chatdetail .header .back-button')

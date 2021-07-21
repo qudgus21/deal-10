@@ -233,7 +233,11 @@ export default function ProductDetail(props) {
                               }`
                             : ``
                         }
-                        <span>${numberWithCommas(product.price)}원</span>
+                        <span>${
+                          product.price
+                            ? `${numberWithCommas(product.price)}원`
+                            : `가격미정`
+                        }</span>
                       </div>
                       <div class="btn-box">
 

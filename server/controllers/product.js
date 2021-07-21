@@ -155,11 +155,13 @@ const product = {
   },
 
   newpost: (params) => {
-    let sql = `insert into products(userId, title, description, price, imgUrls, category, status) values(${
-      params.userIdx
-    },'${params.title}','${params.description}',${
-      params.price
-    },'${JSON.stringify(params.imgUrls)}',${params.category},'S');`;
+    let sql = `insert into products(userId, title, description, ${
+      params.price !== '' ? `price,` : ``
+    } imgUrls, category, status) values(${params.userIdx},'${params.title}','${
+      params.description
+    }',${params.price !== '' ? `${params.price},` : ``}'${JSON.stringify(
+      params.imgUrls
+    )}',${params.category},'S');`;
 
     return new Promise((resolve, reject) => {
       db.promise()
@@ -267,7 +269,14 @@ const product = {
   },
 
   update: (params) => {
-    let sql = `update products set title='${params.title}',category=${params.categoryIdx},price=${params.price},description='${params.description}',imgUrls='${params.imgUrls}' where idx=${params.productIdx}`;
+    let sql = `update products set title='${params.title}',category=${
+      params.categoryIdx
+    },${
+      params.price !== '' ? `price=${params.price},` : `price=NULL,`
+    } description='${params.description}',imgUrls='${
+      params.imgUrls
+    }' where idx=${params.productIdx}`;
+
     return new Promise((resolve, reject) => {
       db.promise()
         .query(sql)

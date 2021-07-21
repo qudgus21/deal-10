@@ -1,5 +1,5 @@
 import { slideOut } from '../utils/slide';
-import { isLogin } from '../utils/helper';
+import { isLogin, numberWithCommas } from '../utils/helper';
 import WithAction from '../components/Header/withAction';
 import api from '../utils/api';
 import ImgButton from '../components/Etc/ImgButton';
@@ -87,12 +87,10 @@ export default function NewPost(props) {
   };
 
   this.validationCheck = () => {
-    const nameValue = document.querySelector(
-      '.newpost input[name=title]'
-    ).value;
-    const priceValue = document.querySelector(
-      '.newpost input[name=price]'
-    ).value;
+    const nameValue = document.querySelector('.newpost input[name=title]')
+      .value;
+    const priceValue = document.querySelector('.newpost input[name=price]')
+      .value;
     const descriptionValue = document.querySelector(
       '.newpost textarea[name=description]'
     ).value;
@@ -101,15 +99,15 @@ export default function NewPost(props) {
 
     let message = ``;
     if ($imageInputs.length === 1) {
-      message = '한 장 이상의 이미지를 등록해주세요';
+      message = '이미지를 등록하세요';
     } else if (!nameValue) {
-      message = '제목을 입력해 주세요';
+      message = '제목을 입력하세요';
     } else if (!this.state.selectedCategory) {
-      message = '카테고리를 선택해 주세요';
+      message = '카테고리를 선택하세요';
     } else if (isNaN(Number(priceValue))) {
-      message = '가격은 숫자만 입력해 주세요';
+      message = '가격은 숫자만 입력가능';
     } else if (!descriptionValue) {
-      message = '설명을 입력해 주세요';
+      message = '설명을 입력하세요';
     } else {
       message = 'ok';
     }
@@ -119,6 +117,7 @@ export default function NewPost(props) {
     } else {
       $completeButton.classList.remove('complete');
     }
+
     return message;
   };
 
@@ -144,8 +143,10 @@ export default function NewPost(props) {
     formData.append('cancleList', JSON.stringify(this.state.removeImgList));
     api.sendProduct('/product/update', formData).then((result) => {
       if (result.status === 'ok') {
-        new Snackbar({ msg: '상품 정보가 수정되었습니다', duration: 1000 });
-        window.location.href = '/';
+        new Snackbar({ msg: '수정되었습니다', duration: 1000 });
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 300);
         return;
       }
     });
@@ -163,20 +164,20 @@ export default function NewPost(props) {
     formData.append('category', this.state.selectedCategory);
     api.sendProduct('/product/newpost', formData).then((result) => {
       if (result.status === 'ok') {
-        new Snackbar({ msg: '상품이 등록되었습니다', duration: 1000 });
-        window.location.href = '/';
+        new Snackbar({ msg: '등록되었습니다', duration: 1000 });
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 300);
         return;
       }
     });
   };
 
   this.submitHandler = () => {
-    const nameValue = document.querySelector(
-      '.newpost input[name=title]'
-    ).value;
-    const priceValue = document.querySelector(
-      '.newpost input[name=price]'
-    ).value;
+    const nameValue = document.querySelector('.newpost input[name=title]')
+      .value;
+    const priceValue = document.querySelector('.newpost input[name=price]')
+      .value;
     const descriptionValue = document.querySelector(
       '.newpost textarea[name=description]'
     ).value;
@@ -299,7 +300,6 @@ export default function NewPost(props) {
 
   this.render = () => {
     const { product, mode } = this.state;
-
     let templateLiteral = `
             <div class='newpost slide'>
                 <div class='header-box'></div>
@@ -331,7 +331,13 @@ export default function NewPost(props) {
                         </ul>
                     </div>
                     <input type='text' class='newpost-input' name='price' placeholder='가격(선택사항)' ${
-                      product ? `value='${product.price}'` : ``
+                      product
+                        ? `value='${
+                            product !== null && product.price !== null
+                              ? `${product.price}`
+                              : ``
+                          }'`
+                        : ``
                     }/>
                     <textarea rows="4" class='newpost-input' name='description' placeholder='게시글 내용을 작성해주세요.'>${
                       product ? `${product.description}` : ``
