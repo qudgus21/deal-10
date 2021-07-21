@@ -19,7 +19,9 @@ export default function Snackbar(props) {
     setTimeout(() => {
       $snackbar.classList.remove('show-snackbar');
       setTimeout(() => {
-        $snackbar.remove();
+        document.querySelectorAll('.snackbar').forEach((snb) => {
+          snb.remove();
+        });
       }, 200);
     }, duration);
   };
