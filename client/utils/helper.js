@@ -61,10 +61,6 @@ export const numberWithCommas = (x) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
-export const elipsis = (str) => {
-  return str.length > 9 ? str.slice(0, 9) + '.'.repeat(3) : str;
-};
-
 export const timeForToday = (value) => {
   const today = new Date();
   const timeValue = new Date(value);
