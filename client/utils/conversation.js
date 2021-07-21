@@ -29,6 +29,14 @@ export default function conversatsion(chat) {
         );
         const mesage = `<div class='msg-left'><div class='msg-receive'>${data.content}</div></div>`;
         $msgContainer.insertAdjacentHTML('beforeend', mesage);
+        if ($msgContainer.querySelector('.msg-padding') !== null) {
+          $msgContainer.querySelector('.msg-padding').remove();
+        }
+        $msgContainer.insertAdjacentHTML(
+          'beforeend',
+          `<div class='msg-padding'></div>`
+        );
+        $msgContainer.scrollTo(0, $msgContainer.scrollHeight);
       });
   });
 
@@ -41,6 +49,14 @@ export default function conversatsion(chat) {
     const mesage = `<div class='msg-right'><div class='msg-send'>${value}</div></div>`;
     $msgContainer.insertAdjacentHTML('beforeend', mesage);
     document.querySelector('.chatdetail .chat-input').value = '';
+    if ($msgContainer.querySelector('.msg-padding') !== null) {
+      $msgContainer.querySelector('.msg-padding').remove();
+    }
+    $msgContainer.insertAdjacentHTML(
+      'beforeend',
+      `<div class='msg-padding'></div>`
+    );
+    $msgContainer.scrollTo(0, $msgContainer.scrollHeight);
   };
 
   const imgSubmitHandler = () => {
