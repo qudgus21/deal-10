@@ -1,6 +1,3 @@
-import ProductDetail from '../pages/SaleProductDetail/ProductDetail';
-import { slideOut } from './slide';
-
 export const selectLatestElement = (parent, cls) => {
   return Array.from(parent.querySelectorAll(cls)).pop();
 };
