@@ -41,16 +41,21 @@ export default function ChatDetail(props) {
   this.addChat = (chat) => {
     const $msgContainer = document.querySelector('.chatdetail .msg-container');
     let mesage = ``;
-    chat.conversation.forEach((c) => {
+
+    chat.conversation.map((c, index) => {
       if (c.content !== null) {
         if (c.type === chat.myType) {
-          mesage = `<div class='msg-right'><div class='msg-send'>${c.content}</div></div>`;
+          mesage = `<div class='msg-right msg-${index}'><div class='msg-send msg-${index}-content'>${c.content}</div></div>`;
         } else {
-          mesage = `<div class='msg-left'><div class='msg-receive'>${c.content}</div></div>`;
+          mesage = `<div class='msg-left msg-${index}'><div class='msg-receive msg-${index}-content'>${c.content}</div></div>`;
         }
         $msgContainer.insertAdjacentHTML('beforeend', mesage);
       }
     });
+
+    // chat.conversation.forEach((c) => {
+
+    // });
 
     $msgContainer.insertAdjacentHTML(
       'beforeend',

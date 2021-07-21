@@ -160,7 +160,6 @@ export default function ProductDetail(props) {
     const productIdx = window.location.pathname.split('/').pop();
 
     api.sendPost('/chat/question', { productIdx }).then((result) => {
-      console.log(result.data.roomIdx);
       slideIn(`chatting/${result.data.roomIdx}`);
     });
   };

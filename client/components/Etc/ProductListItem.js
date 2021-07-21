@@ -1,9 +1,5 @@
 import { slideIn } from '../../utils/slide';
-import {
-  selectLatestElement,
-  isLogin,
-  numberWithCommas,
-} from '../../utils/helper';
+import { isLogin, numberWithCommas } from '../../utils/helper';
 import api from '../../utils/api';
 import Dropdown from '../Etc/Dropdown';
 import Snackbar from './SnackBar';

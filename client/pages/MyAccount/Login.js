@@ -60,7 +60,9 @@ export default function Login(props) {
                 new Snackbar({ msg: '로그인 성공', duration: 1000 });
                 setCookie('user', result.data.id);
                 setCookie('userIdx', result.data.idx);
-                window.location.href = '/';
+                setTimeout(() => {
+                  window.location.href = '/';
+                }, 300);
               } else {
                 new Snackbar({ msg: result.message, duration: 1000 });
               }

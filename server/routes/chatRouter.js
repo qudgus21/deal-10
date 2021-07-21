@@ -75,9 +75,11 @@ chatRouter.post('/chatData', (req, res) => {
 chatRouter.post('/chattingContent', (req, res) => {
   const params = req.body;
   chat
-    .chattingContent(params)
-    .then((rows) => {
-      res.json({ status: 'ok', data: { insertId: rows.insertId } });
+    .updateRoomDate(params)
+    .then((r) => {
+      chat.chattingContent(params).then((rows) => {
+        res.json({ status: 'ok', data: { insertId: rows.insertId } });
+      });
     })
     .catch(() => {
       res.json({ status: 'error' });
@@ -143,9 +145,13 @@ chatRouter.post('/question', (req, res) => {
         product.getProduct(params).then((p) => {
           params.saler = p.userId;
           chat.makeRoom(params).then((insertId) => {
-            res.json({
-              status: 'ok',
-              data: { isRoom: false, roomIdx: insertId },
+            params.roomIdx = insertId;
+            params.content = '채팅방이 개설되었습니다';
+            chat.initContent(params).then((result) => {
+              res.json({
+                status: 'ok',
+                data: { isRoom: false, roomIdx: insertId },
+              });
             });
           });
         });

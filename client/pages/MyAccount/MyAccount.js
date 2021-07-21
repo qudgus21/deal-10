@@ -44,7 +44,9 @@ export default function MyAccount(props) {
             setCookie('user', 'none', 0);
             setCookie('userIdx', 'none', 0);
             new Snackbar({ msg: '로그아웃 되었습니다', duration: 1000 });
-            window.location.href = '/';
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 300);
           }
         });
       },

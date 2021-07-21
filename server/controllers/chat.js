@@ -239,7 +239,6 @@ const chat = {
   },
 
   makeRoom: (params) => {
-    console.log(params);
     let sql = `
       insert into chattings (productId, customer, saler) values (${params.productIdx}, ${params.userIdx}, ${params.saler})
     `;
@@ -265,6 +264,38 @@ const chat = {
         .query(sql)
         .then(([rows, fileds]) => {
           return resolve(rows[0]);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  initContent: (params) => {
+    let sql = `
+    insert into chatting_content (roomIdx, content, type, customerRead, salerRead) values (${params.roomIdx},'${params.content}', 'C', 'Y', 'N')
+    `;
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fileds]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  updateRoomDate: (params) => {
+    let sql = `
+      update chattings set updateDate=now() where idx=${params.roomIdx};
+    `;
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fileds]) => {
+          return resolve(rows);
         })
         .catch((err) => {
           return reject(err);
