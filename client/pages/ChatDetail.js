@@ -41,12 +41,14 @@ export default function ChatDetail(props) {
     const $msgContainer = document.querySelector('.chatdetail .msg-container');
     let mesage = ``;
     chat.conversation.forEach((c) => {
-      if (c.type === chat.myType) {
-        mesage = `<div class='msg-right'><div class='msg-send'>${c.content}</div></div>`;
-      } else {
-        mesage = `<div class='msg-left'><div class='msg-receive'>${c.content}</div></div>`;
+      if (c.content !== null) {
+        if (c.type === chat.myType) {
+          mesage = `<div class='msg-right'><div class='msg-send'>${c.content}</div></div>`;
+        } else {
+          mesage = `<div class='msg-left'><div class='msg-receive'>${c.content}</div></div>`;
+        }
+        $msgContainer.insertAdjacentHTML('beforeend', mesage);
       }
-      $msgContainer.insertAdjacentHTML('beforeend', mesage);
     });
 
     $msgContainer.insertAdjacentHTML(
@@ -85,7 +87,7 @@ export default function ChatDetail(props) {
                 <div class='msg-input-div'>
                     <input class="chat-input" type='text' name='msg' placeholder='메시지를 입력하세요.'>
                     <button class='send-msg-button'>
-                        <img src='../images/dev/send.svg'>
+                        <img src='../../../images/dev/send.svg'>
                     </button>
                 </div>
             </div>

@@ -22,14 +22,18 @@ export default function ChatListItem(props) {
             <div class='chat-div'>
                 <div class='chat-row'>
                     <div class='chat-id'>${chat.id}</div>
-                    <div class='chat-agoTime'>${timeForToday(
-                      chat.conversation[0].registerDate
-                    )}</div>
+                    <div class='chat-agoTime'>${
+                      chat.conversation.length > 0
+                        ? timeForToday(chat.conversation[0].registerDate)
+                        : timeForToday(chat.updateDate)
+                    }</div>
                 </div>
                 <div class='chat-row'>
                     <div class='chat-preview'>${
-                      chat.conversation[0].content
-                    }</div>
+                      chat.conversation.length > 0
+                        ? chat.conversation[0].content
+                        : `알림: 채팅방이 개설되었습니다`
+                    }</div >
                     ${
                       chat.unreadCnt > 0
                         ? `<div class='chat-badge'>${chat.unreadCnt}</div>`

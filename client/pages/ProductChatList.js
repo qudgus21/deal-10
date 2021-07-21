@@ -18,7 +18,6 @@ export default function ProductChatList(props) {
       const productIdx = window.location.pathname.split('/')[2];
 
       api.sendPost('/chat/listSaleProduct', { productIdx }).then((result) => {
-        console.log(result);
         this.setState({
           chats: result.data,
         });
@@ -43,7 +42,9 @@ export default function ProductChatList(props) {
       parent: document.querySelector('.productchatlist .header-box'),
       content: '채팅하기',
       eventHandler: (e) => {
-        slideOut('/', false);
+        const productIdx = window.location.pathname.split('/')[2];
+
+        slideOut(`/product/${productIdx}`, false);
       },
     });
 
