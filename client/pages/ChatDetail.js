@@ -98,8 +98,36 @@ export default function ChatDetail(props) {
     new WithAction({
       parent: document.querySelector('.chatdetail .header-box'),
       content: `${chat ? chat.opponentId : `UserE`}`,
-      eventHandler: (e) => {
-        slideOut('/', false);
+      eventHandler1: (e) => {
+        if (
+          document
+            .querySelector('.chatdetail')
+            .previousElementSibling.classList.contains('menu')
+        ) {
+          slideOut('/menu', false);
+          document.querySelector('.tab-title.chat-list').click();
+        } else if (chat.myType == 'C') {
+          slideOut(`/product/${chat.productId}`);
+        } else {
+          slideOut(`/product/${chat.productId}/productchatlist`);
+        }
+      },
+      eventHandler2: (e) => {
+        const roomIdx = window.location.pathname.split('/').pop();
+        api.sendPost('/chat/exit', { roomIdx }).then((result) => {
+          if (
+            document
+              .querySelector('.chatdetail')
+              .previousElementSibling.classList.contains('menu')
+          ) {
+            slideOut('/menu', false);
+            document.querySelector('.tab-title.chat-list').click();
+          } else if (chat.myType == 'C') {
+            slideOut(`/product/${chat.productId}`);
+          } else {
+            slideOut(`/product/${chat.productId}/productchatlist`);
+          }
+        });
       },
       src1: 'arrow_back',
       src2: 'exit',
