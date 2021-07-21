@@ -136,7 +136,7 @@ const chat = {
       db.promise()
         .query(sql)
         .then(([rows, fileds]) => {
-          return resolve(rows[0]);
+          return resolve(rows);
         })
         .catch((err) => {
           return reject(err);
@@ -195,6 +195,58 @@ const chat = {
         .query(sql)
         .then(([rows, fileds]) => {
           return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  isRoom: (params) => {
+    let sql = `
+    select idx
+    from chattings
+    where productId=${params.productIdx} and customer=${params.userIdx}
+    `;
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fileds]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  makeRoom: (params) => {
+    console.log(params);
+    let sql = `
+      insert into chattings (productId, customer, saler) values (${params.productIdx}, ${params.userIdx}, ${params.saler})
+    `;
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fileds]) => {
+          return resolve(rows.insertId);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  readRealTime: (params) => {
+    let sql = `update chatting_content set ${
+      params.myType === 'S' ? `salerRead` : `customerRead`
+    } = 'Y' where idx=${params.chatIdx}`;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fileds]) => {
+          return resolve(rows[0]);
         })
         .catch((err) => {
           return reject(err);

@@ -74,6 +74,15 @@ const product = {
   },
 
   products: (params) => {
+    let locationPart = `
+    `;
+    if (params.location && params.location.length) {
+      locationPart = params.location.reduce((arr, cur) => {
+        return arr + ` json_contains(u.location, '["${cur}"]') or`;
+      }, 'where');
+      locationPart = locationPart.slice(0, locationPart.length - 3);
+    }
+
     let sql = `
         select p.idx as idx, userId, title, description, price, imgUrls, IFNULL(likeCnt,0) as likeCnt ,${
           params.userIdx
@@ -113,11 +122,27 @@ const product = {
         join chattings on chattings.productId = products.idx
         group by (products.idx)
         ) c on c.idx = p.idx
-        left join users u on p.userId = u.idx
+
+        ${
+          params.location
+            ? `
+          left join (
+            select *
+            from users u
+            ${locationPart}
+            ) u on p.userId = u.idx
+          `
+            : `
+          left join users u on p.userId = u.idx
+          `
+        }
+        
+
         ${params.isSale ? `` : `where p.status = 'S' or p.status = 'R'`}
         order by p.updateDate desc
   `;
 
+    console.log('\n', sql, '\n');
     return new Promise((resolve, reject) => {
       db.promise()
         .query(sql)

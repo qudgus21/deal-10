@@ -18,9 +18,18 @@ export default function conversatsion(chat) {
   });
 
   socket.on('update', function (data) {
-    const $msgContainer = document.querySelector('.chatdetail .msg-container');
-    const mesage = `<div class='msg-left'><div class='msg-receive'>${data}</div></div>`;
-    $msgContainer.insertAdjacentHTML('beforeend', mesage);
+    api
+      .sendPost('/chat/readRealTime', {
+        chatIdx: data.insertId,
+        myType: data.myType === 'C' ? 'S' : 'C',
+      })
+      .then((result) => {
+        const $msgContainer = document.querySelector(
+          '.chatdetail .msg-container'
+        );
+        const mesage = `<div class='msg-left'><div class='msg-receive'>${data.content}</div></div>`;
+        $msgContainer.insertAdjacentHTML('beforeend', mesage);
+      });
   });
 
   const send = (data) => {
@@ -31,7 +40,7 @@ export default function conversatsion(chat) {
     const $msgContainer = document.querySelector('.chatdetail .msg-container');
     const mesage = `<div class='msg-right'><div class='msg-send'>${value}</div></div>`;
     $msgContainer.insertAdjacentHTML('beforeend', mesage);
-    document.querySelector('.chatdetail .chat-input').value = ' ';
+    document.querySelector('.chatdetail .chat-input').value = '';
   };
 
   const imgSubmitHandler = () => {
@@ -47,6 +56,7 @@ export default function conversatsion(chat) {
           send({
             ...chat,
             content: value,
+            insertId: result.data.insertId,
           });
         });
     }

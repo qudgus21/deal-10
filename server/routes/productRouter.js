@@ -43,18 +43,34 @@ productRouter.post('/categoryProducts', (req, res) => {
 
 productRouter.post('/products', (req, res) => {
   const params = req.body;
-
-  product
-    .products(params)
-    .then((rows) => {
-      res.json({
-        status: 'ok',
-        data: rows,
-      });
-    })
-    .catch(() => {
-      res.json({ status: 'error' });
+  if (params.userIdx && params.isHome) {
+    user.getInfo(params).then((rows) => {
+      params.location = rows[0].location;
+      product
+        .products(params)
+        .then((rows) => {
+          res.json({
+            status: 'ok',
+            data: rows,
+          });
+        })
+        .catch(() => {
+          res.json({ status: 'error' });
+        });
     });
+  } else {
+    product
+      .products(params)
+      .then((rows) => {
+        res.json({
+          status: 'ok',
+          data: rows,
+        });
+      })
+      .catch(() => {
+        res.json({ status: 'error' });
+      });
+  }
 });
 
 productRouter.post('/newpost', uploadImage, (req, res) => {
