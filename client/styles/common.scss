@@ -213,6 +213,10 @@ $baemin: #2ac0bc;
     .product-title {
       font-size: 1.2rem;
       font-weight: 500;
+      width: 9rem;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
     .product-location {
       color: gray;
@@ -713,4 +717,9 @@ $baemin: #2ac0bc;
 .show-snackbar {
   opacity: 1;
   transition: 0.2s ease;
+}
+
+.chatlist-prev {
+  position: absolute;
+  width: 100%;
 }

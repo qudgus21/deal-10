@@ -74,7 +74,16 @@ export default function Menu(props) {
     });
 
     $chatList.addEventListener('click', () => {
-      document.querySelector('.menu-container').innerHTML = '';
+      if (!$chatList.classList.contains('tab-select')) {
+        document.querySelector('.menu-container').firstElementChild.remove();
+      } else {
+        document
+          .querySelector('.menu-container')
+          .firstElementChild.classList.add('chatlist-prev');
+        setTimeout(() => {
+          document.querySelector('.menu-container').firstElementChild.remove();
+        }, 100);
+      }
       $saleList.classList.remove('tab-select');
       $chatList.classList.add('tab-select');
       $favList.classList.remove('tab-select');
@@ -84,7 +93,6 @@ export default function Menu(props) {
     });
 
     $favList.addEventListener('click', () => {
-      document.querySelector('.menu-container').innerHTML = '';
       $saleList.classList.remove('tab-select');
       $chatList.classList.remove('tab-select');
       $favList.classList.add('tab-select');
