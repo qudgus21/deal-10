@@ -90,6 +90,14 @@ export default function conversation(chat) {
     .addEventListener('click', imgSubmitHandler);
 
   document
+    .querySelector('.chatdetail .chat-input')
+    .addEventListener('keyup', (e) => {
+      if (e.keyCode === 13) {
+        imgSubmitHandler();
+      }
+    });
+
+  document
     .querySelector('.chatdetail .header .back-button')
     .addEventListener('click', socketDisconnect);
 }
