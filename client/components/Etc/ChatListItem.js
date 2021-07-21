@@ -42,7 +42,9 @@ export default function ChatListItem(props) {
                 </div>
             </div>
             <div class='img-box'>
-                <img src=${chat.imgUrls[0]} class='border-small'>
+                <img decoding='async' src=${
+                  chat.imgUrls[0]
+                } class='border-small'>
             </div>
         </div>
     `;

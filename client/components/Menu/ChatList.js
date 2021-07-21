@@ -1,4 +1,5 @@
 import api from '../../utils/api';
+import { selectLatestElement } from '../../utils/helper';
 import ChatListItem from '../Etc/ChatListItem';
 
 export default function ChatList(props) {
@@ -28,11 +29,12 @@ export default function ChatList(props) {
       </div>
     `;
 
-    parent.innerHTML = templateLiteral;
+    parent.insertAdjacentHTML('beforeend', templateLiteral);
+
     chats
       ? chats.forEach((chat) => {
           new ChatListItem({
-            parent: parent.querySelector('.chatlist'),
+            parent: selectLatestElement(parent, '.chatlist'),
             chat: chat,
           });
         })
@@ -40,5 +42,4 @@ export default function ChatList(props) {
   };
 
   this.componentDidMount();
-  this.render();
 }
