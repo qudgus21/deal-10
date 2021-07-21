@@ -3,6 +3,7 @@ import WithAction from '../components/Header/withAction';
 import { slideOut } from '../utils/slide';
 import { numberWithCommas } from '../utils/helper';
 import conversatsion from '../utils/conversation';
+import Snackbar from '../components/Etc/SnackBar';
 
 export default function ChatDetail(props) {
   this.state = {
@@ -113,6 +114,7 @@ export default function ChatDetail(props) {
         }
       },
       eventHandler2: (e) => {
+        new Snackbar({ msg: '채팅방에서 나갔습니다', duration: 1000 });
         const roomIdx = window.location.pathname.split('/').pop();
         api.sendPost('/chat/exit', { roomIdx }).then((result) => {
           if (
