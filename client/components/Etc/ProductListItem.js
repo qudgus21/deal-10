@@ -1,9 +1,5 @@
 import { slideIn } from '../../utils/slide';
-import {
-  selectLatestElement,
-  isLogin,
-  numberWithCommas,
-} from '../../utils/helper';
+import { isLogin, numberWithCommas, elipsis } from '../../utils/helper';
 import api from '../../utils/api';
 import Dropdown from '../Etc/Dropdown';
 import Snackbar from './SnackBar';
@@ -110,7 +106,7 @@ export default function ProductListItem(props) {
       <div class='product-info'>
       <div class='product-top'>
         <div class='product-title-bar'>
-          <div class='product-title'>${product.title}</div>
+          <div class='product-title'>${elipsis(product.title)}</div>
           <div class='product-location'>${product.location[0]}·${
       product.agoTime
     }</div>

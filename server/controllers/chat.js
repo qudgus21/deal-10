@@ -286,6 +286,22 @@ const chat = {
         });
     });
   },
+
+  updateRoomDate: (params) => {
+    let sql = `
+      update chattings set updateDate=now() where idx=${params.roomIdx};
+    `;
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fileds]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
 };
 
 export default chat;

@@ -75,9 +75,11 @@ chatRouter.post('/chatData', (req, res) => {
 chatRouter.post('/chattingContent', (req, res) => {
   const params = req.body;
   chat
-    .chattingContent(params)
-    .then((rows) => {
-      res.json({ status: 'ok', data: { insertId: rows.insertId } });
+    .updateRoomDate(params)
+    .then((r) => {
+      chat.chattingContent(params).then((rows) => {
+        res.json({ status: 'ok', data: { insertId: rows.insertId } });
+      });
     })
     .catch(() => {
       res.json({ status: 'error' });

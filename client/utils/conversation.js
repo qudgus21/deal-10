@@ -62,7 +62,18 @@ export default function conversatsion(chat) {
     }
   };
 
+  const socketDisconnect = () => {
+    socket.emit('remove', {
+      roomIdx: chat.roomIdx,
+      myIdx: chat.myType === 'S' ? chat.saler : chat.customer,
+    });
+  };
+
   document
     .querySelector('.chatdetail .send-msg-button img')
     .addEventListener('click', imgSubmitHandler);
+
+  document
+    .querySelector('.chatdetail .header .back-button')
+    .addEventListener('click', socketDisconnect);
 }

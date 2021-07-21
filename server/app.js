@@ -53,6 +53,7 @@ io.sockets.on('connection', function (socket) {
     };
     clients.push(clientInfo);
     console.log(`user${info.myIdx}번님이 ${info.roomIdx}방에 입장하셨습니다.`);
+    console.log(clients);
   });
 
   socket.on('disconnect', function () {
@@ -80,6 +81,23 @@ io.sockets.on('connection', function (socket) {
     if (target.length) {
       io.to(target[0].clientId).emit('update', message.data);
     }
+  });
+
+  socket.on('remove', function (info) {
+    let removed = clients.filter((c) => {
+      if (info.myIdx === c.myIdx && info.roomIdx === c.roomIdx) {
+        return c;
+      }
+    });
+
+    let remained = clients.filter((c) => {
+      if (!(info.myIdx === c.myIdx && info.roomIdx === c.roomIdx)) {
+        return c;
+      }
+    });
+    io.sockets.sockets.get(removed[0].clientId).disconnect();
+    console.log('닫힘성공');
+    console.log(clients);
   });
 });
 
