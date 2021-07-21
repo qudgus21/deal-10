@@ -201,6 +201,24 @@ const chat = {
         });
     });
   },
+
+  exit: (params) => {
+    let sql = `DELETE content, chat
+    FROM chatting_content AS content
+    INNER JOIN chattings AS chat ON content.roomIdx = chat.idx
+    WHERE content.roomIdx = ${params.roomIdx}`;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
 };
 
 export default chat;

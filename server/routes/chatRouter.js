@@ -111,4 +111,16 @@ chatRouter.post('/listSaleProduct', (req, res) => {
     });
 });
 
+chatRouter.post('/exit', (req, res) => {
+  const params = req.body;
+  chat
+    .exit(params)
+    .then((result) => {
+      res.json({ status: 'ok' });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
 export default chatRouter;

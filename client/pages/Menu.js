@@ -28,12 +28,29 @@ export default function Menu(props) {
             </div>
         `;
 
+    const refreshChat = setInterval(() => {
+      if (
+        document
+          .querySelector('.app')
+          .lastElementChild.classList.contains('menu') &&
+        document.querySelector('.tab-select').classList.contains('chat-list')
+      ) {
+        const $menu = document.querySelector('.menu');
+        const pos = $menu.scrollTop;
+        document.querySelector('.chat-list').click();
+        setTimeout(() => {
+          $menu.scrollTo(0, pos);
+        }, 50);
+      }
+    }, 3000);
+
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
 
     new WithoutAction({
       parent: document.querySelector('.menu .header-box'),
       content: '메뉴',
       eventHandler: (e) => {
+        clearInterval(refreshChat);
         slideOut('/', false);
       },
     });
