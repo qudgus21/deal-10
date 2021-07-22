@@ -730,8 +730,9 @@ $baemin: #2ac0bc;
 .snackbar {
   position: absolute;
   top: 70px;
-  width: 200px;
-  left: calc(375px / 2 - 100px);
+  width: fit-content;
+  transform: translate(-50%);
+  left: 50%;
   opacity: 0;
   transition: 0.2s ease;
   color: white;
