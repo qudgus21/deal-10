@@ -52,7 +52,6 @@ export default function Menu(props) {
       eventHandler: (e) => {
         clearInterval(refreshChat);
         window.location.href = '/';
-        // slideOut('/', false);
       },
     });
 

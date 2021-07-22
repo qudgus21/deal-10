@@ -15,14 +15,8 @@ export default function ProductDetail(props) {
   };
 
   this.setState = (nextState) => {
-    // setTimeout(() => {
-    //   document.querySelector('.app').lastElementChild.remove();
-    // }, 100);
     this.state = nextState;
     this.render();
-    // setTimeout(() => {
-    //   document.querySelector('.app').lastElementChild.classList.add('slide-in');
-    // }, 50);
   };
 
   this.componentDidMount = () => {
@@ -172,7 +166,6 @@ export default function ProductDetail(props) {
 
     api.sendPost('/chat/question', { productIdx }).then((result) => {
       slideIn(`${productIdx}/chatting/${result.data.roomIdx}`);
-      // slideIn(`chatting/${result.data.roomIdx}`);
     });
   };
 
@@ -275,7 +268,6 @@ export default function ProductDetail(props) {
       .querySelector('.productdetail .back-button')
       .addEventListener('click', () => {
         window.location.href = '/';
-        // slideOut('/', false);
       });
 
     const $moreButton = document.querySelector('.productdetail .more-button');

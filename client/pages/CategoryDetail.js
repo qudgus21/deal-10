@@ -47,7 +47,6 @@ export default function CategoryDetail(props) {
       content: this.state.category ? this.state.category.name : '',
       eventHandler: (e) => {
         window.location.href = '/';
-        // slideOut('/category', false);
       },
     });
 

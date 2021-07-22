@@ -36,9 +36,6 @@ $baemin: #2ac0bc;
 .none-in {
   left: 0px;
 }
-// .slide-in-none {
-//   left: 0px !important;
-// }
 
 .flex {
   display: flex;
@@ -167,7 +164,6 @@ $baemin: #2ac0bc;
   }
 
   .border-medium2 {
-    //TODO: 얘가 medium이고 원래꺼는 large ㅠㅠ
     width: 6rem;
     height: 6rem;
     border-radius: 10%;
@@ -421,8 +417,6 @@ $baemin: #2ac0bc;
   height: 455px;
   overflow: scroll;
   overflow-x: hidden;
-  //고쳐야함
-  //TODO: 폰트 크기 변경
   .msg-left {
     display: flex;
     justify-content: flex-start;
@@ -553,8 +547,6 @@ $baemin: #2ac0bc;
   height: 455px;
   overflow: scroll;
   overflow-x: hidden;
-  //고쳐야함
-  //TODO: 폰트 크기 변경
   .msg-left {
     display: flex;
     justify-content: flex-start;
