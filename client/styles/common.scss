@@ -372,6 +372,9 @@ $baemin: #2ac0bc;
   .chat-preview {
     color: #888888;
     text-align: left;
+    width: 230px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .chat-badge {
     min-width: 1.3rem;
@@ -733,7 +736,7 @@ $baemin: #2ac0bc;
   top: 70px;
   width: fit-content;
   transform: translate(-50%);
-  left: 50%;
+  left: 188px;
   opacity: 0;
   transition: 0.2s ease;
   color: white;
