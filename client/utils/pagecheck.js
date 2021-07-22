@@ -33,6 +33,10 @@ const conditions = {
       return 'ok';
     }
   },
+  notfound: () => {
+    return 'ok';
+  },
+
   category: () => {
     return 'ok';
   },

@@ -121,7 +121,7 @@ export default function router(path) {
       break;
 
     default:
-      console.log('not exist url');
+      slidechain('/notfound');
   }
 }
 
