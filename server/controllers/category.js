@@ -56,6 +56,21 @@ const category = {
         });
     });
   },
+
+  isCategory: (params) => {
+    let sql = `select count(*) as cnt from categories where idx=${params.categoryIdx}`;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows[0].cnt);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
 };
 
 export default category;

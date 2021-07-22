@@ -36,11 +36,28 @@ const conditions = {
   category: () => {
     return 'ok';
   },
-  categorydetail: () => {
+  categorydetail: (conditionObj) => {
     if (!isLogin()) {
       return '로그인 먼저 해주세요';
-    } else {
+    }
+
+    if (conditionObj === undefined) {
       return 'ok';
+    } else {
+      return new Promise((resolve, reject) => {
+        api
+          .sendPost('/category/isCategory', {
+            categoryIdx: conditionObj.categoryIdx,
+          })
+          .then((result) => {
+            console.log(result);
+            if (result.data) {
+              return resolve('ok');
+            } else {
+              return resolve('존재하지 않는 카테고리입니다.');
+            }
+          });
+      });
     }
   },
 
