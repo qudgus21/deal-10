@@ -5,9 +5,8 @@ import Register from '../pages/MyAccount/Register';
 import Category from '../pages/Category';
 import NewPost from '../pages/NewPost';
 import CategoryDetail from '../pages/CategoryDetail';
-import ProductDetail from '../pages/SaleProductDetail/ProductDetail';
+import ProductDetail from '../pages/ProductDetail';
 import Menu from '../pages/Menu';
-import ChatList from '../pages/SaleProductDetail/ChatList';
 import ChatDetail from '../pages/ChatDetail';
 import Location from '../pages/Location';
 import ProductChatList from '../pages/ProductChatList';
@@ -19,15 +18,14 @@ const pages = {
   login: Login,
   register: Register,
   category: Category,
-  newpost: NewPost,
   categorydetail: CategoryDetail,
-  productdetail: ProductDetail,
-  menu: Menu,
-  chatlist: ChatList,
-  chatdetail: ChatDetail,
   location: Location,
+  menu: Menu,
+  productdetail: ProductDetail,
   productchatlist: ProductChatList,
   notfound: Notfound,
+  chatdetail: ChatDetail,
+  newpost: NewPost,
 };
 
 export default pages;

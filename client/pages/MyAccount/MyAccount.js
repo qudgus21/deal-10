@@ -4,6 +4,7 @@ import WithoutAction from '../../components/Header/WithoutAction';
 import Button from '../../components/Button/Button';
 import api from '../../utils/api';
 import Snackbar from '../../components/Etc/SnackBar';
+import { isLogin } from '../../utils/helper';
 
 export default function MyAccount(props) {
   this.state = {};
