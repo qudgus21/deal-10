@@ -3,7 +3,7 @@
   .newpost-image-form {
     display: flex;
     overflow-x: scroll;
-
+    direction: rtl;
     .img-box {
       position: relative;
     }
@@ -71,5 +71,14 @@
         }
       }
     }
+  }
+
+  .no-image {
+    position: relative;
+    left: -63.4%;
+  }
+  .one-image {
+    position: relative;
+    left: -26.5%;
   }
 }

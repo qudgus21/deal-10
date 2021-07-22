@@ -87,10 +87,12 @@ export default function NewPost(props) {
   };
 
   this.validationCheck = () => {
-    const nameValue = document.querySelector('.newpost input[name=title]')
-      .value;
-    const priceValue = document.querySelector('.newpost input[name=price]')
-      .value;
+    const nameValue = document.querySelector(
+      '.newpost input[name=title]'
+    ).value;
+    const priceValue = document.querySelector(
+      '.newpost input[name=price]'
+    ).value;
     const descriptionValue = document.querySelector(
       '.newpost textarea[name=description]'
     ).value;
@@ -174,10 +176,12 @@ export default function NewPost(props) {
   };
 
   this.submitHandler = () => {
-    const nameValue = document.querySelector('.newpost input[name=title]')
-      .value;
-    const priceValue = document.querySelector('.newpost input[name=price]')
-      .value;
+    const nameValue = document.querySelector(
+      '.newpost input[name=title]'
+    ).value;
+    const priceValue = document.querySelector(
+      '.newpost input[name=price]'
+    ).value;
     const descriptionValue = document.querySelector(
       '.newpost textarea[name=description]'
     ).value;
@@ -206,6 +210,8 @@ export default function NewPost(props) {
       imageHandler: this.imageInputHandler,
       cancleHandler: this.imageCancleHandler,
     });
+
+    this.imageBoxAlign();
   };
 
   this.imageCancleHandler = (e) => {
@@ -226,6 +232,7 @@ export default function NewPost(props) {
     }
     $target.remove();
     this.validationCheck();
+    this.imageBoxAlign();
   };
 
   this.categorySelectHandler = (e) => {
@@ -290,6 +297,7 @@ export default function NewPost(props) {
         $targetBox.querySelector('.border-medium2').classList.add('upload');
         $targetBox.querySelector('.cancle-btn').classList.remove('none');
       }
+      this.imageBoxAlign();
     }
   };
 
@@ -298,12 +306,26 @@ export default function NewPost(props) {
     this.imgFetch();
   };
 
+  this.imageBoxAlign = () => {
+    const $imageForm = document.querySelector('.newpost-image-form');
+    if ($imageForm.children.length == 1) {
+      $imageForm.classList.remove('one-image');
+      $imageForm.classList.add('no-image');
+    } else if ($imageForm.children.length == 2) {
+      $imageForm.classList.remove('no-image');
+      $imageForm.classList.add('one-image');
+    } else {
+      $imageForm.classList.remove('one-image');
+    }
+    $imageForm.scrollTo(-$imageForm.scrollWidth, 0);
+  };
+
   this.render = () => {
     const { product, mode } = this.state;
     let templateLiteral = `
             <div class='newpost slide'>
                 <div class='header-box'></div>
-                <form action='/newpost' method='post' class='newpost-image-form' encType="multipart/form-data">
+                <form action='/newpost' method='post' class='newpost-image-form no-image' encType="multipart/form-data">
                 </form>
                 <form action='/newpost' method='post' class='newpost-form'>
                     <input type='text' class='newpost-input' name='title' placeholder='글 제목' ${
