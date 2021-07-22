@@ -60,9 +60,8 @@ export default function Register(props) {
       content: '회원가입',
       eventHandler: (e) => {
         const $Register = document.querySelector('.register');
-        const id = document.querySelector(
-          '.register .id-input-box input'
-        ).value;
+        const id = document.querySelector('.register .id-input-box input')
+          .value;
         const location = document.querySelector(
           '.register .location-input-box input'
         ).value;

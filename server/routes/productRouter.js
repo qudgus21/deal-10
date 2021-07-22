@@ -211,4 +211,25 @@ productRouter.post('/view', (req, res) => {
     }
   });
 });
+
+productRouter.post('/isOwner', (req, res) => {
+  const params = req.body;
+
+  product.isOwner(params).then((isOwner) => {
+    res.json({
+      status: 'ok',
+      data: isOwner ? true : false,
+    });
+  });
+});
+
+productRouter.post('/isProduct', (req, res) => {
+  const params = req.body;
+  product.isProduct(params).then((isProduct) => {
+    res.json({
+      status: 'ok',
+      data: isProduct ? true : false,
+    });
+  });
+});
 export default productRouter;

@@ -175,4 +175,50 @@ chatRouter.post('/readRealTime', (req, res) => {
       res.json({ status: 'error' });
     });
 });
+
+chatRouter.post('/isRoomParticipant', (req, res) => {
+  const params = req.body;
+  chat
+    .isRoomParticipant(params)
+    .then((isParticipant) => {
+      res.json({
+        status: 'ok',
+        isParticipant,
+      });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
+chatRouter.post('/getType', (req, res) => {
+  const params = req.body;
+  chat
+    .getType(params)
+    .then((type) => {
+      res.json({
+        status: 'ok',
+        type,
+      });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
+chatRouter.post('/isRoomByProduct', (req, res) => {
+  const params = req.body;
+  chat
+    .isRoomByProduct(params)
+    .then((isRoom) => {
+      res.json({
+        status: 'ok',
+        isRoom,
+      });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
 export default chatRouter;

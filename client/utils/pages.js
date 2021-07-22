@@ -18,14 +18,14 @@ const pages = {
   login: Login,
   register: Register,
   category: Category,
-  newpost: NewPost,
   categorydetail: CategoryDetail,
-  productdetail: ProductDetail,
-  menu: Menu,
-  chatlist: ChatList,
-  chatdetail: ChatDetail,
   location: Location,
+  menu: Menu,
+  productdetail: ProductDetail,
   productchatlist: ProductChatList,
+  chatdetail: ChatDetail,
+  chatlist: ChatList,
+  newpost: NewPost,
 };
 
 export default pages;
