@@ -232,4 +232,20 @@ productRouter.post('/isProduct', (req, res) => {
     });
   });
 });
+
+productRouter.post('/checkOwner', (req, res) => {
+  const params = req.body;
+  product.checkOwner(params).then((rows) => {
+    let ret =
+      rows.length === 0
+        ? '해당 상품이 없습니다'
+        : rows[0].idx === null
+        ? '현재 유저의 상품이 아닙니다'
+        : 'ok';
+    res.json({
+      status: 'ok',
+      message: ret,
+    });
+  });
+});
 export default productRouter;

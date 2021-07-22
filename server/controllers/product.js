@@ -405,6 +405,29 @@ const product = {
         });
     });
   },
+
+  checkOwner: (params) => {
+    let sql = `
+    select u.idx
+    from products p
+    left join (
+        select idx
+        from users
+        where idx =${params.userIdx}
+        ) u on u.idx = p.userId
+    where p.idx=${params.productIdx}`;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
 };
 
 export default product;

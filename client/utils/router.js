@@ -104,8 +104,19 @@ export default function router(path) {
       }
       break;
     case 'newpost':
-      console.log(path);
-      console.log(pageName);
+      temp = path.split('/');
+
+      if (temp.length === 2) {
+        slidechain('/').then(() => {
+          slidechain(path);
+        });
+      }
+
+      if (temp.length === 4) {
+        slidechain('/').then(() => {
+          slidechain(path, { productIdx: temp.pop() });
+        });
+      }
       break;
     default:
       console.log('not exist url');

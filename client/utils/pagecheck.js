@@ -101,6 +101,10 @@ const conditions = {
   },
 
   chatdetail: (conditionObj) => {
+    if (!isLogin()) {
+      return '로그인 먼저 해주세요';
+    }
+
     if (conditionObj === undefined) {
       return 'ok';
     } else {
@@ -156,6 +160,36 @@ const conditions = {
           return '권한이 없습니다';
       }
     }
+  },
+
+  newpost: (conditionObj) => {
+    if (!isLogin()) {
+      return '로그인 먼저 해주세요';
+    }
+    if (conditionObj === undefined) {
+      return 'ok';
+    } else {
+      return new Promise((resolve, reject) => {
+        api
+          .sendPost('/product/checkOwner', {
+            productIdx: conditionObj.productIdx,
+          })
+          .then((result) => {
+            if (result.message === 'ok') {
+              return resolve('ok');
+            } else {
+              return resolve(result.message);
+            }
+          });
+      });
+    }
+  },
+
+  location: () => {
+    if (!isLogin()) {
+      return '로그인 먼저 해주세요';
+    }
+    return 'ok';
   },
 };
 
