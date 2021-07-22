@@ -150,11 +150,12 @@ const chat = {
       from chattings c
       where c.idx=${params.roomIdx};
     `;
+
     return new Promise((resolve, reject) => {
       db.promise()
         .query(sql)
         .then(([rows, fileds]) => {
-          return resolve(rows[0].type);
+          return rows.length === 0 ? resolve('N') : resolve(rows[0].type);
         })
         .catch((err) => {
           return reject(err);
@@ -296,6 +297,40 @@ const chat = {
         .query(sql)
         .then(([rows, fileds]) => {
           return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  isRoomParticipant: (params) => {
+    let sql = `
+        select count(*) as cnt from chattings where (idx=${params.roomIdx} and saler=${params.userIdx}) or (idx=${params.roomIdx} and customer=${params.userIdx})
+    `;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fileds]) => {
+          return resolve(rows[0].cnt);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  isRoomByProduct: (params) => {
+    let sql = `
+      select count(*) as cnt from chattings where idx=${params.roomIdx} and productId=${params.productIdx}
+    `;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fileds]) => {
+          return resolve(rows[0].cnt);
         })
         .catch((err) => {
           return reject(err);

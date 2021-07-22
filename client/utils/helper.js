@@ -5,21 +5,23 @@ export const selectLatestElement = (parent, cls) => {
 export const getPageName = (path) => {
   let paths = path.split('/');
   let page = paths.pop();
+
   if (page == '') {
     return 'home';
   } else if (isNaN(Number(page))) {
     return page;
   } else {
-    if (paths[0] === 'category') {
+    let page2 = paths.pop();
+    if (page2 === 'category') {
       return 'categorydetail';
-    } else if (paths[0] === 'product') {
+    } else if (page2 === 'product') {
       return 'productdetail';
-    } else if (paths[0] === 'newpost') {
+    } else if (page2 === 'newpost') {
       return 'newpost';
-    } else if (paths[0] === 'chatting') {
+    } else if (page2 === 'chatting') {
       return 'chatdetail';
+    } else {
     }
-    // return paths.pop();
   }
 };
 

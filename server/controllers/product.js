@@ -375,6 +375,59 @@ const product = {
         });
     });
   },
+
+  isOwner: (params) => {
+    let sql = `select count(*) as cnt from products where userId=${params.userIdx} and idx=${params.productIdx}`;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows[0].cnt);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  isProduct: (params) => {
+    let sql = `select count(*) as cnt from products where idx=${params.productIdx}`;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows[0].cnt);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
+
+  checkOwner: (params) => {
+    let sql = `
+    select u.idx
+    from products p
+    left join (
+        select idx
+        from users
+        where idx =${params.userIdx}
+        ) u on u.idx = p.userId
+    where p.idx=${params.productIdx}`;
+
+    return new Promise((resolve, reject) => {
+      db.promise()
+        .query(sql)
+        .then(([rows, fields]) => {
+          return resolve(rows);
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+    });
+  },
 };
 
 export default product;

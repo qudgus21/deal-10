@@ -30,9 +30,9 @@ export default function init() {
     }
   };
 
-  window.onload = () => {
-    if (window.location.pathname !== '/') {
-      window.location.replace('/');
-    }
-  };
+  // window.onload = () => {
+  //   if (window.location.pathname !== '/') {
+  //     window.location.replace('/');
+  //   }
+  // };
 }
