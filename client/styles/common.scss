@@ -783,12 +783,11 @@ $baemin: #2ac0bc;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 10rem;
   .empty-banner {
     width: 204px;
     height: 215px;
-  }
-  .empty-msg {
-    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 }
 

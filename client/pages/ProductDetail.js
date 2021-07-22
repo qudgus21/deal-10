@@ -1,12 +1,12 @@
-import { slideIn, slideOut } from '../../utils/slide';
-import Dropdown from '../../components/Etc/Dropdown';
-import { saleConstant } from '../../utils/constant';
-import Button from '../../components/Button/Button';
-import { isLogin, numberWithCommas } from '../../utils/helper';
-import Snackbar from '../../components/Etc/SnackBar';
-import api from '../../utils/api';
-import Carousel from '../../components/Etc/Carousel';
-import Modal from '../../components/Etc/Modal';
+import { slideIn, slideOut } from '../utils/slide';
+import Dropdown from '../components/Etc/Dropdown';
+import { saleConstant } from '../utils/constant';
+import Button from '../components/Button/Button';
+import { isLogin, numberWithCommas } from '../utils/helper';
+import Snackbar from '../components/Etc/SnackBar';
+import api from '../utils/api';
+import Carousel from '../components/Etc/Carousel';
+import Modal from '../components/Etc/Modal';
 
 export default function ProductDetail(props) {
   this.state = {
