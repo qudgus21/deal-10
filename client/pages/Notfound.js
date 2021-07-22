@@ -27,7 +27,7 @@ export default function Notfound(props) {
       parent: document.querySelector('.notfound .header-box'),
       content: '404',
       eventHandler: (e) => {
-        slideOut('/', false);
+        window.location.href = '/';
       },
     });
   };

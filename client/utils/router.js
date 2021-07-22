@@ -40,7 +40,8 @@ export default function router(path) {
       break;
     case 'categorydetail':
       slidechain('/').then(() => {
-        slidechain(path);
+        let temp = path.split('/');
+        slidechain(path, { categoryIdx: temp.pop() });
       });
       break;
     case 'location':
@@ -118,8 +119,9 @@ export default function router(path) {
         });
       }
       break;
+
     default:
-      console.log('not exist url');
+      slidechain('/notfound');
   }
 }
 

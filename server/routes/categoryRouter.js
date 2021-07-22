@@ -29,4 +29,16 @@ categoryRouter.post('/info', (req, res) => {
     });
 });
 
+categoryRouter.post('/isCategory', (req, res) => {
+  const params = req.body;
+  category
+    .isCategory(params)
+    .then((isCategory) => {
+      res.json({ status: 'ok', data: isCategory });
+    })
+    .catch(() => {
+      res.json({ status: 'error' });
+    });
+});
+
 export default categoryRouter;
