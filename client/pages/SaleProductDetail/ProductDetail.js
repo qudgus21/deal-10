@@ -6,6 +6,7 @@ import { isLogin, numberWithCommas } from '../../utils/helper';
 import Snackbar from '../../components/Etc/SnackBar';
 import api from '../../utils/api';
 import Carousel from '../../components/Etc/Carousel';
+import Modal from '../../components/Etc/Modal';
 
 export default function ProductDetail(props) {
   this.state = {
@@ -46,10 +47,20 @@ export default function ProductDetail(props) {
   };
 
   this.delete = () => {
-    const productIdx = window.location.pathname.split('/').pop();
-    api.sendPost('/product/delete', { productIdx }).then((result) => {
-      new Snackbar({ msg: '삭제되었습니다.', duration: 1000 });
-      slideIn('/', false);
+    new Modal({
+      parent: document.body,
+      title: '상품을 삭제하시겠습니까?',
+      msg: '영구적으로 삭제되며, 복구는 불가합니다',
+      confirmEventHandler: () => {
+        document.querySelector('.modal').remove();
+        const productIdx = window.location.pathname.split('/').pop();
+        api.sendPost('/product/delete', { productIdx }).then((result) => {
+          new Snackbar({ msg: '삭제되었습니다.', duration: 1000 });
+          setTimeout(() => {
+            slideIn('/', false);
+          }, 300);
+        });
+      },
     });
   };
 

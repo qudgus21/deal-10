@@ -2,6 +2,7 @@ import WithoutAction from '../components/Header/WithoutAction';
 import { slideOut } from '../utils/slide';
 import ChatListItem from '../components/Etc/ChatListItem';
 import api from '../utils/api';
+import { selectLatestElement } from '../utils/helper';
 
 export default function ProductChatList(props) {
   this.state = {
@@ -25,6 +26,27 @@ export default function ProductChatList(props) {
     });
   };
 
+  const refreshChat = setInterval(() => {
+    if (
+      document
+        .querySelector('.app')
+        .lastElementChild.classList.contains('productchatlist')
+    ) {
+      const $preChatlist = document.querySelector('.productchatlist');
+      $preChatlist.classList.add('chatlist-prev');
+      const pos = $preChatlist.scrollTop;
+      this.componentDidMount();
+      setTimeout(() => {
+        const $chatlist = selectLatestElement(props.parent, '.productchatlist');
+        $chatlist.classList.add('none-in');
+        $chatlist.scrollTo(0, pos);
+        setTimeout(() => {
+          $preChatlist.remove();
+        }, 100);
+      }, 50);
+    }
+  }, 3000);
+
   this.render = () => {
     const { parent } = props;
     const { chats } = this.state;
@@ -39,9 +61,10 @@ export default function ProductChatList(props) {
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
 
     new WithoutAction({
-      parent: document.querySelector('.productchatlist .header-box'),
+      parent: selectLatestElement(parent, '.header-box'),
       content: '채팅하기',
       eventHandler: (e) => {
+        clearInterval(refreshChat);
         const productIdx = window.location.pathname.split('/')[2];
 
         slideOut(`/product/${productIdx}`, false);
@@ -51,7 +74,7 @@ export default function ProductChatList(props) {
     chats
       ? chats.forEach((chat) => {
           new ChatListItem({
-            parent: parent.querySelector('.productchatlist .container'),
+            parent: selectLatestElement(parent, '.container'),
             chat: chat,
           });
         })

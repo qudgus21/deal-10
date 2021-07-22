@@ -51,6 +51,15 @@ export default function Home(props) {
         })
       : null;
 
+    $home.insertAdjacentHTML(
+      'beforeend',
+      `<div class='empty'>
+        <img class='empty-banner' src='../images/dev/empty.png'></img>
+        <div class='empty-msg'>불러올 상품이 없어요</div>
+        <div class='empty-msg'>첫 번째로 등록해보세요!</div>
+      </div>`
+    );
+
     document.querySelector('.fab-button').addEventListener('click', () => {
       if (!isLogin()) {
         new Snackbar({ msg: '로그인 후 이용해 주세요', duration: 1000 });

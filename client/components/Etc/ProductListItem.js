@@ -3,6 +3,7 @@ import { isLogin, numberWithCommas } from '../../utils/helper';
 import api from '../../utils/api';
 import Dropdown from '../Etc/Dropdown';
 import Snackbar from './SnackBar';
+import Modal from './Modal';
 
 export default function ProductListItem(props) {
   this.state = {
@@ -83,9 +84,20 @@ export default function ProductListItem(props) {
       .pop()
       .split('-')
       .pop();
-    api.sendPost('/product/delete', { productIdx }).then((result) => {
-      new Snackbar({ msg: '삭제되었습니다.', duration: 1000 });
-      slideIn('/', false);
+
+    new Modal({
+      parent: document.body,
+      title: '상품을 삭제하시겠습니까?',
+      msg: '영구적으로 삭제되며, 복구는 불가합니다',
+      confirmEventHandler: () => {
+        document.querySelector('.modal').remove();
+        api.sendPost('/product/delete', { productIdx }).then((result) => {
+          new Snackbar({ msg: '삭제되었습니다.', duration: 1000 });
+          setTimeout(() => {
+            slideIn('/menu', false);
+          }, 300);
+        });
+      },
     });
   };
 

@@ -11,6 +11,7 @@ import ChatList from '../pages/SaleProductDetail/ChatList';
 import ChatDetail from '../pages/ChatDetail';
 import Location from '../pages/Location';
 import ProductChatList from '../pages/ProductChatList';
+import Notfound from '../pages/Notfound';
 
 const pages = {
   home: Home,
@@ -26,6 +27,7 @@ const pages = {
   chatdetail: ChatDetail,
   location: Location,
   productchatlist: ProductChatList,
+  notfound: Notfound,
 };
 
 export default pages;
