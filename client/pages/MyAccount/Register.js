@@ -80,7 +80,9 @@ export default function Register(props) {
             .then((result) => {
               if (result.status === 'ok') {
                 new Snackbar({ msg: '회원가입 성공', duration: 1000 });
-                slideOut('/login', false);
+                setTimeout(() => {
+                  slideOut('/login', false);
+                }, 300);
               } else {
                 new Snackbar({ msg: result.message, duration: 1000 });
                 return;

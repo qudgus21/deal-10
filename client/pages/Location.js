@@ -120,9 +120,9 @@ export default function Location(props) {
           '.location-add-button'
         );
         $locationButton.addEventListener('click', () => {
-          document.querySelector('.app').insertAdjacentHTML(
+          document.body.insertAdjacentHTML(
             'beforeend',
-            `<div class='location-modal'>
+            `<div class='modal'>
               <div class='location-box'>
                 <div class='modal-title'>우리 동네를 입력하세요</div>
                 <input class='modal-input' placeholder='시구 제외, 동만 입력'></input>
@@ -147,7 +147,7 @@ export default function Location(props) {
           });
 
           $modalCancel.addEventListener('click', () => {
-            document.querySelector('.location-modal').remove();
+            document.querySelector('.modal').remove();
           });
 
           $modalConfirm.addEventListener('click', () => {
@@ -161,7 +161,7 @@ export default function Location(props) {
               api
                 .sendPost('/user/setLocation', { location: newLocation })
                 .then((result) => {
-                  document.querySelector('.location-modal').remove();
+                  document.querySelector('.modal').remove();
                   this.setState({
                     data: { location: newLocation },
                     isFirst: false,

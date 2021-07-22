@@ -49,6 +49,7 @@ export const slideIn = (path, onpop, conditionObj) => {
 };
 
 export const slideOut = (path) => {
+  console.log(path);
   const $app = document.querySelector('.app');
   let pageName = getPageName(path);
   window.history.pushState({}, pageName, path);

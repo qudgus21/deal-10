@@ -4,6 +4,7 @@ import { slideOut } from '../utils/slide';
 import { numberWithCommas } from '../utils/helper';
 import conversation from '../utils/conversation';
 import Snackbar from '../components/Etc/SnackBar';
+import Modal from '../components/Etc/Modal';
 
 export default function ChatDetail(props) {
   this.state = {
@@ -110,7 +111,7 @@ export default function ChatDetail(props) {
             .querySelector('.chatdetail')
             .previousElementSibling.classList.contains('menu')
         ) {
-          slideOut('/menu', false);
+          slideOut('/menu');
           document.querySelector('.tab-title.chat-list').click();
         } else if (chat.myType == 'C') {
           slideOut(`/product/${chat.productId}`);
@@ -119,21 +120,31 @@ export default function ChatDetail(props) {
         }
       },
       eventHandler2: (e) => {
-        new Snackbar({ msg: '채팅방에서 나갔습니다', duration: 1000 });
-        const roomIdx = window.location.pathname.split('/').pop();
-        api.sendPost('/chat/exit', { roomIdx }).then((result) => {
-          if (
-            document
-              .querySelector('.chatdetail')
-              .previousElementSibling.classList.contains('menu')
-          ) {
-            slideOut('/menu', false);
-            document.querySelector('.tab-title.chat-list').click();
-          } else if (chat.myType == 'C') {
-            slideOut(`/product/${chat.productId}`);
-          } else {
-            slideOut(`/product/${chat.productId}/productchatlist`);
-          }
+        new Modal({
+          parent: document.body,
+          title: '채팅방을 나가시겠습니까?',
+          msg: '영구적으로 삭제되며, 복구는 불가합니다',
+          confirmEventHandler: () => {
+            document.querySelector('.modal').remove();
+            new Snackbar({ msg: '채팅방에서 나갔습니다', duration: 1000 });
+            const roomIdx = window.location.pathname.split('/').pop();
+            setTimeout(() => {
+              api.sendPost('/chat/exit', { roomIdx }).then((result) => {
+                if (
+                  document
+                    .querySelector('.chatdetail')
+                    .previousElementSibling.classList.contains('menu')
+                ) {
+                  slideOut('/menu');
+                  document.querySelector('.tab-title.chat-list').click();
+                } else if (chat.myType == 'C') {
+                  slideOut(`/product/${chat.productId}`);
+                } else {
+                  slideOut(`/product/${chat.productId}/productchatlist`);
+                }
+              });
+            }, 300);
+          },
         });
       },
       src1: 'arrow_back',

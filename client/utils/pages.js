@@ -10,6 +10,7 @@ import Menu from '../pages/Menu';
 import ChatDetail from '../pages/ChatDetail';
 import Location from '../pages/Location';
 import ProductChatList from '../pages/ProductChatList';
+import Notfound from '../pages/Notfound';
 
 const pages = {
   home: Home,
@@ -22,6 +23,7 @@ const pages = {
   menu: Menu,
   productdetail: ProductDetail,
   productchatlist: ProductChatList,
+  notfound: Notfound,
   chatdetail: ChatDetail,
   newpost: NewPost,
 };

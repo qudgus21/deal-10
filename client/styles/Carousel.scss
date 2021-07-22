@@ -79,6 +79,7 @@
   }
 
   .navigator-item {
+    cursor: pointer;
     width: 10px;
     height: 10px;
     margin: 0 0.1rem;
@@ -90,4 +91,8 @@
     height: 10px;
     background-color: #2ac1bc;
   }
+}
+
+.favorite-img {
+  cursor: pointer;
 }
