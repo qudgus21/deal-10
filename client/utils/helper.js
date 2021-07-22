@@ -57,7 +57,9 @@ export const isLogin = () => {
 };
 
 export const numberWithCommas = (x) => {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return x === null
+    ? '가격미정'
+    : x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
 export const timeForToday = (value) => {

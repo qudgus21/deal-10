@@ -1,11 +1,6 @@
 export default function Dropdown(props) {
   this.render = () => {
     const { data, parent, cls } = props;
-    //props.data는 다음과 같은 형태로 전달
-    // [
-    //     { text: '수정하기', eventHandler1: this.modify },
-    //     { text: '삭제하기', eventHandler2: this.delete },
-    //   ];
 
     let templateLiteral = `
             <div class="dropdown ${cls}">

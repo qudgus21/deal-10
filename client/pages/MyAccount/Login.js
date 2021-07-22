@@ -75,6 +75,14 @@ export default function Login(props) {
       .addEventListener('click', () => {
         slideIn('/register', false);
       });
+
+    document
+      .querySelector('.id-input-box > div > input')
+      .addEventListener('keyup', (e) => {
+        if (e.keyCode === 13) {
+          document.querySelector('.large-button').click();
+        }
+      });
   };
 
   this.render();

@@ -28,7 +28,7 @@ export default function ProductListItem(props) {
 
     const productIdx = e.currentTarget.classList[1].split('-').pop();
 
-    slideIn(`product/${productIdx}`, false);
+    slideIn(`/product/${productIdx}`, false);
   };
 
   this.favoriteButtonClickHandler = (e) => {
@@ -170,8 +170,6 @@ export default function ProductListItem(props) {
     `;
 
     props.parent.insertAdjacentHTML('beforeend', templateLiteral);
-
-    // const $product = selectLatestElement(props.parent, '.product-list-item');
 
     const $product = parent.querySelector(
       `.product-list-item.p-${product.idx}`

@@ -54,10 +54,6 @@ export default function ChatDetail(props) {
       }
     });
 
-    // chat.conversation.forEach((c) => {
-
-    // });
-
     $msgContainer.insertAdjacentHTML(
       'beforeend',
       `<div class='msg-padding'></div>`
@@ -152,6 +148,11 @@ export default function ChatDetail(props) {
     });
 
     chat ? this.addChat(chat) : null;
+
+    const $price = document.querySelector('.chatdetail-price');
+    if ($price.innerText === '가격미정원') {
+      $price.innerText = '가격미정';
+    }
   };
 
   this.componentDidMount();

@@ -9,7 +9,7 @@ export default function NewPost(props) {
   this.state = {
     location: null,
     categorys: null,
-    imgNum: 0, //늘림
+    imgNum: 0,
     imgCnt: 0,
     selectedCategory: null,
     product: null,

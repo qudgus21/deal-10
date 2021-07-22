@@ -82,5 +82,4 @@ export default function ProductChatList(props) {
   };
 
   this.componentDidMount();
-  // this.render();
 }

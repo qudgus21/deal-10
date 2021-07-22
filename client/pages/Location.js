@@ -53,7 +53,6 @@ export default function Location(props) {
       content: '내 동네 설정하기',
       eventHandler: (e) => {
         window.location.href = '/';
-        // slideOut('/', false);
       },
     });
 
@@ -138,11 +137,15 @@ export default function Location(props) {
           const $modalConfirm = document.querySelector('.modal-confirm');
           const $modalCancel = document.querySelector('.modal-cancel');
 
-          $modalInput.addEventListener('keyup', ({ target }) => {
-            if (target.value != '' && target.value.slice(-1) == '동') {
+          $modalInput.addEventListener('keyup', (e) => {
+            if (e.target.value != '' && e.target.value.slice(-1) == '동') {
               $modalConfirm.classList.add('confirm');
             } else {
               $modalConfirm.classList.remove('confirm');
+            }
+
+            if (e.keyCode === 13) {
+              $modalConfirm.click();
             }
           });
 
@@ -173,6 +176,4 @@ export default function Location(props) {
       }
     }
   };
-
-  // this.render();
 }
