@@ -94,7 +94,9 @@ export default function ProductListItem(props) {
         api.sendPost('/product/delete', { productIdx }).then((result) => {
           new Snackbar({ msg: '삭제되었습니다.', duration: 1000 });
           setTimeout(() => {
-            slideIn('/menu', false);
+            if (window.location.pathname.split('/')[1] == 'menu') {
+              window.location.href = '/menu';
+            }
           }, 300);
         });
       },
