@@ -21,18 +21,28 @@ productRouter.post('/getProducts', (req, res) => {
 
 productRouter.post('/categoryProducts', (req, res) => {
   const params = req.body;
-
   product
     .categoryProducts(params)
     .then((rows) => {
       category.info(params).then((category) => {
-        let filtered = rows.filter((row) => {
-          return row.status !== 'C';
-        });
-
-        res.json({
-          status: 'ok',
-          data: { category: category[0], products: filtered },
+        user.getInfo(params).then((user) => {
+          let filtered = rows.filter((row) => {
+            return row.status !== 'C';
+          });
+          let ret = [];
+          let userLocation = user[0].location;
+          filtered.forEach((item) => {
+            for (let i = 0; i < item.location.length; i++) {
+              if (userLocation.includes(item.location[i])) {
+                ret.push(item);
+                break;
+              }
+            }
+          });
+          res.json({
+            status: 'ok',
+            data: { category: category[0], products: ret },
+          });
         });
       });
     })
